@@ -1,19 +1,25 @@
 "use client";
 import { TbBuildingSkyscraper } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
-import {  signOut } from 'next-auth/react'
+import { signIn, signOut } from 'next-auth/react'
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { usePathname } from "next/navigation";
+import { User } from ".prisma/client";
+import loginModal from "@/_components/modals/LoginModal";
+import useLoginModal from "@/_store/useLoginModal";
 
+interface Props {
+    currentUser: User
+}
 
-const Header = () => {
+const Header = ({ currentUser }: Props) => {
     const [ open, setOpen ] = useState(false);
     const pathname = usePathname();
+    const loginModal = useLoginModal();
     const linkClassName = useCallback((href: string): string => {
         return (href === pathname) ? "text-white" : "text-gray-300";
     }, [ pathname ])
-
 
     return (
         <nav className="bg-purple-800">
@@ -34,13 +40,19 @@ const Header = () => {
                                 Leader Board
                             </Link>
                         </div>
-                        <button type="button"
-                                onClick={() => signOut()}
-                                className="text-gray-300 hover:text-white text-sm font-medium">Logout
-                        </button>
+                        {currentUser ? (
+                            <button type="button"
+                                    onClick={() => signOut()}
+                                    className="text-gray-300 hover:text-white text-sm font-medium">Logout
+                            </button>
+                        ) : (
+                            <button type="button"
+                                    onClick={() => loginModal.onOpen()}
+                                    className="text-gray-300 hover:text-white text-sm font-medium">Login
+                            </button>
+                        )}
                     </div>
 
-                    {/* Hamburger menu for small screens */}
                     <div className="absolute sm:hidden inset-y-0 right-0 flex items-center">
                         <button type="button"
                                 onClick={() => setOpen(!open)}
@@ -58,10 +70,18 @@ const Header = () => {
                             <Link href="/leader-board"
                                   className="text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Leader
                                 Board</Link>
-                            <button type="button"
-                                    onClick={() => signOut()}
-                                    className="text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Logout
-                            </button>
+                            {currentUser ? (
+                                <button type="button"
+                                        onClick={() => signOut()}
+                                        className="text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Logout
+                                </button>
+                            ) : (
+                                <button type="button"
+                                        onClick={() => loginModal.onOpen()}
+                                        className="text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Logout
+                                </button>
+                            )}
+
                         </div>
                     )}
                 </div>
