@@ -1,9 +1,11 @@
 "use client";
 import { TbBuildingSkyscraper } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
+import {  signOut } from 'next-auth/react'
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { usePathname } from "next/navigation";
+
 
 const Header = () => {
     const [ open, setOpen ] = useState(false);
@@ -32,8 +34,10 @@ const Header = () => {
                                 Leader Board
                             </Link>
                         </div>
-                        <Link href="/logout"
-                              className="text-gray-300 hover:text-white text-sm font-medium">Logout</Link>
+                        <button type="button"
+                                onClick={() => signOut()}
+                                className="text-gray-300 hover:text-white text-sm font-medium">Logout
+                        </button>
                     </div>
 
                     {/* Hamburger menu for small screens */}
@@ -54,8 +58,10 @@ const Header = () => {
                             <Link href="/leader-board"
                                   className="text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Leader
                                 Board</Link>
-                            <Link href="/logout"
-                                  className="text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Logout</Link>
+                            <button type="button"
+                                    onClick={() => signOut()}
+                                    className="text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Logout
+                            </button>
                         </div>
                     )}
                 </div>
