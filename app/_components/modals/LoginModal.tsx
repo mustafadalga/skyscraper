@@ -8,7 +8,6 @@ const LoginModal = () => {
     const loginModal = useLoginModal();
     const [ showModal, setShowModal ] = useState(loginModal.isOpen);
 
-    console.log(loginModal.isOpen, showModal)
     useEffect(() => {
         setShowModal(loginModal.isOpen);
     }, [ loginModal.isOpen ]);
@@ -20,15 +19,6 @@ const LoginModal = () => {
         }, 300)
 
     }, [ loginModal ])
-
-    const test = async () => {
-        await signIn("google", { redirect: false }).then(response => {
-            console.error("Error signing in:", response);
-
-        });
-
-    }
-
 
     if (!loginModal.isOpen) {
         return null;
@@ -52,9 +42,9 @@ const LoginModal = () => {
                             Sign in to Skyscraper</h3>
                         <form className="space-y-6">
                             <button type="button"
-                                    onClick={test}
+                                    onClick={() => signIn("google")}
                                     className="w-full text-white bg-purple-700 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                Sign in with Google
+                                Sign in/ Register with Google
                             </button>
                         </form>
                     </div>

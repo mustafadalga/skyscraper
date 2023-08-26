@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Header from "@/_components/Header";
+import Header from "@/_components/header/Header";
 import dynamic from "next/dynamic";
 import getCurrentUser from "@/_actions/getCurrentUser";
 import { User } from ".prisma/client";
@@ -21,7 +21,6 @@ export default async function RootLayout({
     children: React.ReactNode
 }) {
     const currentUser: User = await getCurrentUser() as User;
-    console.log(currentUser,55)
 
     return (
         <html lang="en">

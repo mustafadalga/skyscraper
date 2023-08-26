@@ -19,7 +19,6 @@ export default async function getCurrentUser() {
                 email: session.user.email as string,
             }
         });
-console.log(currentUser,22222)
         return currentUser || null;
     } catch (error: any) {
         return null;
