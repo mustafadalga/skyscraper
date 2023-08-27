@@ -1,3 +1,9 @@
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,15 +14,24 @@ datasource db {
 }
 
 model User {
-  id        String    @id @unique @default(uuid())
-  name      String?
-  email     String?   @unique
-  image     String?
-  score     Int       @default(0)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  emailVerified   DateTime?
-  accounts  Account[]
+  id                  String      @id @unique @default(uuid())
+  name                String?
+  email               String?     @unique
+  image               String?
+  score               Int         @default(0)
+  avgTime             Int         @default(0)
+  totalGames          Int         @default(0)
+  difficulty          Difficulty  @default(easy)
+  currentGameId       String?     @unique
+  currentGame         Game?       @relation(name: "CurrentGame", fields: [currentGameId], references: [id])
+  lastCompletedGameId String?     @unique
+  lastCompletedGame   Game?       @relation(name: "LastCompletedGame", fields: [lastCompletedGameId], references: [id])
+  createdAt           DateTime    @default(now())
+  updatedAt           DateTime    @updatedAt
+  emailVerified       DateTime?
+  accounts            Account[]
+  games               Game[]      @relation(name: "AllGames")
+  badges              UserBadge[]
 }
 
 model Account {
@@ -32,7 +47,41 @@ model Account {
   id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type String
+  type              String
 
   @@unique([provider, providerAccountId])
+}
+
+model Game {
+  id         String     @id @unique @default(uuid())
+  userId     String
+  difficulty Difficulty
+  boardSize  Int
+  timeTaken  Int
+  completed  Boolean
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  user       User       @relation(name: "AllGames", fields: [userId], references: [id], onDelete: Cascade)
+  currentPlayer User?   @relation(name: "CurrentGame")
+  lastPlayer     User?  @relation(name: "LastCompletedGame")
+  @@index([userId])
+}
+
+model Badge {
+  id          String      @id @unique
+  name        String
+  description String
+  priority    Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  users       UserBadge[]
+}
+
+model UserBadge {
+  userId  String
+  badgeId String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge   Badge  @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, badgeId])
 }
