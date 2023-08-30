@@ -16,6 +16,11 @@ export default async function getCurrentUserBadges(): Promise<IBadge[]> {
             },
             include: {
                 badge: true
+            },
+            orderBy:{
+                badge:{
+                    priority:""
+                }
             }
         })
         const badges: IBadge[] = userBadges.map(({ badge }) => {

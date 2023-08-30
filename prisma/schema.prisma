@@ -53,18 +53,35 @@ model Account {
 }
 
 model Game {
-  id         String     @id @unique @default(uuid())
-  userId     String
-  difficulty Difficulty
-  boardSize  Int
-  timeTaken  Int
-  completed  Boolean
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  user       User       @relation(name: "AllGames", fields: [userId], references: [id], onDelete: Cascade)
-  currentPlayer User?   @relation(name: "CurrentGame")
-  lastPlayer     User?  @relation(name: "LastCompletedGame")
+  id                   String     @id @unique @default(uuid())
+  userId               String
+  difficulty           Difficulty
+  dimension            Int
+  timeTaken            Int?
+  completed            Boolean    @default(false)
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+  user                 User       @relation(name: "AllGames", fields: [userId], references: [id], onDelete: Cascade)
+  currentPlayer        User?      @relation(name: "CurrentGame")
+  lastPlayer           User?      @relation(name: "LastCompletedGame")
+  moves                GameMove[] @relation(name: "GameMoves")
+  validGrid            String
+  filledGrid           String
+  hints                String
+  shownHints           String
+  hiddenHintCount      Int
+  usedHiddenHintRights Int
   @@index([userId])
+}
+
+model GameMove {
+  id        String   @id @unique @default(uuid())
+  cell      Int
+  createdAt DateTime @default(now())
+  gameId    String
+  game      Game     @relation(name: "GameMoves", fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([gameId])
 }
 
 model Badge {
