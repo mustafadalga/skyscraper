@@ -10,7 +10,6 @@ interface Props {
     onMouseLeave: () => void,
     onSelectNumber: (no: number) => void,
     onDeleteNumber: () => void,
-
 }
 
 const CellContextMenu = ({

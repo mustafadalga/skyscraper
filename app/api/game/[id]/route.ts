@@ -33,9 +33,6 @@ export async function GET(request: NextRequest) {
         // Fetch the current game based on currentGameId
         const currentGame = await prisma.game.findUnique({
             where: { id: userWithCurrentGame.currentGameId },
-            include: {
-                moves: true, // Include related moves
-            },
         });
 
         if (!currentGame) {
@@ -64,7 +61,6 @@ export async function PATCH(request: NextRequest) {
         }
 
         const body = await request.json();
-        console.log(getDataToUpdate(body),body)
         await prisma.game.update({
             where: { id },
             data: getDataToUpdate(body) as any,

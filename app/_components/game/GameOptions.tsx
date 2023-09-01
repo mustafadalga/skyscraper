@@ -1,12 +1,14 @@
 "use client";
 import { useCallback, useReducer } from 'react';
-import { difficulties, dimensions } from "@/_constants";
+import { useRouter } from 'next/navigation'
+import { toast } from "react-toastify";
+import axios from "axios";
 import CustomSelect from "@/_components/Select";
-import { User } from ".prisma/client";
+import { difficulties, dimensions } from "@/_constants";
 import { BadgeLevelDetail } from "@/_types";
+import handleAxiosError from "@/utilities/handleAxiosError";
 
 interface Props {
-    currentUser: User,
     defaultOptions: BadgeLevelDetail
 }
 
@@ -30,14 +32,28 @@ const reducer = (state: IOptions, action: Action): IOptions => {
 
 const GameOptions = ({ defaultOptions }: Props) => {
     const [ options, dispatch ] = useReducer(reducer, defaultOptions);
+    const router = useRouter();
     const setOptions = useCallback((action: keyof IOptions, value: string | number) => {
         dispatch({ type: "", action, value });
     }, []);
+
+    const handleStartGame = async () => {
+        const url = "/api/game"
+        try {
+            const response = await axios.post(url, options);
+            router.refresh();
+        } catch (error) {
+            const {
+                message,
+            } = handleAxiosError(error, "Oops! Something went wrong while starting the game. Please double-check your inputs and try again.");
+            toast.error(message)
+        }
+    }
     return (
         <section
             className="grid gap-3 sm:w-full sm:max-w-xl mx-8 sm:mx-auto mt-12 p-8 rounded-md transition-all ease-linear shadow-[0px_0px_5px_0px_#d8b4fe] hover:shadow-[0px_0px_10px_0px_#d8b4fe] bg-white">
             <h1 className="text-center text-purple-900 font-bold text-2xl md:text-3xl xl:text-4xl">Game Options</h1>
-            {JSON.stringify(options)}
+
             <div className="grid gap-1">
                 <label htmlFor="difficulty"
                        className="font-medium text-xs lg:text-sm xl:text-base text-gray-900">Difficulty</label>
@@ -65,6 +81,7 @@ const GameOptions = ({ defaultOptions }: Props) => {
 
             <div className="grid mt-10">
                 <button
+                    onClick={handleStartGame}
                     className="bg-purple-600 hover:bg-purple-800 transition-all shadow text-white px-5 py-2 rounded-lg">
                     Start Game
                 </button>
