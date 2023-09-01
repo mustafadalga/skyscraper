@@ -1,9 +1,9 @@
-import getCurrentUser from "@/_actions/getCurrentUser";
+import getCurrentUser from "./getCurrentUser";
 import prisma from "@/_libs/prismadb";
 import { IBadge } from "@/_types";
 
 
-export default async function getCurrentUserBadges(): Promise<IBadge[]> {
+export default async function getUserBadges(): Promise<IBadge[]> {
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) {
@@ -17,9 +17,9 @@ export default async function getCurrentUserBadges(): Promise<IBadge[]> {
             include: {
                 badge: true
             },
-            orderBy:{
-                badge:{
-                    priority:""
+            orderBy: {
+                badge: {
+                    priority: "asc"
                 }
             }
         })
