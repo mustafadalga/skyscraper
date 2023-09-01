@@ -1,22 +1,37 @@
 import { LuDelete } from "react-icons/lu";
 
 interface Props {
+    position: {
+        x: number,
+        y: number
+    }
+    showContextMenu: boolean,
     dimension: number,
     onMouseLeave: () => void,
     onSelectNumber: (no: number) => void,
     onDeleteNumber: () => void,
-    style: {
-        [key: string]: string
-    }
+
 }
 
-const CellContextMenu = ({ dimension, style, onMouseLeave, onSelectNumber, onDeleteNumber }: Props) => {
+const CellContextMenu = ({
+                             position,
+                             dimension,
+                             onMouseLeave,
+                             onSelectNumber,
+                             onDeleteNumber,
+                             showContextMenu
+                         }: Props) => {
+
     const numbers = Array.from({ length: dimension });
+    const style = {
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+    }
     return (
         <div
             onMouseLeave={onMouseLeave}
             style={style}
-            className="absolute grid grid-cols-3 w-40 md:w-44 lg:w-48 z-10 overflow-hidden shadow-[0px_0px_5px_0px_#7e22ce] rounded-lg bg-gray-700">
+            className={`${showContextMenu ? "animate-scale-in-center" : "animate-scale-out-center"} absolute grid grid-cols-3 w-40 md:w-44 lg:w-48 z-10 overflow-hidden shadow-[0px_0px_5px_0px_#7e22ce] rounded-lg bg-gray-700`}>
 
             {numbers.map((_, index) => (
                 <div key={index}
@@ -31,6 +46,6 @@ const CellContextMenu = ({ dimension, style, onMouseLeave, onSelectNumber, onDel
             </div>
         </div>
     );
-};
+}
 
 export default CellContextMenu;
