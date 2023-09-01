@@ -2,6 +2,18 @@ import { Badge, Difficulty, Direction } from "@/_enums";
 import { cloneDeep, shuffle } from "lodash";
 import { IHints, IOptionalHints } from "@/_types";
 
+/**
+ * Determine which hints to show based on various factors like user score, average time, difficulty, and highest badge.
+ *
+ * @param hints - The original hints for the game.
+ * @param hiddenCount - The number of hints to hide.
+ * @param score - The user's current score.
+ * @param avgTime - The user's average time taken to complete games.
+ * @param difficulty - The difficulty level of the game (easy, medium, hard).
+ * @param highestBadge - The highest badge the user has earned.
+ *
+ * @returns An object containing which hints to show. Hints that are to be hidden are set to `null`.
+ */
 export default function getShownHints(
     hints: IHints,
     hiddenCount: number,

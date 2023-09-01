@@ -1,10 +1,22 @@
 import { Badge, Difficulty } from "@/_enums";
 
+/**
+ * Calculate the number of hints to hide based on various factors such as score, average time, difficulty level, and badges.
+ *
+ * @param score - The user's current score.
+ * @param avgTime - The user's average time taken to complete games.
+ * @param dimension - The dimension of the game board (e.g., 4 for a 4x4 board).
+ * @param difficulty - The difficulty level of the game (easy, medium, hard).
+ * @param highestBadge - The highest badge the user has earned.
+ *
+ * @returns The number of hints to hide. This value will not exceed the total number of cells in the game board.
+ */
 export default function calculateHiddenHintCount(score: number,
                                              avgTime: number,
                                              dimension: number,
                                              difficulty: Difficulty,
                                              highestBadge: Badge) {
+    // Initialization and constants
     let baseHintsToHide = 0;
     const EASY_MULTIPLIER = 0.1;
     const MEDIUM_MULTIPLIER = 0.2;
