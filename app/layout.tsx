@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const LoginModal = dynamic(() => import("@/_components/modals/LoginModal"), { ssr: false });
 const ConfirmModal = dynamic(() => import("@/_components/modals/ConfirmModal"), { ssr: false });
+const LoaderV2 = dynamic(() => import("@/_components/loader/LoaderV2"), { ssr: false });
 
 const inter = Inter({ subsets: [ 'latin' ] })
 
@@ -30,6 +31,7 @@ export default async function RootLayout({ children }: Props) {
         <Header currentUser={currentUser}/>
         <LoginModal/>
         <ConfirmModal/>
+        <LoaderV2/>
         <main className="flex-grow grid">
             {children}
         </main>
