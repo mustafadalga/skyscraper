@@ -57,8 +57,6 @@ model Game {
   userId     String
   difficulty Difficulty
   dimension  Int
-  timeTaken  Int?
-
   createdAt            DateTime @default(now())
   updatedAt            DateTime @updatedAt
   user                 User     @relation(name: "AllGames", fields: [userId], references: [id], onDelete: Cascade)
