@@ -1,6 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import Header from "@/_components/header/Header";
 import dynamic from "next/dynamic";
 import getCurrentUser from "@/_actions/getCurrentUser";
@@ -12,8 +12,11 @@ const LoginModal = dynamic(() => import("@/_components/modals/LoginModal"), { ss
 const ConfirmModal = dynamic(() => import("@/_components/modals/ConfirmModal"), { ssr: false });
 const LoaderV2 = dynamic(() => import("@/_components/loader/LoaderV2"), { ssr: false });
 
-const inter = Inter({ subsets: [ 'latin' ] })
-
+const roboto = Roboto({
+    display: "swap",
+    weight: [ '100', '300', '400', '500', '700', '900' ],
+    subsets: [ "latin" ],
+});
 export const metadata: Metadata = {
     title: 'Skyscraper Mind Game: Solve the Skyscraper Puzzle and Sharpen Your Mind!',
     description: 'Play Skyscraper Mind Game and fill the grid with numbers that make up your skyscraper landscape. Use hints and logic to see how many skyscrapers are visible from each angle. Are you up for the challenge?',
@@ -54,7 +57,7 @@ export default async function RootLayout({ children }: Props) {
     const currentUser: User = await getCurrentUser() as User;
     return (
         <html lang="en">
-        <body className={`${inter.className} bg-purple-50 text-gray-900 min-h-screen flex flex-col`}>
+        <body className={`${roboto.className} bg-purple-50 text-gray-900 min-h-screen flex flex-col`}>
         <Header currentUser={currentUser}/>
         <LoginModal/>
         <ConfirmModal/>
