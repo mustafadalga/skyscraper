@@ -15,8 +15,35 @@ const LoaderV2 = dynamic(() => import("@/_components/loader/LoaderV2"), { ssr: f
 const inter = Inter({ subsets: [ 'latin' ] })
 
 export const metadata: Metadata = {
-    title: 'Skyscrapers',
-    description: 'Skyscrapers',
+    title: 'Skyscraper Mind Game: Solve the Skyscraper Puzzle and Sharpen Your Mind!',
+    description: 'Play Skyscraper Mind Game and fill the grid with numbers that make up your skyscraper landscape. Use hints and logic to see how many skyscrapers are visible from each angle. Are you up for the challenge?',
+    keywords: [ "Skyscraper Mind Game", "Puzzle Game", "Logic Game", "Number Puzzle", "Skyscraper Puzzle", "Brain Teasers", "Skyscraper Brain Teaser" ],
+    authors: [ { name: "Mustafa Dalga", "url": "https://github.com/mustafadalga/skyscraper" } ],
+    icons: [
+        {
+            rel: "icon",
+            type: "image/png",
+            sizes: "32x32",
+            url: "/favicon-32x32.png"
+        },
+        {
+            rel: "apple-touch-icon",
+            sizes: "180x180",
+            url: "/apple-touch-icon.png"
+        },
+        {
+            rel: "icon",
+            type: "image/png",
+            sizes: "16x16",
+            url: "/favicon-16x16.png"
+        }, {
+            rel: "mask-icon",
+            url: "/safari-pinned-tab.svg",
+            color: "#a855f7"
+        }
+    ],
+    themeColor: "#ffffff",
+    applicationName: "Skyscraper Brain Teaser",
 }
 
 interface Props {
