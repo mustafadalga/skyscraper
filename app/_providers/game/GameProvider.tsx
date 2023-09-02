@@ -1,13 +1,15 @@
 "use client";
 import { ReactNode, useCallback, useMemo, useState } from "react";
+import { useRouter } from 'next/navigation'
+import { toast } from "react-toastify";
+import axios from "axios"
 import GameContext from "./GameContext";
 import { Game } from ".prisma/client";
 import { ICell } from "@/_types";
 import { hideShownHint, showHiddenHint, updateCell } from "@/_providers/game/utilities";
 import { ContextType, IGame } from "./types";
-import { toast } from "react-toastify";
-import axios from "axios";
-
+import useLoader from "@/_store/useLoader";
+import { Difficulty } from "@/_enums";
 
 interface Props {
     children: ReactNode,
@@ -25,7 +27,20 @@ async function updateGame(gameID: string, data: any) {
     }
 }
 
+async function startNewGame(options: { dimension: number, difficulty: Difficulty }): Promise<boolean> {
+    try {
+        const url = "/api/game/";
+        await axios.post(url, options);
+        return true;
+
+    } catch (error) {
+        return false;
+    }
+}
+
 export default function GameProvider({ children, currentGame }: Props) {
+    const router = useRouter();
+    const loader = useLoader();
     const [ game, setGame ] = useState<IGame>({
         ...currentGame,
         validGrid: JSON.parse(currentGame.validGrid),
@@ -33,6 +48,7 @@ export default function GameProvider({ children, currentGame }: Props) {
         hints: JSON.parse(currentGame.hints),
         shownHints: JSON.parse(currentGame.shownHints),
     });
+    const [ isStopWatchRunning, setStopWatchStatus ] = useState(true);
 
     const updateGridCell = useCallback(async (cell: ICell, value: number | null) => {
         const { grid, previousValue } = updateCell(game.filledGrid, cell, value);
@@ -85,11 +101,12 @@ export default function GameProvider({ children, currentGame }: Props) {
     }, [ game.id, game.hiddenHintCount, game.usedHiddenHintRights, game.shownHints ]);
 
     const showAnswer = useCallback(async () => {
+        loader.onOpen();
+        setStopWatchStatus(false);
         const status = await updateGame(game.id, {
-            filledGrid: JSON.stringify(game.validGrid),
             isGameCompleted: true,
         });
-
+        loader.onClose();
         if (!status) {
             return toast.warn("Oops! We couldn't show answers! Don't worry, give it another try!");
         }
@@ -97,20 +114,87 @@ export default function GameProvider({ children, currentGame }: Props) {
         setGame(prevState => ({
             ...prevState,
             filledGrid: game.validGrid,
+            shownHints: game.hints,
             isGameCompleted: true
         }));
 
-    }, [ game.id, game.validGrid ]);
+    }, [ game.id, game.validGrid, router ]);
+
+    const newGame = useCallback(async () => {
+        const errorMessage = "Oops! We couldn't start new game! Don't worry, give it another try!";
+        loader.onOpen();
+        setStopWatchStatus(false);
+        const isGameCompleted = await updateGame(game.id, {
+            isGameCompleted: true,
+        });
+
+        if (!isGameCompleted) {
+            loader.onClose();
+            return toast.error(errorMessage);
+        }
+
+        const isNewGameStarted = await startNewGame({
+            difficulty: game.difficulty as Difficulty,
+            dimension: game.dimension
+        });
+
+
+        if (!isNewGameStarted) {
+            loader.onClose();
+            return toast.error(errorMessage);
+        }
+        setStopWatchStatus(true);
+        router.refresh();
+        const timerID = setTimeout(() => {
+            loader.onClose();
+            clearTimeout(timerID);
+        }, 2500);
+
+    }, [ game.id, game.dimension, game.difficulty, loader, router ]);
+
+    const finishGame = useCallback(async () => {
+        if (game.isGameCompleted) {
+            router.refresh();
+            return router.push("/")
+        }
+
+        const errorMessage = "Oops! We couldn't finish the game! Don't worry, give it another try!";
+        loader.onOpen();
+        setStopWatchStatus(false);
+        const isGameFinished = await updateGame(game.id, {
+            isGameCompleted: true,
+        });
+        loader.onClose();
+
+        if (isGameFinished) {
+            router.refresh();
+            return router.push("/")
+        }
+
+        toast.error(errorMessage);
+
+    }, [ game.id, loader, router, game.isGameCompleted ]);
 
     const contextValue = useMemo<ContextType>(() => {
         return {
             game,
             updateGridCell,
             giveAHint,
-            showAnswer
+            showAnswer,
+            newGame,
+            finishGame,
+            isStopWatchRunning,
         }
+    }, [
+        game,
+        updateGridCell,
+        giveAHint,
+        showAnswer,
+        newGame,
+        finishGame,
+        isStopWatchRunning
+    ]);
 
-    }, [ game, updateGridCell, giveAHint ])
     return (
         <GameContext.Provider value={contextValue}>
             {children}

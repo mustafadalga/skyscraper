@@ -18,7 +18,16 @@ const ConfirmModal = () => {
             confirmModal.onClose();
         }, 300)
 
-    }, [ confirmModal ])
+    }, [ confirmModal ]);
+
+    const onSubmit = useCallback(() => {
+        setShowModal(false);
+        confirmModal.onSubmit();
+        setTimeout(() => {
+            confirmModal.onClose();
+        }, 300)
+
+    }, [ confirmModal ]);
 
     if (!confirmModal.isOpen) {
         return null;
@@ -49,7 +58,7 @@ const ConfirmModal = () => {
                             Close
                         </button>
                         <button type="button"
-                                onClick={confirmModal.onSubmit}
+                                onClick={onSubmit}
                                 className="text-sm font-medium text-white bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-primary py-2 px-3 text-center rounded-lg">
                             {confirmModal.actionLabel}
                         </button>

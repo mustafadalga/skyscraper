@@ -14,7 +14,7 @@ interface ConfirmModalStore {
 }
 
 
-const useConfirmModal = create<ConfirmModalStore>((set) => ({
+export default create<ConfirmModalStore>((set) => ({
     isOpen: false,
     description: "",
     actionLabel: "",
@@ -27,14 +27,8 @@ const useConfirmModal = create<ConfirmModalStore>((set) => ({
     onSubmit: () => {
         set((state: ConfirmModalStore): ConfirmModalStore => {
             state.submitMethod();
-            state.onClose();
-            return {
-                ...state,
-                isOpen: false
-            };
+            return state
         });
     },
 }));
 
-
-export default useConfirmModal;

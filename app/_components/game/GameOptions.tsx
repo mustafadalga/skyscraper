@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer } from 'react';
 import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -7,6 +7,7 @@ import CustomSelect from "@/_components/Select";
 import { difficulties, dimensions } from "@/_constants";
 import { BadgeLevelDetail } from "@/_types";
 import handleAxiosError from "@/utilities/handleAxiosError";
+import useLoader from "@/_store/useLoader";
 
 interface Props {
     defaultOptions: BadgeLevelDetail
@@ -33,6 +34,7 @@ const reducer = (state: IOptions, action: Action): IOptions => {
 const GameOptions = ({ defaultOptions }: Props) => {
     const [ options, dispatch ] = useReducer(reducer, defaultOptions);
     const router = useRouter();
+    const loader = useLoader();
     const setOptions = useCallback((action: keyof IOptions, value: string | number) => {
         dispatch({ type: "", action, value });
     }, []);
@@ -40,18 +42,27 @@ const GameOptions = ({ defaultOptions }: Props) => {
     const handleStartGame = async () => {
         const url = "/api/game"
         try {
-            const response = await axios.post(url, options);
+            loader.onOpen();
+            await axios.post(url, options);
             router.refresh();
         } catch (error) {
+            loader.onClose();
             const {
                 message,
             } = handleAxiosError(error, "Oops! Something went wrong while starting the game. Please double-check your inputs and try again.");
             toast.error(message)
         }
     }
+
+    useEffect(() => {
+        return () => {
+            loader.onClose();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     return (
         <section
-            className="grid gap-3 sm:w-full sm:max-w-xl mx-8 sm:mx-auto mt-12 p-8 rounded-md transition-all ease-linear shadow-[0px_0px_5px_0px_#d8b4fe] hover:shadow-[0px_0px_10px_0px_#d8b4fe] bg-white">
+            className="grid place-self-start gap-3 sm:w-full sm:max-w-xl mx-8 sm:mx-auto mt-12 p-8 rounded-md transition-all ease-linear shadow-[0px_0px_5px_0px_#d8b4fe] hover:shadow-[0px_0px_10px_0px_#d8b4fe] bg-white">
             <h1 className="text-center text-purple-900 font-bold text-2xl md:text-3xl xl:text-4xl">Game Options</h1>
 
             <div className="grid gap-1">

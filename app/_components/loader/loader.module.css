@@ -21,6 +21,7 @@ Resource of loader: https://codepen.io/josetxu/pen/GRBYExw
     --speed: 2;
     --hue: 0;
     --tone: 0;
+    z-index: 2023;
 }
 
 .loader * {

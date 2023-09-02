@@ -8,7 +8,7 @@ interface IDataToUpdate {
     shownHints?: string,
     filledGrid?: string,
     usedHiddenHintRights?: string,
-    completed?: boolean
+    isGameCompleted?: boolean
 }
 
 export async function GET(request: NextRequest) {
@@ -65,6 +65,15 @@ export async function PATCH(request: NextRequest) {
             where: { id },
             data: getDataToUpdate(body) as any,
         });
+
+        // Check if the game is completed and update the user's currentGameId to null
+        if (body.isGameCompleted) {
+            await prisma.user.update({
+                where: { id: currentUser.id },
+                data: { currentGameId: null },
+            });
+        }
+
         return NextResponse.json({ message: "Game updated successfully." }, { status: 200 });
 
     } catch (error) {
@@ -77,12 +86,12 @@ export async function PATCH(request: NextRequest) {
 }
 
 
-function getDataToUpdate({ filledGrid, shownHints, usedHiddenHintRights, completed }: IDataToUpdate) {
+function getDataToUpdate({ filledGrid, shownHints, usedHiddenHintRights, isGameCompleted }: IDataToUpdate) {
     const dataToUpdate: IDataToUpdate = {};
     if (shownHints !== undefined) dataToUpdate.shownHints = shownHints;
     if (usedHiddenHintRights !== undefined) dataToUpdate.usedHiddenHintRights = usedHiddenHintRights;
     if (filledGrid !== undefined) dataToUpdate.filledGrid = filledGrid;
-    if (completed !== undefined) dataToUpdate.completed = completed;
+    if (isGameCompleted !== undefined) dataToUpdate.isGameCompleted = isGameCompleted;
 
     return dataToUpdate
 }

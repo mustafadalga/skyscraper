@@ -17,17 +17,26 @@ const defaultContext: ContextType = {
             top: [],
             bottom: []
         },
+        createdAt: new Date(),
         dimension: 3,
         difficulty: "easy",
         hiddenHintCount: 0,
-        completed: false,
+        isGameCompleted: false,
+        isGameWon: false,
         usedHiddenHintRights: 0,
         id: "",
         userId: "",
     },
+    isStopWatchRunning: false,
     updateGridCell: () => {
     },
     giveAHint: () => {
+    },
+    showAnswer: () => {
+    },
+    newGame: () => {
+    },
+    finishGame: () => {
     }
 };
 
