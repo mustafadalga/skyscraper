@@ -6,7 +6,7 @@ import axios from "axios";
 import CustomSelect from "@/_components/Select";
 import { difficulties, dimensions } from "@/_constants";
 import { BadgeLevelDetail } from "@/_types";
-import handleAxiosError from "@/utilities/handleAxiosError";
+import handleAxiosError from "@/_utilities/handleAxiosError";
 import useLoader from "@/_store/useLoader";
 
 interface Props {

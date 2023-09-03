@@ -71,7 +71,8 @@ export default function GameProvider({ children, currentGame }: Props) {
 
         const status = await updateGame(game.id, {
             filledGrid: JSON.stringify(grid),
-            isGameCompleted: isGameWon ? true : undefined
+            isGameCompleted: isGameWon,
+            isGameWon
         });
 
         if (!status) {

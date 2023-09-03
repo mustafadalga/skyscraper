@@ -2,7 +2,7 @@ import { Game, User } from ".prisma/client";
 import getCurrentUser from "@/_actions/getCurrentUser";
 import { BadgeLevelDetail, IBadge } from "@/_types";
 import getUserBadges from "@/_actions/getUserBadges";
-import getDefaultGameSettings from "@/utilities/getDefaultGameOptions";
+import getDefaultGameSettings from "@/_utilities/getDefaultGameOptions";
 import getBadges from "@/_actions/getBadges";
 import dynamic from "next/dynamic";
 import getGame from "@/_actions/getGame";

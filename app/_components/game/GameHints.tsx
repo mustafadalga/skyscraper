@@ -1,7 +1,7 @@
 "use client";
 import { memo, useCallback } from "react";
 import useGame from "@/_providers/game/useGame";
-import checkHintVisibilityAgainstFilledGrid from "@/utilities/checkHintVisibilityAgainstFilledGrid";
+import checkHintVisibilityAgainstFilledGrid from "@/_utilities/checkHintVisibilityAgainstFilledGrid";
 import { Direction } from "@/_enums";
 import { IHintCheckResult } from "@/_types";
 
