@@ -3,10 +3,11 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
 import axios from "axios"
+import { isEqual } from "lodash";
 import GameContext from "./GameContext";
 import { Game } from ".prisma/client";
 import { ICell } from "@/_types";
-import { hideShownHint, showHiddenHint, updateCell } from "@/_providers/game/utilities";
+import { hideShownHint, showHiddenHint, updateCell, isGridFullyFilled } from "./utilities";
 import { ContextType, IGame } from "./types";
 import useLoader from "@/_store/useLoader";
 import { Difficulty } from "@/_enums";
@@ -47,19 +48,32 @@ export default function GameProvider({ children, currentGame }: Props) {
         filledGrid: JSON.parse(currentGame.filledGrid),
         hints: JSON.parse(currentGame.hints),
         shownHints: JSON.parse(currentGame.shownHints),
+        isGameWon: false
     });
-    const [ isStopWatchRunning, setStopWatchStatus ] = useState(true);
+    const [ isTimerRunning, setIsTimerRunning ] = useState<boolean>(true);
 
     const updateGridCell = useCallback(async (cell: ICell, value: number | null) => {
         const { grid, previousValue } = updateCell(game.filledGrid, cell, value);
+        const isGameWon = isGridFullyFilled(grid) && isEqual(grid, game.validGrid);
+
         setGame(prevState => ({
             ...prevState,
-            filledGrid: grid
+            filledGrid: grid,
+            isGameWon,
+            isGameCompleted: isGameWon,
+            shownHints: isGameWon ? game.hints : game.shownHints
         }));
 
+
+        if (isGameWon) {
+            setIsTimerRunning(false);
+        }
+
         const status = await updateGame(game.id, {
-            filledGrid: JSON.stringify(grid)
+            filledGrid: JSON.stringify(grid),
+            isGameCompleted: isGameWon ? true : undefined
         });
+
         if (!status) {
             toast.warn("Oops! We couldn't update your skyscraper this time. Don't worry, give it another try!");
             const { grid } = updateCell(game.filledGrid, cell, previousValue);
@@ -68,7 +82,7 @@ export default function GameProvider({ children, currentGame }: Props) {
                 filledGrid: grid
             }));
         }
-    }, [ game.filledGrid ]);
+    }, [ game.id, game.hints, game.shownHints, game.validGrid, game.filledGrid ]);
 
     const giveAHint = useCallback(async () => {
         const hasRight = !!(game.hiddenHintCount - game.usedHiddenHintRights);
@@ -81,7 +95,7 @@ export default function GameProvider({ children, currentGame }: Props) {
         setGame(prevState => ({
             ...prevState,
             usedHiddenHintRights: right,
-            shownHints: hints
+            shownHints: hints,
         }));
 
         const status = await updateGame(game.id, {
@@ -102,7 +116,7 @@ export default function GameProvider({ children, currentGame }: Props) {
 
     const showAnswer = useCallback(async () => {
         loader.onOpen();
-        setStopWatchStatus(false);
+        setIsTimerRunning(false);
         const status = await updateGame(game.id, {
             isGameCompleted: true,
         });
@@ -123,7 +137,7 @@ export default function GameProvider({ children, currentGame }: Props) {
     const newGame = useCallback(async () => {
         const errorMessage = "Oops! We couldn't start new game! Don't worry, give it another try!";
         loader.onOpen();
-        setStopWatchStatus(false);
+        setIsTimerRunning(false);
         const isGameCompleted = await updateGame(game.id, {
             isGameCompleted: true,
         });
@@ -143,7 +157,7 @@ export default function GameProvider({ children, currentGame }: Props) {
             loader.onClose();
             return toast.error(errorMessage);
         }
-        setStopWatchStatus(true);
+        setIsTimerRunning(true);
         router.refresh();
         const timerID = setTimeout(() => {
             loader.onClose();
@@ -160,7 +174,7 @@ export default function GameProvider({ children, currentGame }: Props) {
 
         const errorMessage = "Oops! We couldn't finish the game! Don't worry, give it another try!";
         loader.onOpen();
-        setStopWatchStatus(false);
+        setIsTimerRunning(false);
         const isGameFinished = await updateGame(game.id, {
             isGameCompleted: true,
         });
@@ -183,7 +197,7 @@ export default function GameProvider({ children, currentGame }: Props) {
             showAnswer,
             newGame,
             finishGame,
-            isStopWatchRunning,
+            isTimerRunning,
         }
     }, [
         game,
@@ -192,7 +206,7 @@ export default function GameProvider({ children, currentGame }: Props) {
         showAnswer,
         newGame,
         finishGame,
-        isStopWatchRunning
+        isTimerRunning
     ]);
 
     return (

@@ -2,11 +2,10 @@
 import StopWatch from "@/_components/StopWatch";
 import useGame from "@/_providers/game/useGame";
 
-const GameStopWatch = () => {
-    const { game: { createdAt, isGameCompleted }, isStopWatchRunning } = useGame();
-    if (isGameCompleted || !isStopWatchRunning) return;
+const DELAY_COMPENSATION_MILLISECONDS = 4000;
 
-    const DELAY_COMPENSATION_MILLISECONDS = 4000;
+const GameStopWatch = () => {
+    const { game: { createdAt, isGameCompleted }, isTimerRunning } = useGame();
 
     let adjustedTime = new Date(new Date(createdAt).getTime() + DELAY_COMPENSATION_MILLISECONDS);
     const currentTime = new Date();
@@ -14,7 +13,7 @@ const GameStopWatch = () => {
         adjustedTime = currentTime;
     }
 
-    return <StopWatch initialDate={adjustedTime}/>
+    return <StopWatch initialDate={adjustedTime} isTimerRunning={isTimerRunning && !isGameCompleted}/>
 };
 
 export default GameStopWatch;

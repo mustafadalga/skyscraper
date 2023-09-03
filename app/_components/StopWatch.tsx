@@ -2,21 +2,35 @@
 import { useEffect, useState } from "react";
 import { GoStopwatch } from "react-icons/go"
 
-export default function StopWatch({ initialDate }: { initialDate: Date }) {
+interface Props {
+    initialDate: Date,
+    isTimerRunning: boolean
+}
+const INTERVAL_DELAY = 1000;
+
+export default function StopWatch({ initialDate, isTimerRunning }: Props) {
     const initialTimeDifference = Date.now() - initialDate.getTime();
-    const SECOND_ONE = 1000;
     const [ time, setTime ] = useState(initialTimeDifference);
     const hours = Math.floor(time / 3600000);
     const minutes = Math.floor((time % 3600000) / 60000);
     const seconds = Math.floor((time % 60000) / 1000);
 
     useEffect(() => {
-        const intervalID = setInterval(() => {
-            setTime((prevTime) => prevTime + SECOND_ONE);
-        }, SECOND_ONE);
+        let intervalID: NodeJS.Timeout;
 
-        return () => clearInterval(intervalID);
-    }, []);
+        if (isTimerRunning) {
+            intervalID = setInterval(() => {
+                setTime((prevTime) => prevTime + INTERVAL_DELAY);
+            }, INTERVAL_DELAY);
+        }
+
+        return () => {
+            if (intervalID) {
+                clearInterval(intervalID);
+            }
+        };
+    }, [ isTimerRunning ]);
+
 
     return (
         <div

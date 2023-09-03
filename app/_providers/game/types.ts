@@ -10,7 +10,7 @@ export interface IGame extends Omit<Game, "validGrid" | "filledGrid" | "hints" |
 
 export interface ContextType {
     game: IGame,
-    isStopWatchRunning: boolean
+    isTimerRunning: boolean
     updateGridCell: (cell: ICell, value: number | null) => void,
     giveAHint: () => void,
     showAnswer: () => void,

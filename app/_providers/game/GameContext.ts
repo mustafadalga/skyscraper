@@ -27,7 +27,7 @@ const defaultContext: ContextType = {
         id: "",
         userId: "",
     },
-    isStopWatchRunning: false,
+    isTimerRunning: false,
     updateGridCell: () => {
     },
     giveAHint: () => {

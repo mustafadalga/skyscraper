@@ -83,6 +83,6 @@ export function hideShownHint(hints: IOptionalHints, direction: keyof IOptionalH
  * @param grid - The grid to check.
  * @returns True if the grid is fully filled, false otherwise.
  */
-export default function isGridFullyFilled(grid: IOptionalGrid): boolean {
+export function isGridFullyFilled(grid: IOptionalGrid): boolean {
     return every(grid, row => every(row, cell => cell !== null));
 }

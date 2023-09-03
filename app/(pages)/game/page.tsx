@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import getGame from "@/_actions/getGame";
 
 const GameOptions = dynamic(() => import("@/_components/game/GameOptions"), { ssr: false })
+const GameProvider = dynamic(() => import("@/_providers/game/GameProvider"), { ssr: false })
 const GameScreen = dynamic(() => import("@/_components/game/GameScreen"))
 
 const Page = async () => {
@@ -17,8 +18,12 @@ const Page = async () => {
     const defaultOptions: BadgeLevelDetail = getDefaultGameSettings(badges, currentUserBadges, currentUser);
     const currentGame: Game = await getGame() as Game;
     return (
-        <article className="grid h-full">
-            {currentGame ? <GameScreen/> : <GameOptions defaultOptions={defaultOptions}/>}
+        <article className="grid p-5 h-full">
+            {currentGame ? (
+                <GameProvider currentGame={currentGame}>
+                    <GameScreen/>
+                </GameProvider>
+            ) : <GameOptions defaultOptions={defaultOptions}/>}
         </article>
     );
 };
