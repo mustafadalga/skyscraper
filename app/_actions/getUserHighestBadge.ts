@@ -1,9 +1,9 @@
 import getUserBadges from "./getUserBadges";
-import { IBadge } from "@/_types";
+import { Badge } from ".prisma/client";
 
-export default async function getUserHighestBadge(): Promise<IBadge | null> {
+export default async function getUserHighestBadge(): Promise<Badge | null> {
     try {
-        const badges: IBadge[] = await getUserBadges();
+        const badges: Badge[] = await getUserBadges();
         if (badges?.length) {
             return badges[0];
         }

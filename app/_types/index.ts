@@ -1,8 +1,4 @@
-import { Badge } from ".prisma/client";
 import { Direction } from "@/_enums";
-
-export interface IBadge extends Omit<Badge, "updatedAt" | "createdAt"> {
-}
 
 export interface BadgeLevelDetail {
     difficulty: string,

@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/_libs/prismadb";
-import type {  User } from ".prisma/client";
+import type { User, Badge as IBadge } from ".prisma/client";
 import getCurrentUser from "@/_actions/getCurrentUser";
 import handleAxiosError from "@/_utilities/handleAxiosError";
-import { IBadge } from "@/_types";
 import getUserHighestBadge from "@/_actions/getUserHighestBadge";
 import { Badge, Difficulty } from "@/_enums";
 import { generateGameBoard } from "@/_utilities/generateGameBoard";
+
 interface IGameData {
     userId: string,
     validGrid: string,

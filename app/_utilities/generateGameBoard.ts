@@ -37,7 +37,7 @@ export function generateGameBoard({ dimension, difficulty, score, avgTime, highe
     // Calculate the number of hints to hide based on various factors
     const hiddenHintCount = calculateHiddenHintCount(score, avgTime, dimension, difficulty, highestBadge);
     // Get the hints to be shown to the user
-    const shownHints = getShownHints(hints, hiddenHintCount, score, avgTime, difficulty, highestBadge)
+    const shownHints = getShownHints(hints, hiddenHintCount)
     // Create an empty grid for the game
     const emptyGrid: null[][] = createEmptyGrid(dimension);
 

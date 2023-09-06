@@ -7,13 +7,15 @@ export enum Badge {
     TimeLord = "time_lord",
     PuzzleExplorer = "puzzle_explorer",
     MasterPlanner = "master_planner",
-    TheVisionary = "the_visionary",
-    TheHighScorer = "the_high_scorer",
+    PuzzleSolver = "puzzle_solver",
+    StreakBuilder = "streak_builder",
     SeasonedBuilder = "seasoned_builder",
     PuzzleMaestro = "puzzle_maestro",
     PuzzleVirtuoso = "puzzle_virtuoso",
+    PuzzleAdept="puzzle_adept",
     PuzzleLegend = "puzzle_legend",
     PuzzleOlympian = "puzzle_olympian",
+    PuzzleHero="puzzle_hero",
     PuzzleImmortal = "puzzle_immortal"
 }
 

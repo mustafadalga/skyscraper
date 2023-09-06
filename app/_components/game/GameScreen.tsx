@@ -7,7 +7,7 @@ import GameStopWatch from "./GameStopWatch";
 import GameTrophy from "./GameTrophy";
 
 const GameScreen = () => {
-    const { game: { isGameWon } } = useGame();
+    const { game: { isGameWon, id } } = useGame();
     return (
         <section
             className={`${isGameWon ? "lg:pt-60" : ""} flex items-center justify-center h-full`}>
@@ -17,7 +17,7 @@ const GameScreen = () => {
                 <GameBoard/>
                 <GameBoardOptionGroup/>
             </div>
-            <GameStopWatch/>
+            <GameStopWatch key={id}/>
             <GameTrophy/>
         </section>
     );

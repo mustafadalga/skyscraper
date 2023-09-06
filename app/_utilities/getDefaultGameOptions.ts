@@ -1,5 +1,5 @@
-import { BadgeLevelDetail, IBadge } from "@/_types";
-import { User } from ".prisma/client";
+import { BadgeLevelDetail } from "@/_types";
+import { Badge, User } from ".prisma/client";
 import { badgeLevelDetails, difficulties, dimensions } from "@/_constants";
 
 /**
@@ -51,8 +51,8 @@ function downgradeDifficulty(defaults: BadgeLevelDetail): BadgeLevelDetail {
  * @param userBadges - List of badges earned by the user.
  * @returns ID of the newest badge.
  */
-function getUserNewestBadgeID(badges: IBadge[], userBadges: IBadge[]): string {
-    let newestBadgePriority = 16; // Default to 16 if no badges are found
+function getUserNewestBadgeID(badges: Badge[], userBadges: Badge[]): string {
+    let newestBadgePriority = badges.length; // Default to 16 if no badges are found
     if (userBadges.length) {
         newestBadgePriority = Math.min(...userBadges.map(item => item.priority));
     }
@@ -69,10 +69,9 @@ function getUserNewestBadgeID(badges: IBadge[], userBadges: IBadge[]): string {
  * @param currentUser - User for whom the settings are being determined.
  * @returns New difficulty and dimension settings.
  */
-export default function getDefaultGameSettings(badges: IBadge[], userBadges: IBadge[], currentUser: User): BadgeLevelDetail {
+export default function getDefaultGameSettings(badges: Badge[], userBadges: Badge[], currentUser: User): BadgeLevelDetail {
     const userNewestBadgeID: string = getUserNewestBadgeID(badges, userBadges);
     let defaults: BadgeLevelDetail = badgeLevelDetails[userNewestBadgeID];
-
     // Check if user is new (no badges, no average time)
     if (!userBadges.length && !currentUser.avgTime) {
         return defaults;
@@ -80,10 +79,11 @@ export default function getDefaultGameSettings(badges: IBadge[], userBadges: IBa
 
     const minutes5 = 60 * 5;
     const minute15 = 60 * 15;
-    if (currentUser.avgTime < minutes5) {  // less than 5 minutes
+    const avgTimeInSeconds = currentUser.avgTime / 1000;
+    if (avgTimeInSeconds < minutes5) {  // less than 5 minutes
         // make it a bit more challenging
         defaults = upgradeDifficulty(defaults);
-    } else if (currentUser.avgTime > minute15) {  // more than 15 minutes
+    } else if (avgTimeInSeconds > minute15) {  // more than 15 minutes
         // make it a bit easier
         defaults = downgradeDifficulty(defaults);
     }

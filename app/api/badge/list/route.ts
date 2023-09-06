@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import prisma from "@/_libs/prismadb";
-import { IBadge } from "@/_types";
 import { Badge } from ".prisma/client";
 
 
@@ -21,8 +20,8 @@ export async function GET(request: NextRequest) {
                 priority: "desc"
             }
         });
-        const cleanBadges: IBadge[] = badges.map(badge => ({ ...badge, createdAt: undefined, updatedAt: undefined }))
-        setBadgesToCookie(cleanBadges);
+
+        setBadgesToCookie(badges);
         return NextResponse.json(badges, { status: 200 });
 
     } catch (error) {
@@ -30,7 +29,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-function setBadgesToCookie(badges: IBadge[]) {
+function setBadgesToCookie(badges: Badge[]) {
     const date = new Date();
     date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); // 24 hours from now
     cookies().set({

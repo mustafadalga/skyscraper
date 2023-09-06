@@ -66,7 +66,7 @@ export const badgeLevelDetails: BadgeLevelDetails = {
     },
     "fast_builder": {
         "difficulty": "medium",
-        "dimension": 4
+        "dimension": 5
     },
     "perfectionist": {
         "difficulty": "medium",
@@ -78,11 +78,11 @@ export const badgeLevelDetails: BadgeLevelDetails = {
     },
     "no_hints_needed": {
         "difficulty": "hard",
-        "dimension": 5
+        "dimension": 6
     },
     "time_lord": {
-        "difficulty": "medium",
-        "dimension": 5
+        "difficulty": "hard",
+        "dimension": 6
     },
     "puzzle_explorer": {
         "difficulty": "medium",
@@ -92,39 +92,48 @@ export const badgeLevelDetails: BadgeLevelDetails = {
         "difficulty": "hard",
         "dimension": 6
     },
-    "the_visionary": {
+    "puzzle_solver": {
         "difficulty": "hard",
         "dimension": 7
     },
-    "the_high_scorer": {
-        "difficulty": "hard",
-        "dimension": 7
+    "streak_builder": {
+        "difficulty": "medium",
+        "dimension": 5
     },
     "seasoned_builder": {
-        "difficulty": "hard",
-        "dimension": 8
+        "difficulty": "medium",
+        "dimension": 6
     },
     "puzzle_maestro": {
-        "difficulty": "hard",
-        "dimension": 9
+        "difficulty": "medium",
+        "dimension": 7
     },
     "puzzle_virtuoso": {
-        "difficulty": "hard",
-        "dimension": 10
+        "difficulty": "medium",
+        "dimension": 8
+    },
+    "puzzle_adept": {
+        "difficulty": "medium",
+        "dimension": 9
     },
     "puzzle_legend": {
-        "difficulty": "hard",
-        "dimension": 11
+        "difficulty": "medium",
+        "dimension": 10
     },
     "puzzle_olympian": {
-        "difficulty": "hard",
+        "difficulty": "medium",
+        "dimension": 11
+    },
+    "puzzle_hero": {
+        "difficulty": "medium",
         "dimension": 11
     },
     "puzzle_immortal": {
-        "difficulty": "hard",
+        "difficulty": "medium",
         "dimension": 12
     }
-}
+};
+
 
 export const tailwindGridClassNames = [
     {

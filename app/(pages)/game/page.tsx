@@ -1,6 +1,6 @@
-import { Game, User } from ".prisma/client";
+import { Badge, Game, User } from ".prisma/client";
 import getCurrentUser from "@/_actions/getCurrentUser";
-import { BadgeLevelDetail, IBadge } from "@/_types";
+import { BadgeLevelDetail } from "@/_types";
 import getUserBadges from "@/_actions/getUserBadges";
 import getDefaultGameSettings from "@/_utilities/getDefaultGameOptions";
 import getBadges from "@/_actions/getBadges";
@@ -13,15 +13,15 @@ const GameScreen = dynamic(() => import("@/_components/game/GameScreen"))
 
 const Page = async () => {
     const currentUser: User = await getCurrentUser() as User;
-    const currentUserBadges: IBadge[] = await getUserBadges();
-    const badges: IBadge[] = await getBadges();
+    const currentUserBadges: Badge[] = await getUserBadges();
+    const badges: Badge[] = await getBadges();
     const defaultOptions: BadgeLevelDetail = getDefaultGameSettings(badges, currentUserBadges, currentUser);
     const currentGame: Game = await getGame() as Game;
     return (
         <article className="grid p-5 h-full">
             {currentGame ? (
-                <GameProvider currentGame={currentGame}>
-                    <GameScreen/>
+                <GameProvider currentGame={currentGame} key={currentGame.id}>
+                    <GameScreen key={currentGame.id}/>
                 </GameProvider>
             ) : <GameOptions defaultOptions={defaultOptions}/>}
         </article>

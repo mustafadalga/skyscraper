@@ -17,15 +17,17 @@ export default function calculateHiddenHintCount(score: number,
                                              difficulty: Difficulty,
                                              highestBadge: Badge) {
     // Initialization and constants
+    const totalHints = dimension * dimension;
     let baseHintsToHide = 0;
-    const EASY_MULTIPLIER = 0.1;
-    const MEDIUM_MULTIPLIER = 0.2;
-    const HARD_MULTIPLIER = 0.3;
+    const EASY_MULTIPLIER = 0.9; // 90% hints to show
+    const MEDIUM_MULTIPLIER = 0.85; // 85% hints to show
+    const HARD_MULTIPLIER = 0.80; // 80% hints to show
     const SCORE_THRESHOLD_1 = 100;
     const SCORE_THRESHOLD_2 = 200;
     const SCORE_INCREMENT = 1;
     const AVG_TIME_THRESHOLD = 300;
-    // Helper function for incrementing baseHintsToHide
+
+    // Helper function for decrementing baseHintsToHide
     const incrementBaseHints = (count: number) => {
         baseHintsToHide += count;
     };
@@ -34,15 +36,16 @@ export default function calculateHiddenHintCount(score: number,
     // Factor in difficulty
     switch (difficulty) {
         case Difficulty.EASY:
-            baseHintsToHide = Math.floor(dimension * EASY_MULTIPLIER);
+            incrementBaseHints(Math.floor(totalHints * (1 - EASY_MULTIPLIER)))
             break;
         case Difficulty.MEDIUM:
-            baseHintsToHide = Math.floor(dimension * MEDIUM_MULTIPLIER);
+            incrementBaseHints(Math.floor(totalHints * (1 - MEDIUM_MULTIPLIER)))
             break;
         case Difficulty.HARD:
-            baseHintsToHide = Math.floor(dimension * HARD_MULTIPLIER);
+            incrementBaseHints(Math.floor(totalHints * (1 - HARD_MULTIPLIER)))
             break;
     }
+
     // Factor in score
     if (score > SCORE_THRESHOLD_1) {
         incrementBaseHints(SCORE_INCREMENT);
@@ -60,13 +63,13 @@ export default function calculateHiddenHintCount(score: number,
     switch (highestBadge) {
         case Badge.MasterPlanner:
         case Badge.NoHintsNeeded:
-            baseHintsToHide += 3;
+            incrementBaseHints(3);
             break;
         case Badge.TimeLord:
-        case Badge.TheHighScorer:
-            baseHintsToHide += 2;
+        case Badge.StreakBuilder:
+            incrementBaseHints(2)
             break;
     }
     // Ensure the number of hidden hints does not exceed the board size
-    return Math.min(baseHintsToHide, dimension * dimension);
+    return Math.min(baseHintsToHide, totalHints)
 }

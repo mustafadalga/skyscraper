@@ -1,9 +1,9 @@
 import getCurrentUser from "./getCurrentUser";
 import prisma from "@/_libs/prismadb";
-import { IBadge } from "@/_types";
+import { Badge } from ".prisma/client";
 
 
-export default async function getUserBadges(): Promise<IBadge[]> {
+export default async function getUserBadges(): Promise<Badge[]> {
     try {
         const currentUser = await getCurrentUser();
         if (!currentUser) {
@@ -23,11 +23,8 @@ export default async function getUserBadges(): Promise<IBadge[]> {
                 }
             }
         })
-        const badges: IBadge[] = userBadges.map(({ badge }) => {
-            const { createdAt, updatedAt, ...rest } = badge;
-            return rest;
-        });
-        return badges || [];
+
+        return userBadges.map(userBadge=>userBadge.badge) || [];
 
     } catch (error: any) {
         return [];
