@@ -13,13 +13,13 @@ const HamburgerMenu = ({ closeAllMenus, currentUser }: Props) => {
 
     return (
         <div className="sm:hidden absolute bg-purple-800 top-full left-0 right-0 space-y-1 grid">
-            <NavLink toggleMenu={closeAllMenus} href="/" hoverBgColor={false}>
+            <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/" hoverBgColor={false}>
                 Home
             </NavLink>
-            <NavLink toggleMenu={closeAllMenus} href="/game" hoverBgColor={false}>
+            <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/game" hoverBgColor={false}>
                 Game
             </NavLink>
-            <NavLink toggleMenu={closeAllMenus} href="/leader-board" hoverBgColor={false}>
+            <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/leader-board" hoverBgColor={false}>
                 Leader Board
             </NavLink>
 

@@ -16,7 +16,7 @@ const Page = async () => {
     const currentUserBadges: Badge[] = await getUserBadges();
     const badges: Badge[] = await getBadges();
     const defaultOptions: BadgeLevelDetail = getDefaultGameSettings(badges, currentUserBadges, currentUser);
-    const currentGame: Game = await getGame() as Game;
+    const currentGame: Game | null = currentUser.currentGameId ? await getGame() : null;
     return (
         <article className="grid p-5 h-full">
             {currentGame ? (

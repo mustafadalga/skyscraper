@@ -1,13 +1,14 @@
 "use client";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
 import axios from "axios"
 import { isEqual } from "lodash";
-import GameContext from "./GameContext";
 import { Game } from ".prisma/client";
+import GameContext from "./GameContext";
 import { ICell } from "@/_types";
 import { hideShownHint, showHiddenHint, updateCell, isGridFullyFilled } from "./utilities";
+import compareFilledCellsWithValidGrid from "@/_utilities/compareFilledCellsWithValidGrid";
 import { ContextType, IGame } from "./types";
 import useLoader from "@/_store/useLoader";
 import { Difficulty } from "@/_enums";
@@ -55,7 +56,7 @@ export default function GameProvider({ children, currentGame }: Props) {
     const updateGridCell = useCallback(async (cell: ICell, value: number | null) => {
         const { grid, previousValue } = updateCell(game.filledGrid, cell, value);
         const isGameWon = isGridFullyFilled(grid) && isEqual(grid, game.validGrid);
-
+        const hasMistake = !compareFilledCellsWithValidGrid(game.filledGrid, game.validGrid);
         setGame(prevState => ({
             ...prevState,
             filledGrid: grid,
@@ -72,7 +73,8 @@ export default function GameProvider({ children, currentGame }: Props) {
         const status = await updateGame(game.id, {
             filledGrid: JSON.stringify(grid),
             isGameCompleted: isGameWon,
-            isGameWon
+            isGameWon,
+            hasMistake
         });
 
         if (!status) {
@@ -166,7 +168,6 @@ export default function GameProvider({ children, currentGame }: Props) {
         }, 2500);
 
     }, [ game.id, game.dimension, game.difficulty, loader, router ]);
-
     const finishGame = useCallback(async () => {
         if (game.isGameCompleted) {
             router.refresh();
@@ -189,7 +190,6 @@ export default function GameProvider({ children, currentGame }: Props) {
         toast.error(errorMessage);
 
     }, [ game.id, loader, router, game.isGameCompleted ]);
-
     const contextValue = useMemo<ContextType>(() => {
         return {
             game,
@@ -209,6 +209,10 @@ export default function GameProvider({ children, currentGame }: Props) {
         finishGame,
         isTimerRunning
     ]);
+
+    useEffect(() => {
+        return () => router.refresh()
+    }, [ router ])
 
     return (
         <GameContext.Provider value={contextValue}>

@@ -35,7 +35,6 @@ const Header = ({ currentUser }: Props) => {
         toggleMenu("isUserProfileMenuOpen", false);
     }, [ toggleMenu ]);
 
-
     useEffect(() => {
         function handleClickOutside(event: Event) {
             const target = event.target as HTMLDivElement;
@@ -61,15 +60,15 @@ const Header = ({ currentUser }: Props) => {
 
                             {currentUser && (
                                 <>
-                                    <NavLink href="/" toggleMenu={closeAllMenus} hoverBgColor={false}>
+                                    <NavLink currentUser={currentUser} href="/" toggleMenu={closeAllMenus} hoverBgColor={false}>
                                         Home
                                     </NavLink>
-                                    <NavLink href="/game" toggleMenu={closeAllMenus} hoverBgColor={false}>
+                                    <NavLink currentUser={currentUser} href="/game" toggleMenu={closeAllMenus} hoverBgColor={false}>
                                         Game
                                     </NavLink></>
                             )}
 
-                            <NavLink href="/leader-board" toggleMenu={closeAllMenus} hoverBgColor={false}>
+                            <NavLink currentUser={currentUser} href="/leader-board" toggleMenu={closeAllMenus} hoverBgColor={false}>
                                 Leader Board
                             </NavLink>
                         </div>
