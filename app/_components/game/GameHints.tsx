@@ -11,10 +11,23 @@ interface IDirection {
     hintClassName: string
 }
 
+const calculateHintSize = (dimension: number) => {
+    if (dimension >= 11) {
+        return "lg:h-5 lg:w-5 md:h-6 md:w-6 xl:w-8 xl:h-8";
+    }
+    if (dimension >= 9) {
+        return "md:h-6 md:w-6 lg:h-8 lg:w-8 xl:w-10 xl:h-10"
+    }
+    if (dimension >= 7) {
+        return "md:h-6 md:w-6 lg:h-8 lg:w-8 xl:w-10 xl:h-10"
+    }
+
+    return "sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-8 lg:w-8 xl:h-10 xl:w-10 2xl:w-12 2xl:h-12";
+};
+
 
 const GameHints = () => {
-    const { game: { shownHints, filledGrid } } = useGame();
-    const dimension = shownHints.left.length;//  one side length.
+    const { game: { shownHints, filledGrid,dimension } } = useGame();
     const hintCheckResult: IHintCheckResult = checkHintVisibilityAgainstFilledGrid(shownHints, filledGrid);
     const directionClassNames: IDirection[] = [
         {
@@ -61,7 +74,7 @@ const GameHints = () => {
                     {shownHints[direction.id].map((hint, index) => (
                         <div
                             key={index}
-                            className={`${hintClassName(direction.id, hint, direction.hintClassName, hintCheckResult[direction.id][index])} grid place-items-center h-4 w-4 sm:h-6 sm:w-6 lg:h-8 lg:w-8 xl:h-10 xl:w-10 relative text-[10px] sm:text-xs lg:text-sm before:content[''] before:absolute`}>
+                            className={`${hintClassName(direction.id, hint, direction.hintClassName, hintCheckResult[direction.id][index])} ${calculateHintSize(dimension)} grid place-items-center h-4 w-4 text-[10px] md:text-xs xl:text-sm 2xl:text-base relative before:content[''] before:absolute`}>
                             {hint}
                         </div>
                     ))}

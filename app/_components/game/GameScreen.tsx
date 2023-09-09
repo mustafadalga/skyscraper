@@ -12,7 +12,7 @@ const GameScreen = () => {
         <section
             className={`${isGameWon ? "lg:pt-60" : ""} flex items-center justify-center h-full`}>
             <div
-                className="relative grid content-start grid-rows-[48px_auto_48px] grid-cols-[48px_auto_48px] gap-5">
+                className="relative pt-20 grid content-start grid-rows-[48px_auto_48px] grid-cols-[48px_auto_48px] gap-5">
                 <GameHints/>
                 <GameBoard/>
                 <GameBoardOptionGroup/>
