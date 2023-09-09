@@ -8,5 +8,12 @@
  * @returns The new average time for the user (in milliseconds).
  */
 export default function calculateNewAvgTime(oldAvgTime: number, totalGames: number, newGameTime: number): number {
+    if (oldAvgTime < 0 || totalGames < 0 || newGameTime < 0) {
+        throw new Error("Inputs must be non-negative numbers.");
+    }
+    if (totalGames === 0 && oldAvgTime !== 0) {
+        throw new Error("If totalGames is 0, oldAvgTime must also be 0.");
+    }
+
     return Math.round(((oldAvgTime * totalGames) + newGameTime) / (totalGames + 1));
 }

@@ -62,7 +62,7 @@ export default async function RootLayout({ children }: Props) {
         <LoginModal/>
         <ConfirmModal/>
         <LoaderV2/>
-        <main className="flex-grow grid">
+        <main className="container mx-auto flex-grow grid">
             {children}
         </main>
         <ToastContainer/>

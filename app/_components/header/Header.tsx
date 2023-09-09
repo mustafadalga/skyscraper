@@ -49,7 +49,7 @@ const Header = ({ currentUser }: Props) => {
 
     return (
         <nav className="bg-purple-800" ref={menuRef}>
-            <div className="mx-auto max-w-7xl sm:px-8">
+            <div className="mx-auto container sm:px-8">
                 <div className="relative flex h-16 items-center px-4 sm:px-0 justify-between gap-3">
                     <div className="flex flex-shrink-0 items-center">
                         <TbBuildingSkyscraper className="text-white text-3xl"/>

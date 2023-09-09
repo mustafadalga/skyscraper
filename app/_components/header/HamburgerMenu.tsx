@@ -12,7 +12,7 @@ const HamburgerMenu = ({ closeAllMenus, currentUser }: Props) => {
     const loginModal = useLoginModal();
 
     return (
-        <div className="sm:hidden absolute bg-purple-800 top-full left-0 right-0 space-y-1 grid">
+        <div className="sm:hidden absolute z-50 bg-purple-800 top-full left-0 right-0 space-y-1 grid">
             <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/" hoverBgColor={false}>
                 Home
             </NavLink>

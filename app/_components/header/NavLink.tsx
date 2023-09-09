@@ -34,7 +34,7 @@ const NavLink = ({ href, currentUser, toggleMenu, children, hoverBgColor = true 
         }
 
 
-    }, [ href, currentUser.currentGameId ]);
+    }, [ href, currentUser?.currentGameId ]);
     const onClick = () => {
         toggleMenu();
         handleGameExit();

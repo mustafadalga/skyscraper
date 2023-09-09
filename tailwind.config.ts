@@ -14,7 +14,8 @@ const config: Config = {
                 "scale-in-center": "scale-in-center 0.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) forwards",
                 "shadow-pulse": "shadow-pulse 2s infinite",
                 "bounce-in-top": "bounce-in-top 1.1s both",
-                "pulsate-bck": "pulsate-bck 0.5s ease-in-out infinite both"
+                "pulsate-bck": "pulsate-bck 0.5s ease-in-out infinite both",
+                "fade-in-bottom": "fade-in-bottom 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) forwards",
             },
             keyframes: {
                 "scale-out-center": {
@@ -86,16 +87,23 @@ const config: Config = {
                 },
                 'pulsate-bck': {
                     '0%': {
-                        '-webkit-transform': 'scale(1)',
                         transform: 'scale(1)',
                     },
                     '50%': {
-                        '-webkit-transform': 'scale(0.9)',
                         transform: 'scale(0.9)',
                     },
                     '100%': {
-                        '-webkit-transform': 'scale(1)',
                         transform: 'scale(1)',
+                    },
+                },
+                "fade-in-bottom": {
+                    '0%': {
+                        opacity: '0',
+                        transform: "translateY(50px)"
+                    },
+                    '100%': {
+                        opacity: '1',
+                        transform: "translateY(0)"
                     },
                 },
             }
