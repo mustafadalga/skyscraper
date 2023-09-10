@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Game, User } from ".prisma/client";
+import { Badge, Game, User } from ".prisma/client";
 import prisma from "@/_libs/prismadb";
 import handleAxiosError from "@/_utilities/handleAxiosError";
 import getCurrentUser from "@/_actions/getCurrentUser";
@@ -31,7 +31,9 @@ interface IUserDataToUpdate {
     score?: { increment: number },
     avgTime?: number,
     totalGames?: { increment: number },
-    difficulty?: string
+    difficulty?: string,
+    winningStreak: { increment: number } | number,
+    lossStreak: { increment: number } | number
 }
 
 /**
@@ -161,6 +163,7 @@ function getGameDataToUpdate({
 
     return dataToUpdate
 }
+
 /**
  * Constructs an object to update user data based on game status and user's current state.
  * @param currentUser - The current user object.
@@ -171,6 +174,8 @@ function getGameDataToUpdate({
 async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }: IGameDataToUpdate) {
     let userData: IUserDataToUpdate = {
         currentGameId: null,
+        winningStreak: 0,
+        lossStreak: { increment: 1 },
     }
 
     if (!isGameWon) return userData;
@@ -186,7 +191,9 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
         score: { increment: 1 },
         avgTime: avgTime,
         totalGames: { increment: 1 },
-        difficulty
+        difficulty,
+        winningStreak: { increment: 1 },
+        lossStreak: 0
     }
 
     return userData;
@@ -198,7 +205,10 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
  */
 async function handleUserBadgeToUpdate(game: Game) {
     const user = await getCurrentUser() as User;
-    const badges = await getBadges();
+    const { status, data } = await getBadges();
+    if (!status) {
+        throw new Error(data as string);
+    }
     const userBadges = await getUserBadges();
     const userWonGames = await getUserWonGames();
     const userEarnedBadge = calculateUserEarnedBadge({
@@ -206,7 +216,7 @@ async function handleUserBadgeToUpdate(game: Game) {
         user,
         userWonGames,
         userBadges,
-        badges
+        badges: data as Badge[]
     })
 
     if (userEarnedBadge) {

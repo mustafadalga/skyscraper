@@ -32,6 +32,8 @@ model User {
   accounts            Account[]
   games               Game[]      @relation(name: "AllGames")
   badges              UserBadge[]
+  winningStreak       Int         @default(0)
+  lossStreak          Int         @default(0)
 }
 
 model Account {
