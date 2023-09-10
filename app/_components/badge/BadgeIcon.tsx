@@ -3,7 +3,8 @@ import {
     FaHistory, FaCompass, FaChessQueen, FaPuzzlePiece,
     FaFire, FaMedal, FaCrown, FaStar,
     FaBook, FaTrophy, FaAward, FaShieldAlt,
-    FaInfinity
+    FaInfinity,
+    FaLightbulb
 } from 'react-icons/fa';
 import { MdVisibility } from "react-icons/md"
 import { Badge } from "@/_enums";
@@ -20,7 +21,7 @@ const BadgeIcon = ({ badgeID, className }: Props) => {
         case Badge.FastBuilder:
             return <FaStopwatch className={className}/>;
         case Badge.Perfectionist:
-            return <MdVisibility className={className}/>;
+            return <FaLightbulb className={className}/>;
         case Badge.SkyscraperEnthusiast:
             return <FaCity className={className}/>;
         case Badge.NoHintsNeeded:

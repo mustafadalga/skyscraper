@@ -1,6 +1,7 @@
 import { BadgeLevelDetail } from "@/_types";
-import { Badge, User } from ".prisma/client";
+import { Badge as IBadge, User } from ".prisma/client";
 import { badgeLevelDetails, difficulties, dimensions } from "@/_constants";
+import { Badge } from "@/_enums";
 
 /**
  * Upgrade the difficulty and dimension settings for the game.
@@ -51,14 +52,13 @@ function downgradeDifficulty(defaults: BadgeLevelDetail): BadgeLevelDetail {
  * @param userBadges - List of badges earned by the user.
  * @returns ID of the newest badge.
  */
-function getUserNewestBadgeID(badges: Badge[], userBadges: Badge[]): string {
+function getUserNewestBadgeID(badges: IBadge[], userBadges: IBadge[]): string | undefined {
     let newestBadgePriority = badges.length; // Default to 16 if no badges are found
     if (userBadges.length) {
         newestBadgePriority = Math.min(...userBadges.map(item => item.priority));
     }
 
-    const newestBadge = badges.find(badge => badge.priority === newestBadgePriority)!
-    return newestBadge.id
+    return badges.find(badge => badge.priority === newestBadgePriority)?.id
 }
 
 /**
@@ -69,9 +69,9 @@ function getUserNewestBadgeID(badges: Badge[], userBadges: Badge[]): string {
  * @param currentUser - User for whom the settings are being determined.
  * @returns New difficulty and dimension settings.
  */
-export default function getDefaultGameSettings(badges: Badge[], userBadges: Badge[], currentUser: User): BadgeLevelDetail {
-    const userNewestBadgeID: string = getUserNewestBadgeID(badges, userBadges);
-    let defaults: BadgeLevelDetail = badgeLevelDetails[userNewestBadgeID];
+export default function getDefaultGameSettings(badges: IBadge[], userBadges: IBadge[], currentUser: User): BadgeLevelDetail {
+    const userNewestBadgeID: string | undefined = getUserNewestBadgeID(badges, userBadges);
+    let defaults: BadgeLevelDetail = badgeLevelDetails[userNewestBadgeID || Badge.NoviceBuilder];
     // Check if user is new (no badges, no average time)
     if (!userBadges.length && !currentUser.avgTime) {
         return defaults;

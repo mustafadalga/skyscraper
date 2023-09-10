@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
         const badges: Badge[] = await prisma.badge.findMany({
             orderBy: {
-                priority: "desc"
+                priority: "asc"
             }
         });
 

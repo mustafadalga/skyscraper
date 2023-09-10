@@ -52,7 +52,9 @@ const Header = ({ currentUser }: Props) => {
             <div className="mx-auto container sm:px-8">
                 <div className="relative flex h-16 items-center px-4 sm:px-0 justify-between gap-3">
                     <div className="flex flex-shrink-0 items-center">
-                        <TbBuildingSkyscraper className="text-white text-3xl"/>
+                        <NavLink href="/" currentUser={currentUser} toggleMenu={closeAllMenus} hoverBgColor={false}>
+                            <TbBuildingSkyscraper className="text-white text-3xl"/>
+                        </NavLink>
                     </div>
 
                     <div className="hidden sm:flex space-x-4 items-center justify-between w-full ml-5 sm:ml-0">
@@ -60,16 +62,23 @@ const Header = ({ currentUser }: Props) => {
 
                             {currentUser && (
                                 <>
-                                    <NavLink currentUser={currentUser} href="/" toggleMenu={closeAllMenus} hoverBgColor={false}>
+                                    <NavLink currentUser={currentUser} href="/" toggleMenu={closeAllMenus}
+                                             hoverBgColor={false}>
                                         Home
                                     </NavLink>
-                                    <NavLink currentUser={currentUser} href="/game" toggleMenu={closeAllMenus} hoverBgColor={false}>
-                                        Game
+                                    <NavLink currentUser={currentUser} href="/game" toggleMenu={closeAllMenus}
+                                             hoverBgColor={false}>
+                                        Play
                                     </NavLink></>
                             )}
 
-                            <NavLink currentUser={currentUser} href="/leader-board" toggleMenu={closeAllMenus} hoverBgColor={false}>
+                            <NavLink currentUser={currentUser} href="/leader-board" toggleMenu={closeAllMenus}
+                                     hoverBgColor={false}>
                                 Leader Board
+                            </NavLink>
+                            <NavLink currentUser={currentUser} href="/badges" toggleMenu={closeAllMenus}
+                                     hoverBgColor={false}>
+                                Badges
                             </NavLink>
                         </div>
                         {!currentUser && (
