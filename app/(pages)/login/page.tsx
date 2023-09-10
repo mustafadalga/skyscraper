@@ -6,7 +6,7 @@ const Page = () => {
     const loginModal = useLoginModal();
     useEffect(() => {
         loginModal.onOpen();
-    }, [])
+    }, [loginModal])
     return null;
 };
 

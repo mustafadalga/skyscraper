@@ -115,7 +115,7 @@ export default function GameProvider({ children, currentGame }: Props) {
             }));
         }
 
-    }, [ game.id, game.hiddenHintCount, game.usedHiddenHintRights, game.shownHints ]);
+    }, [ game.hints, game.id, game.hiddenHintCount, game.usedHiddenHintRights, game.shownHints ]);
 
     const showAnswer = useCallback(async () => {
         loader.onOpen();
@@ -135,7 +135,7 @@ export default function GameProvider({ children, currentGame }: Props) {
             isGameCompleted: true
         }));
 
-    }, [ game.id, game.validGrid, router ]);
+    }, [ loader, game.hints, game.id, game.validGrid ]);
 
     const newGame = useCallback(async () => {
         const errorMessage = "Oops! We couldn't start new game! Don't worry, give it another try!";
