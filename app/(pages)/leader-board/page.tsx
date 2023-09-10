@@ -11,7 +11,6 @@ interface Top100Users {
 
 const Page = async () => {
     const top100UserData = await getTop100Users() as Top100Users;
-    console.log(top100UserData)
     return (
         <main className="container mx-auto p-10">
             <Header/>

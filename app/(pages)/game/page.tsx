@@ -4,18 +4,18 @@ import { BadgeLevelDetail } from "@/_types";
 import getUserBadges from "@/_actions/getUserBadges";
 import getDefaultGameSettings from "@/_utilities/getDefaultGameOptions";
 import getBadges from "@/_actions/getBadges";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import getGame from "@/_actions/getGame";
+export const dynamic = 'force-dynamic';
 
-const GameOptions = dynamic(() => import("@/_components/game/GameOptions"), { ssr: false })
-const GameProvider = dynamic(() => import("@/_providers/game/GameProvider"), { ssr: false })
-const GameScreen = dynamic(() => import("@/_components/game/GameScreen"))
-
+const GameOptions = dynamicImport(() => import("@/_components/game/GameOptions"), { ssr: false })
+const GameProvider = dynamicImport(() => import("@/_providers/game/GameProvider"), { ssr: false })
+const GameScreen = dynamicImport(() => import("@/_components/game/GameScreen"))
 const Page = async () => {
     const currentUser: User = await getCurrentUser() as User;
     const currentUserBadges: Badge[] = await getUserBadges();
-    const badges: Badge[] = await getBadges();
-    const defaultOptions: BadgeLevelDetail = getDefaultGameSettings(badges, currentUserBadges, currentUser);
+    const badgesData = await getBadges();
+    const defaultOptions: BadgeLevelDetail = getDefaultGameSettings((badgesData.status ? badgesData.data : []) as Badge[], currentUserBadges, currentUser);
     const currentGame: Game | null = currentUser.currentGameId ? await getGame() : null;
     return (
         <article className="grid p-5 pb-20 h-full">

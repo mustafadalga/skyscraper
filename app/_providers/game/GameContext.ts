@@ -24,6 +24,8 @@ const defaultContext: ContextType = {
         isGameCompleted: false,
         isGameWon: false,
         usedHiddenHintRights: 0,
+        isHintRequired: false,
+        hasMistake: false,
         id: "",
         userId: "",
     },
