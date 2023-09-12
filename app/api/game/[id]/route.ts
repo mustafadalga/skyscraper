@@ -5,10 +5,10 @@ import handleAxiosError from "@/_utilities/handleAxiosError";
 import getCurrentUser from "@/_actions/getCurrentUser";
 import calculateUserDifficulty from "@/_utilities/calculateUserDifficulty";
 import calculateNewAvgTime from "@/_utilities/calculateNewAvgTime";
-import getUserBadges from "@/_actions/getUserBadges";
 import calculateUserEarnedBadge from "@/_utilities/calculateUserEarnedBadge";
 import getBadges from "@/_actions/getBadges";
 import getUserWonGames from "@/_actions/getUserWonGames";
+import getBadgesByUserID from "@/_actions/getBadgesByUserID";
 
 /**
  * Interface representing the data to update for a game.
@@ -33,7 +33,8 @@ interface IUserDataToUpdate {
     totalGames?: { increment: number },
     difficulty?: string,
     winningStreak: { increment: number } | number,
-    lossStreak: { increment: number } | number
+    lossStreak: { increment: number } | number,
+    longestWinningStreak?: { increment: number } | number,
 }
 
 /**
@@ -102,7 +103,7 @@ export async function PATCH(request: NextRequest, { params: { id } }: { params: 
         });
 
         await handleUpdateUserData(updatedGame, bodyData);
-        await handleUserBadgeToUpdate(updatedGame);
+        await handleUserBadgeToUpdate(updatedGame,currentUser);
 
         return NextResponse.json({ message: "Game updated successfully." }, { status: 200 });
 
@@ -180,7 +181,7 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
 
     if (!isGameWon) return userData;
 
-    const userBadges = await getUserBadges();
+    const userBadges = await getBadgesByUserID(currentUser.id);
     const userBadgeIds = userBadges.map(badge => badge.id);
     const newGameTime = game.updatedAt.getTime() - game.createdAt.getTime()
     const avgTime = calculateNewAvgTime(currentUser.avgTime, currentUser.totalGames, newGameTime);
@@ -193,7 +194,8 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
         totalGames: { increment: 1 },
         difficulty,
         winningStreak: { increment: 1 },
-        lossStreak: 0
+        lossStreak: 0,
+        longestWinningStreak: longestWinningStreak(game, currentUser)
     }
 
     return userData;
@@ -202,14 +204,15 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
 /**
  * Handles the creation or updating of badges for the user based on the game's state.
  * @param game - The game object.
+ * @param currentUser
  */
-async function handleUserBadgeToUpdate(game: Game) {
+async function handleUserBadgeToUpdate(game: Game, currentUser: User) {
     const user = await getCurrentUser() as User;
     const { status, data } = await getBadges();
     if (!status) {
         throw new Error(data as string);
     }
-    const userBadges = await getUserBadges();
+    const userBadges = await getBadgesByUserID(currentUser.id);
     const userWonGames = await getUserWonGames();
     const userEarnedBadge = calculateUserEarnedBadge({
         game,
@@ -230,3 +233,9 @@ async function handleUserBadgeToUpdate(game: Game) {
 }
 
 
+function longestWinningStreak(game: Game, user: User): number {
+    if ((user.winningStreak + 1) > user.longestWinningStreak) {
+        return (user.winningStreak + 1)
+    }
+    return user.longestWinningStreak;
+}

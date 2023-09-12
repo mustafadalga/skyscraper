@@ -3,9 +3,9 @@ import prisma from "@/_libs/prismadb";
 import type { User, Badge as IBadge } from ".prisma/client";
 import getCurrentUser from "@/_actions/getCurrentUser";
 import handleAxiosError from "@/_utilities/handleAxiosError";
-import getUserHighestBadge from "@/_actions/getUserHighestBadge";
 import { Badge, Difficulty } from "@/_enums";
 import { generateGameBoard } from "@/_utilities/generateGameBoard";
+import getHighestBadgeByUserId from "@/_actions/getHighestBadgeByUserId";
 
 interface IGameData {
     userId: string,
@@ -78,7 +78,7 @@ async function startNewGame(data: IGameData) {
 async function generateGameData(dimension: number, difficulty: Difficulty): Promise<IGameData | null> {
     try {
         const { score, avgTime, id } = await getCurrentUser() as User;
-        const highestBadge: IBadge | null = await getUserHighestBadge();
+        const highestBadge: IBadge | null = await getHighestBadgeByUserId(id);
         let highestBadgeID: Badge | undefined;
         if (highestBadge) {
             highestBadgeID = highestBadge.id as Badge
