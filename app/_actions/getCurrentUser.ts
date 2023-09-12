@@ -28,8 +28,7 @@ export default async function getCurrentUser(): Promise<User | null> {
 
         // Return the current user if found, otherwise return null
         return currentUser || null;
-    } catch (error: any) {
-        // If any error occurs, return null
+    } catch (_) {
         return null;
     }
 }

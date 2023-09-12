@@ -14,10 +14,10 @@ const Page = async () => {
         badges.sort((a, b) => b.priority - a.priority);
     }
     return (
-        <main className="container mx-auto p-10">
+        <article className="container mx-auto p-10">
             <Header/>
             {badgesData.status ? <Badges badges={badges}/> : <BadgesError/>}
-        </main>
+        </article>
     );
 };
 

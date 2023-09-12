@@ -12,14 +12,14 @@ interface Top100Users {
 const Page = async () => {
     const top100UserData = await getTop100Users() as Top100Users;
     return (
-        <main className="container mx-auto p-10">
+        <article className="container mx-auto p-10">
             <Header/>
             {top100UserData.status ? (
                 <LeaderBoard top100={top100UserData.data as IUser[]}/>
             ) : (
                 <LeaderBoardError/>
             )}
-        </main>
+        </article>
     );
 };
 
