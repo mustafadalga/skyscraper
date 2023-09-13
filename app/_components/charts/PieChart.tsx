@@ -1,5 +1,5 @@
 "use client";
-import Chart from 'chart.js/auto';
+import { Chart } from 'chart.js/auto';
 import { useRef, useEffect } from "react";
 
 interface IDataSet {
