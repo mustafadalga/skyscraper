@@ -1,6 +1,7 @@
 import { Game, User } from ".prisma/client";
 import getGamesByUserId from "@/_actions/getGamesByUserId";
-import PieChart from "@/_components/charts/PieChart";
+import dynamic from "next/dynamic";
+const PieChart = dynamic(() => import("@/_components/charts/PieChart"),{ ssr: false })
 
 interface Props {
     user: User
