@@ -102,8 +102,8 @@ export async function PATCH(request: NextRequest, { params: { id } }: { params: 
             data: bodyData as any
         });
 
-        await handleUpdateUserData(updatedGame, bodyData);
-        await handleUserBadgeToUpdate(updatedGame,currentUser);
+        await handleUpdateUserData(updatedGame);
+        await handleUserBadgeToUpdate(updatedGame, currentUser);
 
         return NextResponse.json({ message: "Game updated successfully." }, { status: 200 });
 
@@ -122,11 +122,11 @@ export async function PATCH(request: NextRequest, { params: { id } }: { params: 
  * @param isGameCompleted - Flag indicating whether the game is completed.
  * @param isGameWon - Flag indicating whether the game is won.
  */
-async function handleUpdateUserData(game: Game, { isGameCompleted, isGameWon }: IGameDataToUpdate) {
-    if (!isGameCompleted) return;
-
+async function handleUpdateUserData(game: Game) {
+    if (!game.isGameCompleted) return;
+    console.log(game.isGameCompleted)
     const currentUser = await getCurrentUser() as User;
-    const updatedUser = await getUserDataToUpdate(currentUser, game, { isGameWon })
+    const updatedUser = await getUserDataToUpdate(currentUser, game, { isGameWon: game.isGameWon })
     await prisma.user.update({
         where: { id: currentUser.id },
         data: updatedUser as any
@@ -176,7 +176,7 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
     let userData: IUserDataToUpdate = {
         currentGameId: null,
         winningStreak: 0,
-        lossStreak: { increment: 1 },
+        lossStreak: currentUser.lossStreak + 1,
     }
 
     if (!isGameWon) return userData;
@@ -193,7 +193,7 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
         avgTime: avgTime,
         totalGames: { increment: 1 },
         difficulty,
-        winningStreak: { increment: 1 },
+        winningStreak: currentUser.winningStreak + 1,
         lossStreak: 0,
         longestWinningStreak: longestWinningStreak(game, currentUser)
     }
