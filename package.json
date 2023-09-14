@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "killall -9 node && next dev",
+    "dev": "killall -9 node && NEXT_CPU_PROF=1 next dev",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
@@ -23,7 +23,7 @@
     "eslint-config-next": "13.4.19",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "next": "13.4.19",
+    "next": "^13.4.20-canary.28",
     "next-auth": "^4.20.1",
     "postcss": "8.4.28",
     "react": "18.2.0",
