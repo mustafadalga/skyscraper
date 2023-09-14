@@ -1,0 +1,22 @@
+.rc-card {
+    filter: unset !important;
+}
+
+.rc-card-text {
+    margin: 0 !important;
+    & p {
+        color: #6b7280!important;
+    }
+}
+.rc-card-title{
+    color: #a855f7 !important;
+}
+
+.timeline-item-title {
+    background: transparent !important;
+    color: #a855f7 !important;
+}
+
+.using-icon {
+    background: #a855f7 !important;
+}
