@@ -13,30 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                  String      @id @unique @default(uuid())
-  name                String?
-  email               String?     @unique
-  image               String?
-  score               Int         @default(0)
-  avgTime             Int         @default(0)
-  totalGames          Int         @default(0)
-  difficulty          Difficulty  @default(easy)
-  currentGameId       String?     @unique
-  currentGame         Game?       @relation(name: "CurrentGame", fields: [currentGameId], references: [id])
-  lastCompletedGameId String?     @unique
-  lastCompletedGame   Game?       @relation(name: "LastCompletedGame", fields: [lastCompletedGameId], references: [id])
-  createdAt           DateTime    @default(now())
-  updatedAt           DateTime    @updatedAt
-  emailVerified       DateTime?
-  accounts            Account[]
-  games               Game[]      @relation(name: "AllGames")
-  badges              UserBadge[]
-  winningStreak       Int         @default(0)
-  lossStreak          Int         @default(0)
-  longestWinningStreak Int @default(0)
-}
-
 model Account {
   id                String  @id @unique @default(uuid())
   userId            String
@@ -53,6 +29,30 @@ model Account {
   type              String
 
   @@unique([provider, providerAccountId])
+}
+
+model User {
+  id                   String      @id @unique @default(uuid())
+  name                 String?
+  email                String?     @unique
+  image                String?
+  score                Int         @default(0)
+  avgTime              Int         @default(0)
+  totalGames           Int         @default(0)
+  difficulty           Difficulty  @default(easy)
+  currentGameId        String?     @unique
+  currentGame          Game?       @relation(name: "CurrentGame", fields: [currentGameId], references: [id])
+  lastCompletedGameId  String?     @unique
+  lastCompletedGame    Game?       @relation(name: "LastCompletedGame", fields: [lastCompletedGameId], references: [id])
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  emailVerified        DateTime?
+  accounts             Account[]
+  games                Game[]      @relation(name: "AllGames")
+  badges               UserBadge[]
+  winningStreak        Int         @default(0)
+  lossStreak           Int         @default(0)
+  longestWinningStreak Int         @default(0)
 }
 
 model Game {
@@ -91,10 +91,11 @@ model Badge {
 }
 
 model UserBadge {
-  userId  String
-  badgeId String
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  badge   Badge  @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  userId    String
+  badgeId   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge     Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 
   @@id([userId, badgeId])
 }
