@@ -16,7 +16,6 @@ interface Props {
 }
 
 export default function TimelineView({ items, mode, cardHeight }: Props) {
-    console.log(1, items)
     return (
         <Chrono items={items}
                 mode={mode}
