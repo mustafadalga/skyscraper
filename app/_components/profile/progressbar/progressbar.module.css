@@ -1,0 +1,36 @@
+.progressBar {
+    --progress-bar-width: 0;
+    --percent: 0;
+    --badge-icon-color: #a855f7;
+}
+.progressBar::after{
+    width: var(--progress-bar-width);
+    animation: progressBarAnimation 1s ease-in-out forwards;
+
+}
+
+.percent {
+    margin-left: var(--percent);
+    animation: percentAnimation 1s ease-in-out forwards;
+}
+
+.badgeIconColor {
+    color: var(--badge-icon-color);
+}
+@keyframes progressBarAnimation {
+    from {
+        width: 0;
+    }
+    to {
+        width: var(--progress-bar-width);
+    }
+}
+
+@keyframes percentAnimation {
+    from {
+        margin-left: 0;
+    }
+    to {
+        margin-left: var(--percent);
+    }
+}
