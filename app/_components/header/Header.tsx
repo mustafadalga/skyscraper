@@ -69,7 +69,12 @@ const Header = ({ currentUser }: Props) => {
                                     <NavLink currentUser={currentUser} href="/game" toggleMenu={closeAllMenus}
                                              hoverBgColor={false}>
                                         Play
-                                    </NavLink></>
+                                    </NavLink>
+                                    <NavLink currentUser={currentUser} href="/hall-of-wins" toggleMenu={closeAllMenus}
+                                             hoverBgColor={false}>
+                                        Hall of Wins
+                                    </NavLink>
+                                </>
                             )}
 
                             <NavLink currentUser={currentUser} href="/leader-board" toggleMenu={closeAllMenus}
