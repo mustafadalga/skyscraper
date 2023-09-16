@@ -94,7 +94,7 @@ const GameOptions = ({ defaultOptions }: Props) => {
                 <button
                     onClick={handleStartGame}
                     className="bg-purple-600 hover:bg-purple-800 transition-all shadow text-white px-5 py-2 rounded-lg">
-                    Start Game
+                    Play
                 </button>
             </div>
         </section>

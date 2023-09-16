@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {  User } from ".prisma/client";
+import { User } from ".prisma/client";
 
 interface Props {
     user: User
@@ -13,7 +13,10 @@ export default function Header({ user }: Props) {
                 <Image src="https://images.unsplash.com/photo-1516464174449-3fc3cc40525f"
                        className="w-full h-full object-cover"
                        alt="Profile background image"
-                       width={1600} height={256}/>
+                       priority
+                       width="0"
+                       height="0"
+                       sizes="100vw"/>
             </div>
             <div>
                 <Image
@@ -21,6 +24,7 @@ export default function Header({ user }: Props) {
                     width={64}
                     alt={user.name as string}
                     height={64}
+                    priority
                     className="mx-auto -mt-10 lg:-mt-14 xl:-mt-20 w-20 h-20 lg:w-32 lg:h-32 xl:w-40 xl:h-40 border-4 border-white rounded-full"/>
 
                 <h1 className="w-full px-5 py-1 text-center truncate font-bold text-xl xl:text-2xl text-purple-500">{user.name}</h1>
