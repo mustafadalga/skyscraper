@@ -17,7 +17,10 @@ const HamburgerMenu = ({ closeAllMenus, currentUser }: Props) => {
                 Home
             </NavLink>
             <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/game" hoverBgColor={false}>
-                Game
+                Play
+            </NavLink>
+            <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/hall-of-wins" hoverBgColor={false}>
+                Hall of Wins
             </NavLink>
             <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/leader-board" hoverBgColor={false}>
                 Leader Board
