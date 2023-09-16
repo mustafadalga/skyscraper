@@ -7,12 +7,14 @@ export interface OptionType {
 
 interface CustomSelectProps extends Omit<SelectProps<OptionType, false, GroupBase<OptionType>>, 'options'> {
     options: Array<OptionType>;
+    isClearable?: boolean;
 }
 
-const CustomSelect = ({ options, ...restProps }: CustomSelectProps) => {
+const CustomSelect = ({ options, isClearable, ...restProps }: CustomSelectProps) => {
     return (
         <Select
             options={options}
+            isClearable={isClearable}
             theme={(theme) => ({
                 ...theme,
                 colors: {
@@ -30,13 +32,6 @@ const CustomSelect = ({ options, ...restProps }: CustomSelectProps) => {
                     neutral80: '#111827',
                 },
             })}
-            styles={{
-                menuList: (base) => ({
-                    ...base,
-                    paddingTop: 0,
-                    paddingBottom: 0,
-                }),
-            }}
             className="text-xs lg:text-sm"
             {...restProps}
         />
