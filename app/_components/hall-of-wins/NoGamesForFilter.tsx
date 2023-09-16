@@ -1,5 +1,4 @@
 import useHallOfWins from "@/_components/hall-of-wins/useHallOfWins";
-import { TimeFrame } from "@/_enums";
 
 export default function NoGamesForFilter() {
     const { reset } = useHallOfWins();

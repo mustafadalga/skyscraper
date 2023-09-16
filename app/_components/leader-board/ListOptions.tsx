@@ -1,22 +1,23 @@
-import { Button, useLeaderBoardStore } from "@/_store/useLeaderBoardStore";
+import useLeaderBoardStore from "./useLeaderBoardStore";
+import { TimeFrame } from "@/_enums";
 
 const ListOptions = () => {
-    const setSelectedButton = useLeaderBoardStore(state => state.setSelectedButton);
+    const { setTimeFrame } = useLeaderBoardStore();
     return (
-        <div className="flex justify-end gap-4 border-b border-purple-400 p-5">
+        <div className="flex mx-auto lg:mx-0 w-full justify-center lg:justify-end gap-4 border-b border-purple-400 pb-5">
             <button type="button"
-                    onClick={() => setSelectedButton(Button.Top100)}
-                    className="flex items-center justify-center gap-3 px-5 py-1 rounded-md shadow transition-all bg-purple-500 hover:bg-purple-600 text-white truncate">
-                <span className="text-white">Top 100</span>
+                    onClick={() => setTimeFrame(TimeFrame.All)}
+                    className="flex items-center justify-center gap-3 px-5 py-1 rounded-md shadow transition-all bg-purple-500 hover:bg-purple-600 text-white text-xs lg:text-sm truncate">
+                <span>Top 100</span>
             </button>
             <button type="button"
-                    onClick={() => setSelectedButton(Button.ThisMonth)}
-                    className="flex items-center justify-center gap-3 px-5 py-1 rounded-md shadow transition-all bg-purple-500 hover:bg-purple-600 text-white truncate">
-                <span className="text-white">This Month</span>
+                    onClick={() => setTimeFrame(TimeFrame.ThisMonth)}
+                    className="flex items-center justify-center gap-3 px-5 py-1 rounded-md shadow transition-all bg-purple-500 hover:bg-purple-600 text-white text-xs lg:text-sm truncate">
+                <span>This Month</span>
             </button>
             <button type="button"
-                    onClick={() => setSelectedButton(Button.ThisWeek)}
-                    className="flex items-center justify-center gap-3 px-5 py-1 rounded-md shadow transition-all bg-purple-500 hover:bg-purple-600 text-white truncate">
+                    onClick={() => setTimeFrame(TimeFrame.ThisWeek)}
+                    className="flex items-center justify-center gap-3 px-5 py-1 rounded-md shadow transition-all bg-purple-500 hover:bg-purple-600 text-white text-xs lg:text-sm truncate">
                 <span>This Week</span>
             </button>
         </div>

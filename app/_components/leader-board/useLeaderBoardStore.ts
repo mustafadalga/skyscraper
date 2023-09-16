@@ -1,20 +1,15 @@
 import { create } from 'zustand';
-
-export enum Button {
-    Top100,
-    ThisMonth,
-    ThisWeek
-}
+import { TimeFrame } from "@/_enums";
 
 interface LeaderBoardStore {
-    selectedButton: Button,
-    setSelectedButton: (selectedButton: Button) => void;
+    timeFrame: TimeFrame,
+    setTimeFrame: (selectedButton: TimeFrame) => void;
 }
 
 
-export const useLeaderBoardStore = create<LeaderBoardStore>((set) => ({
-    selectedButton: Button.Top100,
-    setSelectedButton: (selectedButton: Button) => set({ selectedButton }),
+export default create<LeaderBoardStore>((set) => ({
+    timeFrame: TimeFrame.All,
+    setTimeFrame: (timeFrame: TimeFrame) => set({ timeFrame }),
 }));
 
 
