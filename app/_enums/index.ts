@@ -31,3 +31,9 @@ export enum Direction {
     RIGHT = "right",
     BOTTOM = "bottom"
 }
+
+export enum TimeFrame {
+    All,
+    ThisMonth,
+    ThisWeek
+}
