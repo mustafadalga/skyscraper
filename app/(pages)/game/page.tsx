@@ -6,12 +6,16 @@ import getBadges from "@/_actions/getBadges";
 import dynamicImport from "next/dynamic";
 import getGame from "@/_actions/getGame";
 import getBadgesByUserID from "@/_actions/getBadgesByUserID";
+import { redirect } from "next/navigation";
 
 const GameOptions = dynamicImport(() => import("@/_components/game/GameOptions"), { ssr: false })
 const GameProvider = dynamicImport(() => import("@/_providers/game/GameProvider"), { ssr: false })
 const GameScreen = dynamicImport(() => import("@/_components/game/GameScreen"))
 const Page = async () => {
     const currentUser: User = await getCurrentUser() as User;
+    if (!currentUser) {
+        redirect("/");
+    }
     const userBadgeData = await getBadgesByUserID(currentUser.id);
     const earnedBadges = userBadgeData.map(badge => badge.badge);
     const badgesData = await getBadges();
