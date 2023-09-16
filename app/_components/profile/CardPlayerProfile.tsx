@@ -14,7 +14,7 @@ export default async function CardPlayerProfile({ user }: Props) {
     const games: Game[] = await getGamesByUserId(user.id) as Game[];
     const gameCount = games ? games.length : 0;
     const joined = () => {
-        const formattedDate = moment(user.createdAt).format('DD MMM YYYY');
+        const formattedDate = moment(user.createdAt).format('MM/DD/YYYY');
         const daysAgo = moment().diff(moment(user.createdAt), 'days');
         return `${formattedDate} (${daysAgo} days ago)`;
     }
