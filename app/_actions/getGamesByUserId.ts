@@ -2,17 +2,20 @@ import prisma from "@/_libs/prismadb";
 import { Game } from ".prisma/client";
 
 
-export default async function getGamesByUserId(userId: string): Promise<Game[] | null> {
+export default async function getGamesByUserId(userId: string): Promise<Game[]> {
     try {
         const games = await prisma.game.findMany({
             where: {
                 userId
             },
+            orderBy: {
+                updatedAt: "desc"
+            }
         })
 
         return games || null;
 
     } catch (error: any) {
-        return null;
+        return [];
     }
 }
