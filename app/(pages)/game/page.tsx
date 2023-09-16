@@ -12,9 +12,10 @@ const GameProvider = dynamicImport(() => import("@/_providers/game/GameProvider"
 const GameScreen = dynamicImport(() => import("@/_components/game/GameScreen"))
 const Page = async () => {
     const currentUser: User = await getCurrentUser() as User;
-    const currentUserBadges: Badge[] = await getBadgesByUserID(currentUser.id);
+    const userBadgeData = await getBadgesByUserID(currentUser.id);
+    const earnedBadges = userBadgeData.map(badge => badge.badge);
     const badgesData = await getBadges();
-    const defaultOptions: BadgeLevelDetail = getDefaultGameSettings((badgesData.status ? badgesData.data : []) as Badge[], currentUserBadges, currentUser);
+    const defaultOptions: BadgeLevelDetail = getDefaultGameSettings((badgesData.status ? badgesData.data : []) as Badge[], earnedBadges, currentUser);
     const currentGame: Game | null = currentUser.currentGameId ? await getGame() : null;
     return (
         <article className="container mx-auto grid p-5 pb-20 h-full">
