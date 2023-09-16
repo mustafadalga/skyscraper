@@ -124,7 +124,6 @@ export async function PATCH(request: NextRequest, { params: { id } }: { params: 
  */
 async function handleUpdateUserData(game: Game) {
     if (!game.isGameCompleted) return;
-    console.log(game.isGameCompleted)
     const currentUser = await getCurrentUser() as User;
     const updatedUser = await getUserDataToUpdate(currentUser, game, { isGameWon: game.isGameWon })
     await prisma.user.update({
@@ -182,7 +181,8 @@ async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }:
     if (!isGameWon) return userData;
 
     const userBadges = await getBadgesByUserID(currentUser.id);
-    const userBadgeIds = userBadges.map(badge => badge.id);
+    const userEarnedBadges = userBadges.map(badge => badge.badge);
+    const userBadgeIds = userEarnedBadges.map(badge => badge.id);
     const newGameTime = game.updatedAt.getTime() - game.createdAt.getTime()
     const avgTime = calculateNewAvgTime(currentUser.avgTime, currentUser.totalGames, newGameTime);
     const avgTimeInSeconds = avgTime / 1000;
@@ -212,7 +212,8 @@ async function handleUserBadgeToUpdate(game: Game, currentUser: User) {
     if (!status) {
         throw new Error(data as string);
     }
-    const userBadges = await getBadgesByUserID(currentUser.id);
+    const userBadgesData = await getBadgesByUserID(currentUser.id);
+    const userBadges = userBadgesData.map(badge => badge.badge)
     const userWonGames = await getUserWonGames();
     const userEarnedBadge = calculateUserEarnedBadge({
         game,
