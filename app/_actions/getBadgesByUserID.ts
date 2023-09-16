@@ -1,8 +1,12 @@
 import prisma from "@/_libs/prismadb";
 import { Badge } from ".prisma/client";
 
+type IReturn = {
+    createdAt: Date,
+    badge: Badge
+}[]
 
-export default async function getBadgesByUserID(userId: string): Promise<Badge[]> {
+export default async function getBadgesByUserID(userId: string): Promise<IReturn> {
     try {
         const badges = await prisma.userBadge.findMany({
             where: {
@@ -17,8 +21,7 @@ export default async function getBadgesByUserID(userId: string): Promise<Badge[]
                 }
             }
         })
-
-        return badges.map(badge => badge.badge) || [];
+        return badges || [];
 
     } catch (error: any) {
         return [];
