@@ -1,6 +1,8 @@
-import DoughNutChart from "@/_components/charts/DoughNutChart";
 import { Game, User } from ".prisma/client";
 import getGamesByUserId from "@/_actions/getGamesByUserId";
+import dynamic from "next/dynamic";
+
+const DoughNutChart = dynamic(() => import("@/_components/charts/DoughNutChart"), { ssr: false })
 
 interface Props {
     user: User
@@ -9,7 +11,6 @@ interface Props {
 export default async function CardStreakSummary({ user }: Props) {
     const games: Game[] = await getGamesByUserId(user.id) as Game[];
     const gameCount = games ? games.length : 0;
-    console.log(gameCount, user.longestWinningStreak)
     const longestWinningStreak = {
         labels: [ "Longest Winning Streak", "Game Count" ],
         datasets: [
