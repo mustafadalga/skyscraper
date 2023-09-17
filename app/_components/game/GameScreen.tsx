@@ -7,17 +7,17 @@ import GameStopWatch from "./GameStopWatch";
 import GameTrophy from "./GameTrophy";
 
 const GameScreen = () => {
-    const { game: { isGameWon, id } } = useGame();
+    const { game, updateGridCell } = useGame();
     return (
         <section
-            className={`${isGameWon ? "lg:pt-60" : ""} flex items-center justify-center h-full`}>
+            className={`${game.isGameWon ? "lg:pt-60" : ""} flex items-center justify-center h-full`}>
             <div
                 className="relative pt-20 grid content-start grid-rows-[48px_auto_48px] grid-cols-[48px_auto_48px] gap-5">
-                <GameHints/>
-                <GameBoard/>
+                <GameHints game={game}/>
+                <GameBoard game={game} updateGridCell={updateGridCell}/>
                 <GameBoardOptionGroup/>
             </div>
-            <GameStopWatch key={id}/>
+            <GameStopWatch key={game.id}/>
             <GameTrophy/>
         </section>
     );

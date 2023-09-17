@@ -1,19 +1,13 @@
 import axios from "axios";
-import getCurrentUser from "./getCurrentUser";
-import { Game } from ".prisma/client";
+import { Game, User } from ".prisma/client";
 
-export default async function getGame(): Promise<Game | null> {
+export default async function getGame(user: User): Promise<Game | null> {
     try {
-        const currentUser = await getCurrentUser();
-        if (!currentUser) {
-            return null;
-        }
-
         const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-        const url = `${baseUrl}/api/game/${currentUser.currentGameId}`
+        const url = `${baseUrl}/api/game/${user.currentGameId}`
         const { data } = await axios.get<Game>(url, {
             params: {
-                userID: currentUser.id
+                userID: user.id
             }
         });
         return data;

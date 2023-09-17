@@ -20,7 +20,7 @@ const Page = async () => {
     const earnedBadges = userBadgeData.map(badge => badge.badge);
     const badgesData = await getBadges();
     const defaultOptions: BadgeLevelDetail = getDefaultGameSettings((badgesData.status ? badgesData.data : []) as Badge[], earnedBadges, currentUser);
-    const currentGame: Game | null = currentUser.currentGameId ? await getGame() : null;
+    const currentGame: Game | null = currentUser.currentGameId ? await getGame(currentUser) : null;
     return (
         <article className="container mx-auto grid p-5 pb-20 h-full">
             {currentGame ? (

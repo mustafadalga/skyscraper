@@ -1,9 +1,8 @@
-"use client";
 import { memo, useCallback } from "react";
-import useGame from "@/_providers/game/useGame";
 import checkHintVisibilityAgainstFilledGrid from "@/_utilities/checkHintVisibilityAgainstFilledGrid";
 import { Direction } from "@/_enums";
 import { IHintCheckResult } from "@/_types";
+import { IGame } from "@/_providers/game/types";
 
 interface IDirection {
     id: Direction,
@@ -26,8 +25,8 @@ const calculateHintSize = (dimension: number) => {
 };
 
 
-const GameHints = () => {
-    const { game: { shownHints, filledGrid,dimension } } = useGame();
+const GameHints = ({ game }: { game: IGame }) => {
+    const { shownHints, filledGrid, dimension } = game;
     const hintCheckResult: IHintCheckResult = checkHintVisibilityAgainstFilledGrid(shownHints, filledGrid);
     const directionClassNames: IDirection[] = [
         {

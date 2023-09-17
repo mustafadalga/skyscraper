@@ -1,5 +1,5 @@
 "use client";
-import useConfirmModal from "@/_store/useConfirmModal";
+import useModalConfirm from "@/_store/useModalConfirm";
 import useGame from "@/_providers/game/useGame";
 import { HiLightBulb } from "react-icons/hi"
 
@@ -16,7 +16,7 @@ export default function GameBoardOptionGroup() {
         }
     } = useGame();
     const hasHintRight = hiddenHintCount - usedHiddenHintRights;
-    const confirmModal = useConfirmModal();
+    const modalConfirm = useModalConfirm();
     const handleGiveAHint = () => {
         if (!hasHintRight || isGameCompleted) return;
 
@@ -25,12 +25,12 @@ export default function GameBoardOptionGroup() {
     const handleShowAnswer = () => {
         if (isGameCompleted) return;
 
-        confirmModal.actionLabel = "Show Answer";
-        confirmModal.submitMethod = showAnswer;
-        confirmModal.description = "Are you sure to see answer?"
-        confirmModal.icon = HiLightBulb;
-        confirmModal.secondaryActionLabel = "Close";
-        confirmModal.onOpen();
+        modalConfirm.actionLabel = "Show Answer";
+        modalConfirm.submitMethod = showAnswer;
+        modalConfirm.description = "Are you sure to see answer?"
+        modalConfirm.icon = HiLightBulb;
+        modalConfirm.secondaryActionLabel = "Close";
+        modalConfirm.onOpen();
     }
     return (
         <div
