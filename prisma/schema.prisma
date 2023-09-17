@@ -42,8 +42,6 @@ model User {
   difficulty           Difficulty  @default(easy)
   currentGameId        String?     @unique
   currentGame          Game?       @relation(name: "CurrentGame", fields: [currentGameId], references: [id])
-  lastCompletedGameId  String?     @unique
-  lastCompletedGame    Game?       @relation(name: "LastCompletedGame", fields: [lastCompletedGameId], references: [id])
   createdAt            DateTime    @default(now())
   updatedAt            DateTime    @updatedAt
   emailVerified        DateTime?
@@ -64,7 +62,6 @@ model Game {
   updatedAt            DateTime   @updatedAt
   user                 User       @relation(name: "AllGames", fields: [userId], references: [id], onDelete: Cascade)
   currentPlayer        User?      @relation(name: "CurrentGame")
-  lastPlayer           User?      @relation(name: "LastCompletedGame")
   validGrid            String
   filledGrid           String
   hints                String
