@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useState } from "react";
 import { ICell } from "@/_types";
 import { tailwindGridClassNames } from "@/_constants";

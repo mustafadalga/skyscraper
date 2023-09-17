@@ -13,7 +13,7 @@ export default function IconAvatarGroup() {
                        alt="Avatar"/>
             ))}
             <div
-                className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800">
+                className="flex items-center justify-center w-10 h-10 lg:w-12 lg:h-12 text-xs font-medium text-white bg-purple-500 border-2 border-white rounded-full">
                 +99
             </div>
         </div>

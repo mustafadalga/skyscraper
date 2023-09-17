@@ -1,3 +1,4 @@
+"use client";
 import { memo, useCallback } from "react";
 import checkHintVisibilityAgainstFilledGrid from "@/_utilities/checkHintVisibilityAgainstFilledGrid";
 import { Direction } from "@/_enums";
