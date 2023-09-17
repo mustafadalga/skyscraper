@@ -1,41 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Badge, Game, User } from ".prisma/client";
+import { User } from ".prisma/client";
 import prisma from "@/_libs/prismadb";
 import handleAxiosError from "@/_utilities/handleAxiosError";
 import getCurrentUser from "@/_actions/getCurrentUser";
-import calculateUserDifficulty from "@/_utilities/calculateUserDifficulty";
-import calculateNewAvgTime from "@/_utilities/calculateNewAvgTime";
-import calculateUserEarnedBadge from "@/_utilities/calculateUserEarnedBadge";
-import getBadges from "@/_actions/getBadges";
-import getUserWonGames from "@/_actions/getUserWonGames";
-import getBadgesByUserID from "@/_actions/getBadgesByUserID";
-
-/**
- * Interface representing the data to update for a game.
- */
-interface IGameDataToUpdate {
-    shownHints?: string,
-    filledGrid?: string,
-    usedHiddenHintRights?: number,
-    isGameCompleted?: boolean,
-    isGameWon?: boolean,
-    hasMistake?: boolean
-    isHintRequired?: boolean
-}
-
-/**
- * Interface representing the data to update for a user.
- */
-interface IUserDataToUpdate {
-    currentGameId: null,
-    score?: { increment: number },
-    avgTime?: number,
-    totalGames?: { increment: number },
-    difficulty?: string,
-    winningStreak: { increment: number } | number,
-    lossStreak: { increment: number } | number,
-    longestWinningStreak?: { increment: number } | number,
-}
+import {
+    getGameDataToUpdate,
+    handleCreateBadge,
+    handleInvalidRequest,
+    handleUpdateUser,
+} from "./utilities";
 
 /**
  * Handles GET request to fetch current game for a user.
@@ -44,32 +17,39 @@ interface IUserDataToUpdate {
  */
 export async function GET(request: NextRequest) {
     try {
+
         const userID = request.nextUrl.searchParams.get("userID");
         if (!userID) {
             return NextResponse.json({ message: "Please login to start a new game!" }, { status: 403 });
         }
 
         // Fetch the current user along with their currentGameId
-        const userWithCurrentGame = await prisma.user.findUnique({
+        const currentGame = await prisma.user.findUnique({
             where: { id: userID },
             select: {
-                currentGameId: true,
+                currentGame: {
+                    select: {
+                        id: true,
+                        isGameCompleted: true,
+                        difficulty: true,
+                        dimension: true,
+                        isGameWon: true,
+                        usedHiddenHintRights: true,
+                        hiddenHintCount: true,
+                        shownHints: true,
+                        hints: true,
+                        filledGrid: true,
+                        validGrid: true,
+                        createdAt: true,
+                    },
+                },
             },
         });
 
-        if (!userWithCurrentGame || !userWithCurrentGame.currentGameId) {
+        if (!currentGame?.currentGame) {
             return NextResponse.json({ message: "No active game found." }, { status: 404 });
         }
-
-        // Fetch the current game based on currentGameId
-        const currentGame = await prisma.game.findUnique({
-            where: { id: userWithCurrentGame.currentGameId },
-        });
-
-        if (!currentGame) {
-            return NextResponse.json({ message: "No active game found." }, { status: 404 });
-        }
-        return NextResponse.json(currentGame, { status: 200 });
+        return NextResponse.json(currentGame.currentGame, { status: 200 });
 
     } catch (error) {
         const { message, status } = handleAxiosError(error, "An unexpected error occurred. Please try again.");
@@ -86,13 +66,8 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest, { params: { id } }: { params: { id: string } }) {
     try {
         const currentUser = await getCurrentUser() as User;
-
-        if (!currentUser) {
-            return NextResponse.json({ message: "You must be logged in to update the game. Please log in and try again." }, { status: 403 });
-        }
-
-        if (!id) {
-            return NextResponse.json({ message: "Game ID is missing. Please make sure you're accessing the game correctly." }, { status: 400 });
+        if (!currentUser || !id) {
+            return handleInvalidRequest(currentUser, id)
         }
 
         const body = await request.json();
@@ -102,8 +77,12 @@ export async function PATCH(request: NextRequest, { params: { id } }: { params: 
             data: bodyData as any
         });
 
-        await handleUpdateUserData(updatedGame);
-        await handleUserBadgeToUpdate(updatedGame, currentUser);
+        if (updatedGame.isGameCompleted) {
+            await handleUpdateUser(currentUser, updatedGame);
+        }
+        if (updatedGame.isGameWon) {
+            await handleCreateBadge(updatedGame);
+        }
 
         return NextResponse.json({ message: "Game updated successfully." }, { status: 200 });
 
@@ -116,127 +95,3 @@ export async function PATCH(request: NextRequest, { params: { id } }: { params: 
     }
 }
 
-/**
- * Updates the user's data based on the game completion status.
- * @param game - The game object.
- * @param isGameCompleted - Flag indicating whether the game is completed.
- * @param isGameWon - Flag indicating whether the game is won.
- */
-async function handleUpdateUserData(game: Game) {
-    if (!game.isGameCompleted) return;
-    const currentUser = await getCurrentUser() as User;
-    const updatedUser = await getUserDataToUpdate(currentUser, game, { isGameWon: game.isGameWon })
-    await prisma.user.update({
-        where: { id: currentUser.id },
-        data: updatedUser as any
-    });
-}
-
-/**
- * Constructs an object to update game data based on the received parameters.
- * @param filledGrid - The filled grid of the game.
- * @param shownHints - The shown hints in the game.
- * @param usedHiddenHintRights - The number of used hidden hint rights.
- * @param isGameCompleted - Flag indicating whether the game is completed.
- * @param isGameWon - Flag indicating whether the game is won.
- * @param hasMistake - Flag indicating whether the game has a mistake.
- * @returns An object representing the data to update in the game.
- */
-function getGameDataToUpdate({
-                                 filledGrid,
-                                 shownHints,
-                                 usedHiddenHintRights,
-                                 isGameCompleted,
-                                 isGameWon,
-                                 hasMistake
-                             }: IGameDataToUpdate) {
-    const dataToUpdate: IGameDataToUpdate = {};
-    if (shownHints !== undefined) dataToUpdate.shownHints = shownHints;
-    if (usedHiddenHintRights !== undefined) {
-        dataToUpdate.usedHiddenHintRights = usedHiddenHintRights;
-        dataToUpdate.isHintRequired = usedHiddenHintRights > 0;
-    }
-    if (filledGrid !== undefined) dataToUpdate.filledGrid = filledGrid;
-    if (isGameCompleted) dataToUpdate.isGameCompleted = isGameCompleted;
-    if (isGameWon) dataToUpdate.isGameWon = isGameWon
-    if (hasMistake) dataToUpdate.hasMistake = hasMistake
-
-    return dataToUpdate
-}
-
-/**
- * Constructs an object to update user data based on game status and user's current state.
- * @param currentUser - The current user object.
- * @param game - The game object.
- * @param isGameWon - Flag indicating whether the game is won.
- * @returns An object representing the data to update for the user.
- */
-async function getUserDataToUpdate(currentUser: User, game: Game, { isGameWon }: IGameDataToUpdate) {
-    let userData: IUserDataToUpdate = {
-        currentGameId: null,
-        winningStreak: 0,
-        lossStreak: currentUser.lossStreak + 1,
-    }
-
-    if (!isGameWon) return userData;
-
-    const userBadges = await getBadgesByUserID(currentUser.id);
-    const userEarnedBadges = userBadges.map(badge => badge.badge);
-    const userBadgeIds = userEarnedBadges.map(badge => badge.id);
-    const newGameTime = game.updatedAt.getTime() - game.createdAt.getTime()
-    const avgTime = calculateNewAvgTime(currentUser.avgTime, currentUser.totalGames, newGameTime);
-    const avgTimeInSeconds = avgTime / 1000;
-    const difficulty = calculateUserDifficulty(currentUser.score + 1, avgTimeInSeconds, userBadgeIds);
-    userData = {
-        ...userData,
-        score: { increment: 1 },
-        avgTime: avgTime,
-        totalGames: { increment: 1 },
-        difficulty,
-        winningStreak: currentUser.winningStreak + 1,
-        lossStreak: 0,
-        longestWinningStreak: longestWinningStreak(game, currentUser)
-    }
-
-    return userData;
-}
-
-/**
- * Handles the creation or updating of badges for the user based on the game's state.
- * @param game - The game object.
- * @param currentUser
- */
-async function handleUserBadgeToUpdate(game: Game, currentUser: User) {
-    const user = await getCurrentUser() as User;
-    const { status, data } = await getBadges();
-    if (!status) {
-        throw new Error(data as string);
-    }
-    const userBadgesData = await getBadgesByUserID(currentUser.id);
-    const userBadges = userBadgesData.map(badge => badge.badge)
-    const userWonGames = await getUserWonGames();
-    const userEarnedBadge = calculateUserEarnedBadge({
-        game,
-        user,
-        userWonGames,
-        userBadges,
-        badges: data as Badge[]
-    })
-
-    if (userEarnedBadge) {
-        await prisma.userBadge.create({
-            data: {
-                userId: user.id,
-                badgeId: userEarnedBadge
-            }
-        })
-    }
-}
-
-
-function longestWinningStreak(game: Game, user: User): number {
-    if ((user.winningStreak + 1) > user.longestWinningStreak) {
-        return (user.winningStreak + 1)
-    }
-    return user.longestWinningStreak;
-}
