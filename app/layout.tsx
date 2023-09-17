@@ -7,9 +7,10 @@ import getCurrentUser from "@/_actions/getCurrentUser";
 import { User } from ".prisma/client";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ReactNode } from "react";
 
-const LoginModal = dynamic(() => import("@/_components/modals/ModalLogin"), { ssr: false });
-const ConfirmModal = dynamic(() => import("@/_components/modals/ModalConfirm"), { ssr: false });
+const ModalLogin = dynamic(() => import("@/_components/modals/ModalLogin"), { ssr: false });
+const ModalConfirm = dynamic(() => import("@/_components/modals/ModalConfirm"), { ssr: false });
 const LoaderV2 = dynamic(() => import("@/_components/loader/LoaderV2"), { ssr: false });
 
 const roboto = Roboto({
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
 }
 
 interface Props {
-    children: React.ReactNode
+    children: ReactNode
 }
 
 export default async function RootLayout({ children }: Props) {
@@ -59,8 +60,8 @@ export default async function RootLayout({ children }: Props) {
         <html lang="en">
         <body className={`${roboto.className} bg-purple-50 text-gray-900 min-h-screen flex flex-col`}>
         <Header currentUser={currentUser}/>
-        <LoginModal/>
-        <ConfirmModal/>
+        <ModalLogin/>
+        <ModalConfirm/>
         <LoaderV2/>
         <main className="container mx-auto flex-grow grid">
             {children}

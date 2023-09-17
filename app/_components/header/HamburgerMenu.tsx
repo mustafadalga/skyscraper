@@ -1,7 +1,7 @@
 import React from 'react';
 import NavLink from "@/_components/header/NavLink";
 import { User } from ".prisma/client";
-import useLoginModal from "@/_store/useLoginModal";
+import useModalLogin from "@/_store/useModalLogin";
 
 interface Props {
     closeAllMenus: () => void,
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const HamburgerMenu = ({ closeAllMenus, currentUser }: Props) => {
-    const loginModal = useLoginModal();
+    const { onOpen } = useModalLogin();
 
     return (
         <div className="sm:hidden absolute z-50 bg-purple-800 top-full left-0 right-0 space-y-1 grid">
@@ -30,7 +30,7 @@ const HamburgerMenu = ({ closeAllMenus, currentUser }: Props) => {
                 <button type="button"
                         onClick={() => {
                             closeAllMenus();
-                            loginModal.onOpen()
+                            onOpen()
                         }}
                         className="text-left text-gray-300 hover:bg-purple-600 hover:text-white text-sm font-medium block px-3 py-2 rounded-md">Sign
                     In

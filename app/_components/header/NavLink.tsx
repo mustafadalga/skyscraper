@@ -29,7 +29,6 @@ const NavLink = ({ href, currentUser, toggleMenu, children, hoverBgColor = true 
             return true;
 
         } catch (error) {
-            console.log(error)
             return false;
         }
 

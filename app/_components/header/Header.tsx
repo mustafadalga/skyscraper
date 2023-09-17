@@ -3,7 +3,7 @@ import { TbBuildingSkyscraper } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useCallback, useEffect, useReducer, useRef } from "react";
 import { User } from ".prisma/client";
-import useLoginModal from "@/_store/useLoginModal";
+import useModalLogin from "@/_store/useModalLogin";
 import NavLink from "./NavLink";
 import HamburgerMenu from "@/_components/header/HamburgerMenu";
 import UserMenu from "@/_components/header/UserMenu";
@@ -20,7 +20,7 @@ const reducer = (state: MenuState, action: MenuAction): MenuState => {
     };
 };
 const Header = ({ currentUser }: Props) => {
-    const loginModal = useLoginModal();
+    const { onOpen } = useModalLogin();
     const [ menuState, dispatch ] = useReducer(reducer, {
         isHamburgerMenuOpen: false,
         isUserProfileMenuOpen: false
@@ -90,7 +90,7 @@ const Header = ({ currentUser }: Props) => {
                             <button type="button"
                                     onClick={() => {
                                         closeAllMenus()
-                                        loginModal.onOpen()
+                                        onOpen()
                                     }}
                                     className="text-gray-300 hover:text-white text-sm font-medium">Sign In
                             </button>

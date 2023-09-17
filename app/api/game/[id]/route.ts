@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
     try {
 
         const userID = request.nextUrl.searchParams.get("userID");
+
         if (!userID) {
             return NextResponse.json({ message: "Please login to start a new game!" }, { status: 403 });
         }
@@ -52,7 +53,10 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(currentGame.currentGame, { status: 200 });
 
     } catch (error) {
-        const { message, status } = handleAxiosError(error, "An unexpected error occurred. Please try again.");
+        const {
+            message,
+            status
+        } = handleAxiosError(error, "Oops! Something went wrong while loading the game details. Please try again later.");
         return NextResponse.json({ message }, { status });
     }
 }
@@ -66,6 +70,7 @@ export async function GET(request: NextRequest) {
 export async function PATCH(request: NextRequest, { params: { id } }: { params: { id: string } }) {
     try {
         const currentUser = await getCurrentUser() as User;
+
         if (!currentUser || !id) {
             return handleInvalidRequest(currentUser, id)
         }

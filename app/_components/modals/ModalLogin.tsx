@@ -5,22 +5,22 @@ import useModalLogin from "@/_store/useModalLogin";
 import { useCallback, useEffect, useState } from "react";
 
 const ModalLogin = () => {
-    const modalLogin = useModalLogin();
-    const [ showModal, setShowModal ] = useState(modalLogin.isOpen);
-
-    useEffect(() => {
-        setShowModal(modalLogin.isOpen);
-    }, [ modalLogin.isOpen ]);
+    const { isOpen, onClose } = useModalLogin();
+    const [ showModal, setShowModal ] = useState(isOpen);
 
     const onToggle = useCallback(() => {
         setShowModal(false);
         setTimeout(() => {
-            modalLogin.onClose();
+            onClose();
         }, 300)
 
-    }, [ modalLogin ])
+    }, [ onClose ])
 
-    if (!modalLogin.isOpen) {
+    useEffect(() => {
+        setShowModal(isOpen);
+    }, [ isOpen ]);
+
+    if (!isOpen) {
         return null;
     }
 

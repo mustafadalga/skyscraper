@@ -17,8 +17,8 @@ export default create<ModalGameStore>((set) => ({
     isOpen: false,
     game: null,
     onOpen: () => set({ isOpen: true }),
-    onClose: () => set({ isOpen: false }),
-    setGame: async (id: string) => {
+    onClose: () =>set({ isOpen: false, game: null }),
+    setGame: async (id) => {
         try {
             const userID = useHallOfWins.getState().user?.id;
             const url = `/api/game/${id}`;
@@ -27,7 +27,7 @@ export default create<ModalGameStore>((set) => ({
                     userID
                 }
             });
-            set({ game })
+            set({ game });
         } catch (error) {
             const { message } = handleAxiosError(error, "Oops! Something went wrong while loading the game details. Please try again later.");
             toast.error(message)

@@ -49,7 +49,6 @@ export default function GameProvider({ children, currentGame }: Props) {
         filledGrid: JSON.parse(currentGame.filledGrid),
         hints: JSON.parse(currentGame.hints),
         shownHints: JSON.parse(currentGame.shownHints),
-        isGameWon: false
     });
     const [ isTimerRunning, setIsTimerRunning ] = useState<boolean>(true);
 

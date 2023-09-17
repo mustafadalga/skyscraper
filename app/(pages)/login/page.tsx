@@ -1,12 +1,12 @@
 "use client";
-import useLoginModal from "@/_store/useLoginModal";
+import useModalLogin from "@/_store/useModalLogin";
 import { useEffect } from "react";
 
 const Page = () => {
-    const loginModal = useLoginModal();
+    const { onOpen } = useModalLogin();
     useEffect(() => {
-        loginModal.onOpen();
-    }, [loginModal])
+        onOpen();
+    }, [onOpen])
     return null;
 };
 

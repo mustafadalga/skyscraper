@@ -1,15 +1,23 @@
 "use client";
 import FilterGroup from "./FilterGroup";
-import { Game } from ".prisma/client";
+import { Game, User } from ".prisma/client";
 import { useEffect, useMemo } from "react";
 import useHallOfWins from "./useHallOfWins";
 import { TimeFrame } from "@/_enums";
 import GameList from "./GameList";
 import EmptyGameList from "@/_components/hall-of-wins/EmptyGameList";
 import NoGamesForFilter from "@/_components/hall-of-wins/NoGamesForFilter";
+import ModalGame from "@/_components/modals/ModalGame";
+import ModalCopySharedChallenge from "@/_components/modals/ModalCopySharedChallenge";
 
-export default function HallOfWins({ games }: { games: Game[] }) {
-    const { difficulty, dimension, timeFrame, reset } = useHallOfWins();
+interface Props {
+    games: Game[],
+    user: User
+}
+
+export default function HallOfWins({ games, user }: Props) {
+    const { difficulty, dimension, timeFrame, reset, setUser } = useHallOfWins();
+
     const filteredGames = useMemo(() => {
         let filteredGames = games;
         if (difficulty) {
@@ -39,6 +47,7 @@ export default function HallOfWins({ games }: { games: Game[] }) {
     }, [ games, difficulty, dimension, timeFrame ]);
 
     useEffect(() => {
+        setUser(user);
         return () => reset()
     }, []);
 
@@ -48,6 +57,9 @@ export default function HallOfWins({ games }: { games: Game[] }) {
             {games.length ? (
                 filteredGames.length ? <GameList games={filteredGames}/> : <NoGamesForFilter/>
             ) : <EmptyGameList/>}
+
+            <ModalGame/>
+            <ModalCopySharedChallenge/>
         </div>
     );
 };
