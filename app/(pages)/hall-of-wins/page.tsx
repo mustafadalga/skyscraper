@@ -13,7 +13,7 @@ export default async function Page() {
     return (
         <article className="container mx-auto p-4 lg:p-10">
             <Header/>
-            <HallOfWins games={games}/>
+            <HallOfWins games={games} user={user}/>
         </article>
     );
 };

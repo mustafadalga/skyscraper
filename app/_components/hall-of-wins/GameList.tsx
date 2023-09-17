@@ -1,16 +1,31 @@
+import { useCallback, useEffect, useState } from "react";
 import { Game } from ".prisma/client";
 import { IoIosEye } from "react-icons/io"
-import { useEffect, useState } from "react";
+import useModalGame from "@/_store/useModalGame";
+import useLoader from "@/_store/useLoader";
 
 export default function GameList({ games }: { games: Game[] }) {
+    const { setGame, game, onOpen: onModalOpen } = useModalGame();
+    const { onClose, onOpen } = useLoader();
     const [ opacity, setOpacity ] = useState(100);
+
+    const handleDetail = useCallback(async (id: string) => {
+        onOpen();
+        await setGame(id);
+        onClose();
+    }, [ setGame, onOpen, onClose ])
+
+    useEffect(() => {
+        if (game?.id) {
+            onModalOpen();
+        }
+    }, [ game?.id,onModalOpen ])
 
     useEffect(() => {
         setOpacity(0);
         const timer = setTimeout(() => setOpacity(100), 300);  // 300 ms matches the duration in Tailwind CSS class
         return () => clearTimeout(timer);
     }, [ games ]);
-
 
     return (
         <div className="overflow-x-auto">
@@ -40,7 +55,9 @@ export default function GameList({ games }: { games: Game[] }) {
                         <td className="py-2 px-4 border-b">{game.hasMistake ? "Yes" : "No"}</td>
                         <td className="py-2 px-4 border-b">{game.isHintRequired ? "Yes" : "No"}</td>
                         <td className="py-2 px-4 border-b">
-                            <IoIosEye className="text-xl cursor-pointer"/>
+                            <IoIosEye
+                                onClick={() => handleDetail(game.id)}
+                                className="text-xl cursor-pointer text-purple-500"/>
                         </td>
                     </tr>
                 ))}

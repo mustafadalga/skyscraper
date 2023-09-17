@@ -1,14 +1,15 @@
 "use client";
-import FilterGroup from "./FilterGroup";
-import { Game, User } from ".prisma/client";
 import { useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
+import { Game, User } from ".prisma/client";
 import useHallOfWins from "./useHallOfWins";
-import { TimeFrame } from "@/_enums";
-import GameList from "./GameList";
 import EmptyGameList from "@/_components/hall-of-wins/EmptyGameList";
 import NoGamesForFilter from "@/_components/hall-of-wins/NoGamesForFilter";
-import ModalGame from "@/_components/modals/ModalGame";
-import ModalCopySharedChallenge from "@/_components/modals/ModalCopySharedChallenge";
+import { TimeFrame } from "@/_enums";
+import GameList from "./GameList";
+import FilterGroup from "./FilterGroup";
+const ModalGame = dynamic(() => import("@/_components/modals/ModalGame"), { ssr: false })
+const ModalCopySharedChallenge = dynamic(() => import("@/_components/modals/ModalCopySharedChallenge"), { ssr: false })
 
 interface Props {
     games: Game[],
