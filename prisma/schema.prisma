@@ -32,46 +32,48 @@ model Account {
 }
 
 model User {
-  id                   String      @id @unique @default(uuid())
+  id                   String            @id @unique @default(uuid())
   name                 String?
-  email                String?     @unique
+  email                String?           @unique
   image                String?
-  score                Int         @default(0)
-  avgTime              Int         @default(0)
-  totalGames           Int         @default(0)
-  difficulty           Difficulty  @default(easy)
-  currentGameId        String?     @unique
-  currentGame          Game?       @relation(name: "CurrentGame", fields: [currentGameId], references: [id])
-  createdAt            DateTime    @default(now())
-  updatedAt            DateTime    @updatedAt
+  score                Int               @default(0)
+  avgTime              Int               @default(0)
+  totalGames           Int               @default(0)
+  difficulty           Difficulty        @default(easy)
+  currentGameId        String?           @unique
+  currentGame          Game?             @relation(name: "CurrentGame", fields: [currentGameId], references: [id])
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
   emailVerified        DateTime?
   accounts             Account[]
-  games                Game[]      @relation(name: "AllGames")
+  games                Game[]            @relation(name: "AllGames")
   badges               UserBadge[]
-  winningStreak        Int         @default(0)
-  lossStreak           Int         @default(0)
-  longestWinningStreak Int         @default(0)
+  winningStreak        Int               @default(0)
+  lossStreak           Int               @default(0)
+  longestWinningStreak Int               @default(0)
+  SharedChallenge      SharedChallenge[]
 }
 
 model Game {
-  id                   String     @id @unique @default(uuid())
+  id                   String            @id @unique @default(uuid())
   userId               String
   difficulty           Difficulty
   dimension            Int
-  createdAt            DateTime   @default(now())
-  updatedAt            DateTime   @updatedAt
-  user                 User       @relation(name: "AllGames", fields: [userId], references: [id], onDelete: Cascade)
-  currentPlayer        User?      @relation(name: "CurrentGame")
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  user                 User              @relation(name: "AllGames", fields: [userId], references: [id], onDelete: Cascade)
+  currentPlayer        User?             @relation(name: "CurrentGame")
   validGrid            String
   filledGrid           String
   hints                String
   shownHints           String
   hiddenHintCount      Int
   usedHiddenHintRights Int
-  isGameWon            Boolean    @default(false)
-  isGameCompleted      Boolean    @default(false)
-  isHintRequired       Boolean    @default(false)
-  hasMistake           Boolean    @default(false)
+  isGameWon            Boolean           @default(false)
+  isGameCompleted      Boolean           @default(false)
+  isHintRequired       Boolean           @default(false)
+  hasMistake           Boolean           @default(false)
+  SharedChallenge      SharedChallenge[]
 
   @@index([userId])
 }
@@ -95,4 +97,18 @@ model UserBadge {
   createdAt DateTime @default(now())
 
   @@id([userId, badgeId])
+}
+
+model SharedChallenge {
+  id          String   @id @unique @default(uuid())
+  userId      String
+  gameId      String
+  game        Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isPublic    Boolean  @default(true)
+  description String?
+
+  @@index([userId, gameId])
 }
