@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { IconType } from "react-icons";
 
-interface ConfirmModalStore {
+interface ModalConfirmStore {
     isOpen: boolean;
     description: string,
     actionLabel: string,
@@ -14,7 +14,7 @@ interface ConfirmModalStore {
 }
 
 
-export default create<ConfirmModalStore>((set) => ({
+export default create<ModalConfirmStore>((set) => ({
     isOpen: false,
     description: "",
     actionLabel: "",
@@ -25,7 +25,7 @@ export default create<ConfirmModalStore>((set) => ({
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false }),
     onSubmit: () => {
-        set((state: ConfirmModalStore): ConfirmModalStore => {
+        set((state: ModalConfirmStore): ModalConfirmStore => {
             state.submitMethod();
             return state
         });

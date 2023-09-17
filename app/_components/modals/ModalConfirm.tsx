@@ -1,35 +1,35 @@
 "use client";
 import { AiOutlineClose } from "react-icons/ai";
-import useConfirmModal from "@/_store/useConfirmModal";
+import useModalConfirm from "@/_store/useModalConfirm";
 import { useCallback, useEffect, useState } from "react";
 import { IconType } from "react-icons";
 
-const ConfirmModal = () => {
-    const confirmModal = useConfirmModal();
-    const Icon = confirmModal.icon as IconType;
-    const [ showModal, setShowModal ] = useState(confirmModal.isOpen);
+const ModalConfirm = () => {
+    const modalConfirm = useModalConfirm();
+    const Icon = modalConfirm.icon as IconType;
+    const [ showModal, setShowModal ] = useState(modalConfirm.isOpen);
     useEffect(() => {
-        setShowModal(confirmModal.isOpen);
-    }, [ confirmModal.isOpen ]);
+        setShowModal(modalConfirm.isOpen);
+    }, [ modalConfirm.isOpen ]);
 
     const onToggle = useCallback(() => {
         setShowModal(false);
         setTimeout(() => {
-            confirmModal.onClose();
+            modalConfirm.onClose();
         }, 300)
 
-    }, [ confirmModal ]);
+    }, [ modalConfirm ]);
 
     const onSubmit = useCallback(() => {
         setShowModal(false);
-        confirmModal.onSubmit();
+        modalConfirm.onSubmit();
         setTimeout(() => {
-            confirmModal.onClose();
+            modalConfirm.onClose();
         }, 300)
 
-    }, [ confirmModal ]);
+    }, [ modalConfirm ]);
 
-    if (!confirmModal.isOpen) {
+    if (!modalConfirm.isOpen) {
         return null;
     }
 
@@ -49,7 +49,7 @@ const ConfirmModal = () => {
 
                     <Icon className="text-5xl mx-auto text-primary"/>
                     <p className="my-4 text-gray-500">
-                        {confirmModal.description}
+                        {modalConfirm.description}
                     </p>
                     <div className="flex justify-center items-center space-x-4">
                         <button type="button"
@@ -60,7 +60,7 @@ const ConfirmModal = () => {
                         <button type="button"
                                 onClick={onSubmit}
                                 className="text-sm font-medium text-white bg-purple-500 hover:bg-purple-600 focus:outline-none focus:ring-primary py-2 px-3 text-center rounded-lg">
-                            {confirmModal.actionLabel}
+                            {modalConfirm.actionLabel}
                         </button>
                     </div>
                 </div>
@@ -69,4 +69,4 @@ const ConfirmModal = () => {
     );
 };
 
-export default ConfirmModal;
+export default ModalConfirm;

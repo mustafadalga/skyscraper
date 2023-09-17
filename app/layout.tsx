@@ -8,8 +8,8 @@ import { User } from ".prisma/client";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const LoginModal = dynamic(() => import("@/_components/modals/LoginModal"), { ssr: false });
-const ConfirmModal = dynamic(() => import("@/_components/modals/ConfirmModal"), { ssr: false });
+const LoginModal = dynamic(() => import("@/_components/modals/ModalLogin"), { ssr: false });
+const ConfirmModal = dynamic(() => import("@/_components/modals/ModalConfirm"), { ssr: false });
 const LoaderV2 = dynamic(() => import("@/_components/loader/LoaderV2"), { ssr: false });
 
 const roboto = Roboto({

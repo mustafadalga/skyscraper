@@ -1,26 +1,26 @@
 "use client";
 import { GrFormClose } from "react-icons/gr";
 import { signIn } from 'next-auth/react'
-import useLoginModal from "@/_store/useLoginModal";
+import useModalLogin from "@/_store/useModalLogin";
 import { useCallback, useEffect, useState } from "react";
 
-const LoginModal = () => {
-    const loginModal = useLoginModal();
-    const [ showModal, setShowModal ] = useState(loginModal.isOpen);
+const ModalLogin = () => {
+    const modalLogin = useModalLogin();
+    const [ showModal, setShowModal ] = useState(modalLogin.isOpen);
 
     useEffect(() => {
-        setShowModal(loginModal.isOpen);
-    }, [ loginModal.isOpen ]);
+        setShowModal(modalLogin.isOpen);
+    }, [ modalLogin.isOpen ]);
 
     const onToggle = useCallback(() => {
         setShowModal(false);
         setTimeout(() => {
-            loginModal.onClose();
+            modalLogin.onClose();
         }, 300)
 
-    }, [ loginModal ])
+    }, [ modalLogin ])
 
-    if (!loginModal.isOpen) {
+    if (!modalLogin.isOpen) {
         return null;
     }
 
@@ -54,4 +54,4 @@ const LoginModal = () => {
     );
 };
 
-export default LoginModal;
+export default ModalLogin;

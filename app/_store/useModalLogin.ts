@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-interface LoginModalStore {
+interface ModalLoginStore {
     isOpen: boolean;
     onOpen: () => void;
     onClose: () => void;
 }
 
-export default create<LoginModalStore>((set) => ({
+export default create<ModalLoginStore>((set) => ({
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false })
