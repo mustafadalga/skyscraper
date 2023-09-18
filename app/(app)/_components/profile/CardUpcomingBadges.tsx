@@ -2,7 +2,7 @@ import { Badge, User } from ".prisma/client";
 import getGamesByUserId from "@/(app)/_actions/getGamesByUserId";
 import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
 import calculateUpcomingBadges, { IUpcomingBadge } from "@/(app)/_utilities/calculateUpcomingBadge";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "@/(app)/_components/profile/progressbar/ProgressBar";
 import getBadges from "@/(app)/_actions/getBadges";
 
 interface Props {
