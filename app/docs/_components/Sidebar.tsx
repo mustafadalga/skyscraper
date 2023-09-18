@@ -12,10 +12,10 @@ const Sidebar = () => {
 
     return (
         <div className=" w-full grid place-content-start w-40">
-            <div className="flex gap-3 items-center border-b border-purple-500 pb-3">
+            <Link href="/game" className="flex gap-3 items-center border-b border-purple-500 pb-3">
                 <TbBuildingSkyscraper className="text-purple-500 text-base lg:text-lg xl:text-xl"/>
                 <h3 className="text-base lg:text-xl text-gray-800">Skyscraper</h3>
-            </div>
+            </Link>
             <ul className="my-10 grid gap-1">
                 <li>
                     <Link
@@ -23,7 +23,8 @@ const Sidebar = () => {
                         href="/docs/skyscraper">Introduction</Link>
                 </li>
                 <li>
-                    <Link className={`${linkClassName("/docs/how-to-play")} transition hover:text-gray-900`} href="/docs/how-to-play">How to Play</Link>
+                    <Link className={`${linkClassName("/docs/how-to-play")} transition hover:text-gray-900`}
+                          href="/docs/how-to-play">How to Play</Link>
                 </li>
                 <li>
                     <Link className={`${linkClassName("/docs/features")} transition hover:text-gray-900`}

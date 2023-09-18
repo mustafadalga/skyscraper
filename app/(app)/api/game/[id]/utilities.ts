@@ -45,7 +45,7 @@ export interface IUserDataToUpdate {
  * @param isGameWon - Flag indicating whether the game is won.
  */
 export async function handleUpdateUser(user: User, game: Game) {
-    const updatedUser = getUserDataToUpdate(user, game)
+    const updatedUser = await getUserDataToUpdate(user, game)
     await prisma.user.update({
         where: { id: user.id },
         data: updatedUser as any

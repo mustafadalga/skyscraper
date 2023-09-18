@@ -40,18 +40,21 @@ async function startNewGame(options: { dimension: number, difficulty: Difficulty
     }
 }
 
+function getParsedGame(game: Game): IGame {
+    return {
+        ...game,
+        validGrid: JSON.parse(game.validGrid),
+        filledGrid: JSON.parse(game.filledGrid),
+        hints: JSON.parse(game.hints),
+        shownHints: JSON.parse(game.shownHints),
+    }
+}
+
 export default function GameProvider({ children, currentGame }: Props) {
     const router = useRouter();
     const loader = useLoader();
-    const [ game, setGame ] = useState<IGame>({
-        ...currentGame,
-        validGrid: JSON.parse(currentGame.validGrid),
-        filledGrid: JSON.parse(currentGame.filledGrid),
-        hints: JSON.parse(currentGame.hints),
-        shownHints: JSON.parse(currentGame.shownHints),
-    });
+    const [ game, setGame ] = useState<IGame>(getParsedGame(currentGame));
     const [ isTimerRunning, setIsTimerRunning ] = useState<boolean>(true);
-
     const updateGridCell = useCallback(async (cell: ICell, value: number | null) => {
         const { grid, previousValue } = updateCell(game.filledGrid, cell, value);
         const isGameWon = isGridFullyFilled(grid) && isEqual(grid, game.validGrid);
@@ -212,6 +215,10 @@ export default function GameProvider({ children, currentGame }: Props) {
     useEffect(() => {
         return () => router.refresh()
     }, [ router ])
+
+    useEffect(() => {
+        setGame(getParsedGame(currentGame));
+    }, [ currentGame ]);
 
     return (
         <GameContext.Provider value={contextValue}>
