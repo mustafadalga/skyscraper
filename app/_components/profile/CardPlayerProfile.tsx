@@ -32,14 +32,14 @@ export default async function CardPlayerProfile({ user }: Props) {
     return (
         <div className="shadow-xl p-8 bg-white rounded-lg">
             <h2 className="mb-3 text-purple-700 font-semibold text-base xl:text-xl">Player Profile</h2>
-            <ul className="grid gap-2">
+            <ul className="grid gap-2 text-xs md:text-sm xl:text-base">
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
-                    <span className="w-32 font-semibold">Full Name:</span>
-                    <span>{user.name}</span>
+                    <span className="font-semibold">Full Name:</span>
+                    <span className="">{user.name}</span>
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Email:</span>
-                    <span>{user.email}</span>
+                    <span className="">{user.email}</span>
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Highest Badge:</span>
@@ -51,32 +51,32 @@ export default async function CardPlayerProfile({ user }: Props) {
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Difficulty:</span>
-                    <span>{user.difficulty}</span>
+                    <span className="">{user.difficulty}</span>
                 </li>
 
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Longest Winning Streak:</span>
-                    <span>{user.longestWinningStreak}</span>
+                    <span className="">{user.longestWinningStreak}</span>
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Total Games Played:</span>
-                    <span>{gameCount}</span>
+                    <span className="">{gameCount}</span>
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Score:</span>
-                    <span>{user.score}</span>
+                    <span className="">{user.score}</span>
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Average Time:</span>
-                    <span>{convertTimeToHHMMSS(user.avgTime)}</span>
+                    <span className="">{convertTimeToHHMMSS(user.avgTime)}</span>
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Average Hint Used:</span>
-                    <span>{avgHintUsed()}</span>
+                    <span className="">{avgHintUsed()}</span>
                 </li>
                 <li className="grid grid-cols-2 gap-2 border-y py-2 text-gray-500">
                     <span className="font-semibold">Joined:</span>
-                    <span>{joined()}</span>
+                    <span className="">{joined()}</span>
                 </li>
             </ul>
         </div>

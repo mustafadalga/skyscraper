@@ -19,7 +19,7 @@ export default async function CardUpcomingBadges({ user }: Props) {
     const upcomingBadges: IUpcomingBadge[] = calculateUpcomingBadges(user, userEarnedBadges, allBadges, userGames).filter(badge => badge.percent > THRESHOLD_PERCENT);
 
     return (
-        <div className="grid gap-5 max-w-2xl shadow-xl p-8 bg-white rounded-lg">
+        <div className="w-full grid gap-5 shadow-xl p-8 bg-white rounded-lg">
             <h2 className="mb-5 text-purple-700 font-semibold text-base xl:text-xl">Upcoming Badges</h2>
             {upcomingBadges.map(upcomingBadge => (
                 <ProgressBar key={upcomingBadge.id} badge={upcomingBadge}/>
