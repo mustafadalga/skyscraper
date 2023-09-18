@@ -1,17 +1,8 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
-import Header from "@/_components/header/Header";
-import dynamic from "next/dynamic";
-import getCurrentUser from "@/_actions/getCurrentUser";
-import { User } from ".prisma/client";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { ReactNode } from "react";
 
-const ModalLogin = dynamic(() => import("@/_components/modals/ModalLogin"), { ssr: false });
-const ModalConfirm = dynamic(() => import("@/_components/modals/ModalConfirm"), { ssr: false });
-const LoaderV2 = dynamic(() => import("@/_components/loader/LoaderV2"), { ssr: false });
 
 const roboto = Roboto({
     display: "swap",
@@ -54,19 +45,11 @@ interface Props {
     children: ReactNode
 }
 
-export default async function RootLayout({ children }: Props) {
-    const currentUser: User = await getCurrentUser() as User;
+export default function RootLayout({ children }: Props) {
     return (
         <html lang="en">
-        <body className={`${roboto.className} bg-purple-50 text-gray-900 min-h-screen flex flex-col`}>
-        <Header currentUser={currentUser}/>
-        <ModalLogin/>
-        <ModalConfirm/>
-        <LoaderV2/>
-        <main className="container mx-auto flex-grow grid">
+        <body className={`${roboto.className} min-h-screen h-full w-full`}>
             {children}
-        </main>
-        <ToastContainer/>
         </body>
         </html>
     )
