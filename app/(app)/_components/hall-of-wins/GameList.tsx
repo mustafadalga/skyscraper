@@ -3,6 +3,7 @@ import { Game } from ".prisma/client";
 import { IoIosEye } from "react-icons/io"
 import useModalGame from "@/(app)/_store/useModalGame";
 import useLoader from "@/(app)/_store/useLoader";
+import convertTimeToHHMMSS from "@/(app)/_utilities/convertTimeToHHMMSS";
 
 export default function GameList({ games }: { games: Game[] }) {
     const { setGame, game, onOpen: onModalOpen } = useModalGame();
@@ -15,11 +16,12 @@ export default function GameList({ games }: { games: Game[] }) {
         onClose();
     }, [ setGame, onOpen, onClose ])
 
+
     useEffect(() => {
         if (game?.id) {
             onModalOpen();
         }
-    }, [ game?.id,onModalOpen ])
+    }, [ game?.id, onModalOpen ])
 
     useEffect(() => {
         setOpacity(0);
@@ -34,6 +36,7 @@ export default function GameList({ games }: { games: Game[] }) {
                 <tr>
                     <th className="py-2 px-4 border-b">Difficulty</th>
                     <th className="py-2 px-4 border-b">Dimension</th>
+                    <th className="py-2 px-4 border-b">Time Taken</th>
                     <th className=" py-2 px-4 border-b">Total Hints</th>
                     <th className="py-2 px-4 border-b">Shown Hints</th>
                     <th className="py-2 px-4 border-b">Used Hint Rights</th>
@@ -49,6 +52,7 @@ export default function GameList({ games }: { games: Game[] }) {
                         className={`hover:bg-gray-100 transition-opacity duration-300 ease-in-out ${opacity === 100 ? 'opacity-100' : 'opacity-0'}`}>
                         <td className="py-2 px-4 border-b capitalize">{game.difficulty}</td>
                         <td className="py-2 px-4 border-b">{game.dimension}</td>
+                        <td className="py-2 px-4 border-b">{ convertTimeToHHMMSS(game.updatedAt.getTime() - game.createdAt.getTime()) }</td>
                         <td className="py-2 px-4 border-b">{Math.pow(game.dimension, 2)}</td>
                         <td className="py-2 px-4 border-b">{Math.pow(game.dimension, 2) - game.usedHiddenHintRights}</td>
                         <td className="py-2 px-4 border-b">{game.usedHiddenHintRights}</td>
