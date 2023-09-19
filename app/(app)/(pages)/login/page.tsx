@@ -1,13 +1,13 @@
-"use client";
-import useModalLogin from "@/(app)/_store/useModalLogin";
-import { useEffect } from "react";
+import Login from "@/(app)/_components/login/Login";
+import { User } from ".prisma/client";
+import getCurrentUser from "@/(app)/_actions/getCurrentUser";
+import { redirect } from "next/navigation";
 
-const Page = () => {
-    const { onOpen } = useModalLogin();
-    useEffect(() => {
-        onOpen();
-    }, [onOpen])
-    return null;
+export default async function Page() {
+    const currentUser: User = await getCurrentUser() as User;
+
+    if (currentUser) {
+        return redirect("/game")
+    }
+    return <Login/>
 };
-
-export default Page;
