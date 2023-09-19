@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import { Game, User } from ".prisma/client";
 import type { Metadata } from 'next'
 import getGamesByUserId from "@/(app)/_actions/getGamesByUserId";
@@ -6,12 +6,14 @@ import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
 import getCurrentUser from "@/(app)/_actions/getCurrentUser";
 import Header from "@/(app)/_components/home/Header";
 
-const CardWinLossRatio = dynamic(() => import("@/(app)/_components/profile/CardWinLossRatio"));
-const CardStreakSummary = dynamic(() => import("@/(app)/_components/profile/CardStreakSummary"));
-const CardScoreOverTime = dynamic(() => import("@/(app)/_components/profile/CardScoreOverTime"));
-const CardAchievementTimeLine = dynamic(() => import("@/(app)/_components/profile/CardAchievementTimeLine"));
-const Badges = dynamic(() => import("@/(app)/_components/profile/Badges"));
-const CardUpcomingBadges = dynamic(() => import("@/(app)/_components/profile/CardUpcomingBadges"));
+export const dynamic = 'force-dynamic'
+
+const CardWinLossRatio = dynamicImport(() => import("@/(app)/_components/profile/CardWinLossRatio"));
+const CardStreakSummary = dynamicImport(() => import("@/(app)/_components/profile/CardStreakSummary"));
+const CardScoreOverTime = dynamicImport(() => import("@/(app)/_components/profile/CardScoreOverTime"));
+const CardAchievementTimeLine = dynamicImport(() => import("@/(app)/_components/profile/CardAchievementTimeLine"));
+const Badges = dynamicImport(() => import("@/(app)/_components/profile/Badges"));
+const CardUpcomingBadges = dynamicImport(() => import("@/(app)/_components/profile/CardUpcomingBadges"));
 
 
 

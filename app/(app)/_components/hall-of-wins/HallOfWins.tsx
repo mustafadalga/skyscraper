@@ -50,6 +50,7 @@ export default function HallOfWins({ games, user }: Props) {
     useEffect(() => {
         setUser(user);
         return () => reset()
+        // eslint-disable-next-line  react-hooks/exhaustive-deps
     }, []);
 
     return (

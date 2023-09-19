@@ -10,7 +10,10 @@ import { BadgeLevelDetail } from "@/(app)/_types";
 const GameOptions = dynamicImport(() => import("@/(app)/_components/game/GameOptions"), { ssr: false })
 const GameProvider = dynamicImport(() => import("@/(app)/_providers/game/GameProvider"), { ssr: false })
 const GameScreen = dynamicImport(() => import("@/(app)/_components/game/GameScreen"))
-const Page = async () => {
+
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
     const currentUser: User = await getCurrentUser() as User;
     const userBadgeData = await getBadgesByUserID(currentUser.id);
     const earnedBadges = userBadgeData.map(badge => badge.badge);
@@ -27,5 +30,3 @@ const Page = async () => {
         </article>
     );
 };
-
-export default Page;

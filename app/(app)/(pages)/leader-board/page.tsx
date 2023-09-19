@@ -6,11 +6,13 @@ import LeaderBoardError from "@/(app)/_components/leader-board/LeaderBoardError"
 import EmptyLeaderBoard from "@/(app)/_components/leader-board/EmptyLeaderBoard";
 import { IUser } from "@/(app)/_components/leader-board/types";
 
+
 interface Top100Users {
     data: IUser[] | string,
     status: boolean
 }
 
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
     title: 'Meet the Best Gamers: Top 100 Players Leaderboard - Skyscraper',
