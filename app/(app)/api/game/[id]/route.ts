@@ -15,7 +15,7 @@ import {
  * @param request - The incoming Next.js request object.
  * @returns A NextResponse object with the status and game data or error message.
  */
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, { params: { id } }: { params: { id: string } }) {
     try {
 
         const userID = request.nextUrl.searchParams.get("userID");
@@ -23,34 +23,33 @@ export async function GET(request: NextRequest) {
         if (!userID) {
             return NextResponse.json({ message: "Please login to start a new game!" }, { status: 403 });
         }
+        if (!id) {
+            return NextResponse.json({ message: "Game id is missing. Please make sure you're accessing the game correctly." }, { status: 400 });
+        }
 
         // Fetch the current user along with their currentGameId
-        const currentGame = await prisma.user.findUnique({
-            where: { id: userID },
+        const currentGame = await prisma.game.findUnique({
+            where: { id },
             select: {
-                currentGame: {
-                    select: {
-                        id: true,
-                        isGameCompleted: true,
-                        difficulty: true,
-                        dimension: true,
-                        isGameWon: true,
-                        usedHiddenHintRights: true,
-                        hiddenHintCount: true,
-                        shownHints: true,
-                        hints: true,
-                        filledGrid: true,
-                        validGrid: true,
-                        createdAt: true,
-                    },
-                },
+                id: true,
+                isGameCompleted: true,
+                difficulty: true,
+                dimension: true,
+                isGameWon: true,
+                usedHiddenHintRights: true,
+                hiddenHintCount: true,
+                shownHints: true,
+                hints: true,
+                filledGrid: true,
+                validGrid: true,
+                createdAt: true,
             },
         });
 
-        if (!currentGame?.currentGame) {
+        if (!currentGame) {
             return NextResponse.json({ message: "No active game found." }, { status: 404 });
         }
-        return NextResponse.json(currentGame.currentGame, { status: 200 });
+        return NextResponse.json(currentGame, { status: 200 });
 
     } catch (error) {
         const {

@@ -26,7 +26,7 @@ const ModalConfirm = () => {
                 <div
                     className="relative bg-white rounded-lg shadow mx-auto max-w-md w-full translate duration-300">
 
-                    <div className="relative p-4 text-center bg-white rounded-lg shadow sm:p-5 w-full">
+                    <div className="relative p-4 text-center bg-white rounded-lg shadow sm:p-5 w-full rounded-xl shadow-[0px_0px_5px_0px_#7e22ce]">
                         <button type="button"
                                 onClick={modalConfirm.onClose}
                                 className="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
@@ -34,7 +34,7 @@ const ModalConfirm = () => {
                             <span className="sr-only">Close modal</span>
                         </button>
 
-                        <Icon className="text-5xl mx-auto text-purple-500"/>
+                        { Icon && <Icon className="text-5xl mx-auto text-purple-500"/> }
                         <p className="my-4 text-gray-500">
                             {modalConfirm.description}
                         </p>
