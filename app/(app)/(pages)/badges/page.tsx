@@ -5,7 +5,15 @@ import Badges from "@/(app)/_components/badges/Badges";
 import BadgesError from "@/(app)/_components/badges/BadgesError";
 import { Badge } from ".prisma/client";
 import { cloneDeep } from "lodash";
-const Page = async () => {
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+    title: "Unlock Achievement Badges: Complete Guide & Criteria - Skyscraper",
+    description: "Discover the exclusive range of achievement badges on Skyscraper. Learn how to unlock each badge, understand their criteria, and elevate your gaming experience today!"
+}
+
+export default async function Page() {
     const badgesData = await getBadges();
     let badges: Badge[] = [];
     if (badgesData.status) {
@@ -19,5 +27,3 @@ const Page = async () => {
         </article>
     );
 };
-
-export default Page;

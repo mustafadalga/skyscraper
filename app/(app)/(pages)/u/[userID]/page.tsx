@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { Game } from ".prisma/client";
 import getGamesByUserId from "@/(app)/_actions/getGamesByUserId";
 import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
+import Head from "next/head";
+import { Metadata } from "next";
 
 const Header = dynamic(() => import("@/(app)/_components/profile/Header"));
 const CardPlayerProfile = dynamic(() => import("@/(app)/_components/profile/CardPlayerProfile"));
@@ -14,7 +16,22 @@ const CardAchievementTimeLine = dynamic(() => import("@/(app)/_components/profil
 const Badges = dynamic(() => import("@/(app)/_components/profile/Badges"));
 const CardUpcomingBadges = dynamic(() => import("@/(app)/_components/profile/CardUpcomingBadges"));
 
-const Page = async ({ params: { userID } }: { params: { userID: string } }) => {
+type Props = {
+    params: { userID: string }
+}
+
+export async function generateMetadata(
+    { params: { userID } }: Props,
+): Promise<Metadata> {
+    const user = await getUserByID(userID);
+
+    return {
+        title: `Player Profile - ${user?.name}: Track Your Achievements, Scores, and Upcoming Badges`,
+        description: `"Step into your personalized gaming dashboard at ${user?.name}. View your win-loss ratio, unlock badges, analyze your performance over time, and discover what's next on your gaming journey!`
+    }
+}
+
+export default async function Page({ params: { userID } }: Props) {
     const user = await getUserByID(userID);
     if (!user) {
         return redirect("/");
@@ -47,7 +64,5 @@ const Page = async ({ params: { userID } }: { params: { userID: string } }) => {
                 </div>
             </section>
         </article>
-    );
-};
-
-export default Page;
+    )
+}

@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { Game, User } from ".prisma/client";
+import type { Metadata } from 'next'
 import getGamesByUserId from "@/(app)/_actions/getGamesByUserId";
 import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
 import getCurrentUser from "@/(app)/_actions/getCurrentUser";
@@ -11,6 +12,13 @@ const CardScoreOverTime = dynamic(() => import("@/(app)/_components/profile/Card
 const CardAchievementTimeLine = dynamic(() => import("@/(app)/_components/profile/CardAchievementTimeLine"));
 const Badges = dynamic(() => import("@/(app)/_components/profile/Badges"));
 const CardUpcomingBadges = dynamic(() => import("@/(app)/_components/profile/CardUpcomingBadges"));
+
+
+
+export const metadata: Metadata = {
+    title: 'Skyscraper: Elevate Your Game with In-Depth User Stats & Achievements',
+    description: 'Step into the world of Skyscraper, where every puzzle solved takes you higher. Explore your personalized gaming statistics, monitor your badges, and discover what it takes to reach the top. Your skyscraper of achievements awaits!',
+}
 
 export default async function Page() {
     const user = await getCurrentUser() as User;
