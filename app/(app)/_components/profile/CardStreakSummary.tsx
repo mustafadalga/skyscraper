@@ -36,7 +36,7 @@ export default async function CardStreakSummary({ games, user }: Props) {
     }
 
     return (
-        <div className="flex items-center gap-10 shadow-xl p-8 bg-white rounded-lg">
+        <div className="flex items-center justify-center flex-col sm:flex-row gap-10 shadow-xl p-8 bg-white rounded-lg">
             <div className="grid place-items-center">
                 <h2 className="mb-5 text-purple-700 font-semibold text-base xl:text-xl">Longest Winning Streak</h2>
                 <DoughNutChart data={longestWinningStreak} className="w-40 h-40 md:w-60 md:h-60 lg:w-80 lg:h-80"/>
