@@ -54,6 +54,9 @@ export async function generateGameData(dimension: number, difficulty: Difficulty
 export async function startNewGame(data: IGameData) {
     // Define the game creation operation
     try {
+        if (!data) {
+            throw new Error("We could not start a new game. Please try again!")
+        }
         const newGame = await prisma.game.create({
             data: data,
             select: {

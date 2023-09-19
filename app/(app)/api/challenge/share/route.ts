@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
         const {
             message,
             status
-        } = handleAxiosError(error, "An error occurred while creating your challenge. Please try again later.");
+        } = handleAxiosError(error, "Oops! Something went wrong while sharing your challenge. Please try again later.");
         return NextResponse.json({ message }, { status });
     }
 }

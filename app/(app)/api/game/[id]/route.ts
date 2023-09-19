@@ -55,7 +55,7 @@ export async function GET(request: NextRequest, { params: { id } }: { params: { 
         const {
             message,
             status
-        } = handleAxiosError(error, "Oops! Something went wrong while loading the game details. Please try again later.");
+        } = handleAxiosError(error, "Oops! Something went wrong while loading the game. Please try again later.");
         return NextResponse.json({ message }, { status });
     }
 }

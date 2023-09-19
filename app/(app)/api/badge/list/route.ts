@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/(app)/_libs/prismadb";
 import { Badge } from ".prisma/client";
+import handleAxiosError from "@/(app)/_utilities/handleAxiosError";
 
 export async function GET(request: NextRequest) {
     if (request.method !== "GET") {
@@ -17,6 +18,9 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(badges, { status: 200 });
 
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch badges' }, { status: 500 });
-    }
+        const {
+            message,
+            status
+        } = handleAxiosError(error, "Oops! Something went wrong while loading badges. Please try again later.");
+        return NextResponse.json({ message }, { status });    }
 }

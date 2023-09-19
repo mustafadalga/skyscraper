@@ -48,7 +48,7 @@ export default async function getPublicCompletedChallenge(id: string): Promise<I
     } catch (error) {
         const {
             message,
-        } = handleAxiosError(error, "An error occurred while loading challenge detail. Please try again!");
+        } = handleAxiosError(error, "Oops! Something went wrong while loading the challenge. Please try again!");
 
         return {
             status: false,

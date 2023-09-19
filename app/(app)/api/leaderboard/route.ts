@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prismadb from "@/(app)/_libs/prismadb";
+import handleAxiosError from "@/(app)/_utilities/handleAxiosError";
 
 
 export async function GET(request: NextRequest) {
@@ -21,6 +22,10 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json(users, { status: 200 })
     } catch (error) {
-        return NextResponse.json({ error: 'Failed to fetch leaderboard' }, { status: 500 });
+        const {
+            message,
+            status
+        } = handleAxiosError(error, "Oops! Something went wrong while loading leader board. Please try again later.");
+        return NextResponse.json({ message }, { status });
     }
 }

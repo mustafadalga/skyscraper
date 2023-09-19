@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: "New game started successfully." }, { status: 200 });
 
     } catch (error) {
-        const { message, status } = handleAxiosError(error, "An unexpected error occurred. Please try again.");
+    const { message, status } = handleAxiosError(error, "Oops! Something went wrong while starting your game. Please try again!");
         return NextResponse.json({ message }, { status });
     }
 }
