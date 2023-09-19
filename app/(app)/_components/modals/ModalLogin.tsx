@@ -6,8 +6,8 @@ import useModalLogin from "@/(app)/_store/useModalLogin";
 import "./modalCSSTransition.css"
 
 const ModalLogin = () => {
-    const { isOpen, onClose } = useModalLogin();
-
+    const { isOpen, onClose,showClose } = useModalLogin();
+console.log(showClose)
     return (
         <CSSTransition
             in={isOpen}
@@ -20,13 +20,15 @@ const ModalLogin = () => {
                 <div
                     className="relative bg-white rounded-lg shadow mx-auto max-w-md w-full">
                     <div className="relative bg-white rounded-lg shadow">
-                        <button type="button"
-                                onClick={onClose}
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                data-modal-hide="authentication-modal">
-                            <GrFormClose/>
-                            <span className="sr-only">Close modal</span>
-                        </button>
+                        { showClose && (
+                            <button type="button"
+                                    onClick={onClose}
+                                    className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-hide="authentication-modal">
+                                <GrFormClose/>
+                                <span className="sr-only">Close modal</span>
+                            </button>
+                        )}
                         <div className="px-6 py-6 lg:px-8">
                             <h3 className="mb-4 text-xl font-medium text-purple-700 text-center">
                                 Sign in to Skyscraper</h3>

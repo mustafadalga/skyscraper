@@ -3,9 +3,11 @@ import useModalLogin from "@/(app)/_store/useModalLogin";
 import { useEffect } from "react";
 
 export default function Login() {
-    const { onOpen } = useModalLogin();
+    const { onOpen, setShowClose } = useModalLogin();
+
     useEffect(() => {
         onOpen();
-    }, [ onOpen ])
+        setShowClose(false);
+    }, [ onOpen, setShowClose ])
     return null;
 };
