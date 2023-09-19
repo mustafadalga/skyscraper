@@ -5,7 +5,6 @@ import Badges from "@/(app)/_components/badges/Badges";
 import BadgesError from "@/(app)/_components/badges/BadgesError";
 import { Badge } from ".prisma/client";
 import { cloneDeep } from "lodash";
-
 const Page = async () => {
     const badgesData = await getBadges();
     let badges: Badge[] = [];

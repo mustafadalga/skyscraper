@@ -1,5 +1,16 @@
 {
   "name": "skyscraper",
+  "description": "Skyscraper is an engaging puzzle game that challenges players to build towering skyscrapers while solving intricate puzzles.",
+  "keywords": [
+    "skyscraper",
+    "puzzle game",
+    "strategy",
+    "tower building",
+    "leaderboard",
+    "achievements",
+    "badges",
+    "user profiles"
+  ],
   "version": "0.1.0",
   "private": true,
   "scripts": {
