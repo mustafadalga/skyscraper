@@ -1,7 +1,7 @@
 import prisma from "@/(app)/_libs/prismadb";
 import { Badge } from ".prisma/client";
 
-type IReturn = {
+export type IReturn = {
     createdAt: Date,
     badge: Badge
 }[]

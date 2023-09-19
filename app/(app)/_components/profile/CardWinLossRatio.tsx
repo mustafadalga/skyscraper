@@ -1,16 +1,16 @@
-import { Game, User } from ".prisma/client";
-import getGamesByUserId from "@/(app)/_actions/getGamesByUserId";
+import { Game } from ".prisma/client";
 import dynamic from "next/dynamic";
-const PieChart = dynamic(() => import("@/(app)/_components/charts/PieChart"),{ ssr: false })
+
+const PieChart = dynamic(() => import("@/(app)/_components/charts/PieChart"), { ssr: false })
 
 interface Props {
-    user: User
+    games: Game[]
 }
 
-export default async function CardWinLossRatio({ user }: Props) {
-    const games: Game[] = await getGamesByUserId(user.id) as Game[];
+export default async function CardWinLossRatio({ games }: Props) {
     const wonGamesCount = games.filter(game => game.isGameWon).length;
     const lostGamesCount = games.filter(game => !game.isGameWon).length;
+
     const data = {
         labels: [ "Win", "Loss" ],
         datasets: [

@@ -1,16 +1,13 @@
-import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
-import { User } from ".prisma/client";
 import TimelineView from "@/(app)/_components/timeline-view/TimelineView"
 import moment from "moment";
+import { IReturn } from "@/(app)/_actions/getBadgesByUserID";
 
 interface Props {
-    user: User
+    badges: IReturn
 }
 
-export default async function CardAchievementTimeLine({ user }: Props) {
-    const badgesData = await getBadgesByUserID(user.id);
-    const sortedBadges = badgesData.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    const items = sortedBadges.map(({ badge, createdAt }) => ({
+export default function CardAchievementTimeLine({ badges }: Props) {
+    const items = badges.map(({ badge, createdAt }) => ({
         badgeID: badge.id,
         title: moment(createdAt).fromNow(),
         cardTitle: badge.name,

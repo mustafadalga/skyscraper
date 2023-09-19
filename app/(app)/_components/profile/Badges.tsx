@@ -1,13 +1,11 @@
-import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
-import { User } from ".prisma/client";
+import { IReturn } from "@/(app)/_actions/getBadgesByUserID";
 import Badge from "@/(app)/_components/badge/Badge";
 
 interface Props {
-    user: User
+    badges: IReturn
 }
 
-export default async function Badges({ user }: Props) {
-    const badges = await getBadgesByUserID(user.id);
+export default async function Badges({ badges }: Props) {
     const earnedBadges = badges.map(badge => badge.badge);
     return (
         <div className="shadow-xl p-8 bg-white rounded-lg">

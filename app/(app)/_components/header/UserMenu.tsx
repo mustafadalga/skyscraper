@@ -39,7 +39,7 @@ const UserMenu = ({ toggleMenu, currentUser, menuIsOpen, closeAllMenus }: Props)
                 </div>
                 <div
                     className="grid overflow-hidden bg-purple-800 rounded-bl-lg rounded-br-lg text-center dark:text-gray-200 dark:hover:text-white text-sm text-gray-700">
-                    <NavLink currentUser={currentUser} href={`/${currentUser.id}`} toggleMenu={closeAllMenus}>
+                    <NavLink currentUser={currentUser} href={`/u/${currentUser.id}`} toggleMenu={closeAllMenus}>
                         Profile
                     </NavLink>
                     <button type="button"
