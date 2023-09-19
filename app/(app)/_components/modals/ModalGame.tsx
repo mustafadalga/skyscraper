@@ -3,7 +3,6 @@ import useModalGame from "@/(app)/_store/useModalGame";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHiveMind } from "react-icons/gi"
 import { CSSTransition } from 'react-transition-group';
-
 import GameHints from "@/(app)/_components/game/GameHints";
 import GameBoard from "@/(app)/_components/game/GameBoard";
 import { Game } from ".prisma/client";
