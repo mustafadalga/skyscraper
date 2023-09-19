@@ -1,5 +1,5 @@
-import { Game } from ".prisma/client";
 import dynamic from "next/dynamic";
+import { Game } from ".prisma/client";
 
 const PieChart = dynamic(() => import("@/(app)/_components/charts/PieChart"), { ssr: false })
 

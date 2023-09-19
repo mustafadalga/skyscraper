@@ -1,6 +1,6 @@
 "use client";
-import { Chart } from 'chart.js/auto';
 import { useRef, useEffect } from "react";
+import { Chart } from 'chart.js/auto';
 
 interface IDataSet {
     label: string,

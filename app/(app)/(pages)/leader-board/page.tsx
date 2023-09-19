@@ -1,10 +1,10 @@
+import { Metadata } from "next";
 import Header from "@/(app)/_components/leader-board/Header";
 import getTop100Users from "@/(app)/_actions/getTop100Users";
 import LeaderBoard from "@/(app)/_components/leader-board/LeaderBoard";
-import { IUser } from "@/(app)/_components/leader-board/types";
 import LeaderBoardError from "@/(app)/_components/leader-board/LeaderBoardError";
 import EmptyLeaderBoard from "@/(app)/_components/leader-board/EmptyLeaderBoard";
-import { Metadata } from "next";
+import { IUser } from "@/(app)/_components/leader-board/types";
 
 interface Top100Users {
     data: IUser[] | string,

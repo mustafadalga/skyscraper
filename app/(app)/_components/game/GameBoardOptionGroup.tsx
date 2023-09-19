@@ -1,7 +1,7 @@
 "use client";
-import useModalConfirm from "@/(app)/_store/useModalConfirm";
 import useGame from "@/(app)/_providers/game/useGame";
 import { HiLightBulb } from "react-icons/hi"
+import useModalConfirm from "@/(app)/_store/useModalConfirm";
 
 export default function GameBoardOptionGroup() {
     const {

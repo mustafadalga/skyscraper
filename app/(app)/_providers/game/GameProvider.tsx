@@ -4,13 +4,13 @@ import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
 import axios from "axios"
 import { isEqual } from "lodash";
+import { hideShownHint, showHiddenHint, updateCell, isGridFullyFilled } from "./utilities";
+import compareFilledCellsWithValidGrid from "@/(app)/_utilities/compareFilledCellsWithValidGrid";
+import useLoader from "@/(app)/_store/useLoader";
 import { Game } from ".prisma/client";
 import GameContext from "./GameContext";
 import { ICell } from "@/(app)/_types";
-import { hideShownHint, showHiddenHint, updateCell, isGridFullyFilled } from "./utilities";
-import compareFilledCellsWithValidGrid from "@/(app)/_utilities/compareFilledCellsWithValidGrid";
 import { ContextType, IGame } from "./types";
-import useLoader from "@/(app)/_store/useLoader";
 import { Difficulty } from "@/(app)/_enums";
 
 interface Props {

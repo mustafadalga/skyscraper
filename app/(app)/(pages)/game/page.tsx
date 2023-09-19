@@ -1,11 +1,11 @@
-import { Badge, Game, User } from ".prisma/client";
+import dynamicImport from "next/dynamic";
 import getCurrentUser from "@/(app)/_actions/getCurrentUser";
-import { BadgeLevelDetail } from "@/(app)/_types";
 import getDefaultGameSettings from "@/(app)/_utilities/getDefaultGameOptions";
 import getBadges from "@/(app)/_actions/getBadges";
-import dynamicImport from "next/dynamic";
 import getGame from "@/(app)/_actions/getGame";
 import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
+import { Badge, Game, User } from ".prisma/client";
+import { BadgeLevelDetail } from "@/(app)/_types";
 
 const GameOptions = dynamicImport(() => import("@/(app)/_components/game/GameOptions"), { ssr: false })
 const GameProvider = dynamicImport(() => import("@/(app)/_providers/game/GameProvider"), { ssr: false })

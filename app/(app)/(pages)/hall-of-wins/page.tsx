@@ -1,8 +1,8 @@
+import { User } from ".prisma/client";
 import Header from "@/(app)/_components/hall-of-wins/Header";
 import HallOfWins from "@/(app)/_components/hall-of-wins/HallOfWins";
 import getCurrentUser from "@/(app)/_actions/getCurrentUser";
 import getUserWonGames from "@/(app)/_actions/getUserWonGames";
-import { User } from ".prisma/client";
 
 export default async function Page() {
     const user = await getCurrentUser() as User;

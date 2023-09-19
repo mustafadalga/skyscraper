@@ -3,11 +3,11 @@ import { useCallback, useEffect, useReducer } from 'react';
 import { useRouter } from 'next/navigation'
 import { toast } from "react-toastify";
 import axios from "axios";
-import CustomSelect from "@/(app)/_components/Select";
 import { difficulties, dimensions } from "@/(app)/_constants";
 import { BadgeLevelDetail } from "@/(app)/_types";
 import handleAxiosError from "@/(app)/_utilities/handleAxiosError";
 import useLoader from "@/(app)/_store/useLoader";
+import CustomSelect from "@/(app)/_components/Select";
 
 interface Props {
     defaultOptions: BadgeLevelDetail

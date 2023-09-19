@@ -1,10 +1,10 @@
 "use client";
+import { useSearchParams } from "next/navigation";
 import { GrFormClose } from "react-icons/gr";
 import { signIn } from 'next-auth/react'
 import { CSSTransition } from 'react-transition-group';
 import useModalLogin from "@/(app)/_store/useModalLogin";
 import "./modalCSSTransition.css"
-import { useSearchParams } from "next/navigation";
 
 const ModalLogin = () => {
     const { isOpen, onClose, showClose } = useModalLogin();

@@ -2,9 +2,9 @@ import { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { User } from ".prisma/client";
 import { ToastContainer } from "react-toastify";
+import getCurrentUser from "@/(app)/_actions/getCurrentUser";
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "@/(app)/_components/header/Header";
-import getCurrentUser from "@/(app)/_actions/getCurrentUser";
 
 const ModalLogin = dynamic(() => import("@/(app)/_components/modals/ModalLogin"), { ssr: false });
 const ModalConfirm = dynamic(() => import("@/(app)/_components/modals/ModalConfirm"), { ssr: false });

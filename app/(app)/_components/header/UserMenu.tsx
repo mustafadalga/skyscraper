@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from "next/image";
 import NavLink from "@/(app)/_components/header/NavLink";
 import { signOut } from "next-auth/react";

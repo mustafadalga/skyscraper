@@ -1,12 +1,11 @@
 import React from 'react';
-import Header from "@/(app)/_components/badges/Header";
+import { Metadata } from "next";
+import { cloneDeep } from "lodash";
+import { Badge } from ".prisma/client";
 import getBadges from "@/(app)/_actions/getBadges";
+import Header from "@/(app)/_components/badges/Header";
 import Badges from "@/(app)/_components/badges/Badges";
 import BadgesError from "@/(app)/_components/badges/BadgesError";
-import { Badge } from ".prisma/client";
-import { cloneDeep } from "lodash";
-import { Metadata } from "next";
-
 
 export const metadata: Metadata = {
     title: "Unlock Achievement Badges: Complete Guide & Criteria - Skyscraper",

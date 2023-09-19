@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
 import { GiLaurelsTrophy } from "react-icons/gi";
 import useGame from "@/(app)/_providers/game/useGame";
-import { useState, useEffect } from "react";
 
 const TIMEOUT_MS = 1000;
 const GameTrophy = () => {

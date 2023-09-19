@@ -1,4 +1,3 @@
-import React from 'react';
 import NavLink from "@/(app)/_components/header/NavLink";
 import { User } from ".prisma/client";
 import useModalLogin from "@/(app)/_store/useModalLogin";

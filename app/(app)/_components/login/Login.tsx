@@ -1,6 +1,6 @@
 "use client";
-import useModalLogin from "@/(app)/_store/useModalLogin";
 import { useEffect } from "react";
+import useModalLogin from "@/(app)/_store/useModalLogin";
 
 export default function Login() {
     const { onOpen, setShowClose } = useModalLogin();

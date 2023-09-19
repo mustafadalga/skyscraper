@@ -1,9 +1,9 @@
-import { Game, User } from ".prisma/client";
-import getHighestBadgeByUserId from "@/(app)/_actions/getHighestBadgeByUserId";
-import BadgeIcon from "@/(app)/_components/badge/BadgeIcon";
 import moment from "moment";
+import { Game, User } from ".prisma/client";
 import getGamesByUserId from "@/(app)/_actions/getGamesByUserId";
 import convertTimeToHHMMSS from "@/(app)/_utilities/convertTimeToHHMMSS";
+import getHighestBadgeByUserId from "@/(app)/_actions/getHighestBadgeByUserId";
+import BadgeIcon from "@/(app)/_components/badge/BadgeIcon";
 
 interface Props {
     user: User

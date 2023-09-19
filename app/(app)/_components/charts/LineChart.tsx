@@ -1,10 +1,10 @@
 "use client";
+import { useRef, useEffect } from "react";
 import { Chart, CategoryScale, LinearScale, TimeScale } from 'chart.js/auto';
 import 'chartjs-adapter-moment';
 
 Chart.register(CategoryScale, LinearScale, TimeScale);
 
-import { useRef, useEffect } from "react";
 
 interface IDataSet {
     label: string,

@@ -1,11 +1,10 @@
-import getUserByID from "@/(app)/_actions/getUserByID";
-import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
+import { redirect } from "next/navigation";
+import { Metadata } from "next";
 import { Game } from ".prisma/client";
+import getUserByID from "@/(app)/_actions/getUserByID";
 import getGamesByUserId from "@/(app)/_actions/getGamesByUserId";
 import getBadgesByUserID from "@/(app)/_actions/getBadgesByUserID";
-import Head from "next/head";
-import { Metadata } from "next";
 
 const Header = dynamic(() => import("@/(app)/_components/profile/Header"));
 const CardPlayerProfile = dynamic(() => import("@/(app)/_components/profile/CardPlayerProfile"));

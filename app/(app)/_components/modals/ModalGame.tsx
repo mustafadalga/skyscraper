@@ -1,14 +1,14 @@
 import { useCallback } from "react";
-import useModalGame from "@/(app)/_store/useModalGame";
+import { Game } from ".prisma/client";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHiveMind } from "react-icons/gi"
 import { CSSTransition } from 'react-transition-group';
-import GameHints from "@/(app)/_components/game/GameHints";
-import GameBoard from "@/(app)/_components/game/GameBoard";
-import { Game } from ".prisma/client";
+import useModalGame from "@/(app)/_store/useModalGame";
 import useLoader from "@/(app)/_store/useLoader";
 import useModalSharedChallenge from "@/(app)/_store/useModalSharedChallenge";
 import useHallOfWins from "@/(app)/_components/hall-of-wins/useHallOfWins";
+import GameHints from "@/(app)/_components/game/GameHints";
+import GameBoard from "@/(app)/_components/game/GameBoard";
 import { IGame } from "@/(app)/_providers/game/types";
 import "./modalCSSTransition.css"
 
