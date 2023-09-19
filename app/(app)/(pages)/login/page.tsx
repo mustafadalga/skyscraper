@@ -7,7 +7,7 @@ export default async function Page() {
     const currentUser: User = await getCurrentUser() as User;
 
     if (currentUser) {
-        return redirect("/game")
+        return redirect("/")
     }
     return <Login/>
 };

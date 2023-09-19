@@ -16,8 +16,9 @@ export async function middleware(request: NextRequest) {
 
     if (!token) {
         if (authenticatedRoutes.some(route => pathName == route)) {
-            const url = new URL('/login', request.url);
-            return NextResponse.redirect(url.toString());
+            const callbackUrl = encodeURIComponent(`${request.nextUrl.origin}${pathName}`);
+            const absoluteRedirectUrl = `${request.nextUrl.origin}/login?callbackUrl=${callbackUrl}`;
+            return NextResponse.redirect(absoluteRedirectUrl);
         }
 
         if (authenticatedApis.some(fn => fn(pathName))) {

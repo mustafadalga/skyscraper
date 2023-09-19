@@ -4,10 +4,21 @@ import { signIn } from 'next-auth/react'
 import { CSSTransition } from 'react-transition-group';
 import useModalLogin from "@/(app)/_store/useModalLogin";
 import "./modalCSSTransition.css"
+import { useSearchParams } from "next/navigation";
 
 const ModalLogin = () => {
-    const { isOpen, onClose,showClose } = useModalLogin();
-console.log(showClose)
+    const { isOpen, onClose, showClose } = useModalLogin();
+    const searchParams = useSearchParams()
+
+    const handleSignIn = async () => {
+        const rawCallbackUrl = searchParams?.get("callbackUrl") || '/';
+
+        // Validate that the callbackUrl is from the same origin
+        const url = new URL(rawCallbackUrl, window.location.origin);
+        const isSameOrigin = url.origin === window.location.origin;
+        const callbackUrl = isSameOrigin ? rawCallbackUrl : '/';
+        await signIn("google", { callbackUrl });
+    };
     return (
         <CSSTransition
             in={isOpen}
@@ -20,7 +31,7 @@ console.log(showClose)
                 <div
                     className="relative bg-white rounded-lg shadow mx-auto max-w-md w-full">
                     <div className="relative bg-white rounded-lg shadow">
-                        { showClose && (
+                        {showClose && (
                             <button type="button"
                                     onClick={onClose}
                                     className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -34,7 +45,7 @@ console.log(showClose)
                                 Sign in to Skyscraper</h3>
                             <form className="space-y-6">
                                 <button type="button"
-                                        onClick={() => signIn("google")}
+                                        onClick={handleSignIn}
                                         className="w-full text-white bg-purple-700 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                                     Sign in/ Register with Google
                                 </button>

@@ -12,7 +12,7 @@ const Sidebar = () => {
 
     return (
         <div className=" w-full grid place-content-start w-40">
-            <Link href="/game" className="flex gap-3 items-center border-b border-purple-500 pb-3">
+            <Link href="/" className="flex gap-3 items-center border-b border-purple-500 pb-3">
                 <TbBuildingSkyscraper className="text-purple-500 text-base lg:text-lg xl:text-xl"/>
                 <h3 className="text-base lg:text-xl text-gray-800">Skyscraper</h3>
             </Link>
