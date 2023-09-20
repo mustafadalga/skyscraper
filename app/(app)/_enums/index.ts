@@ -1,3 +1,7 @@
+/**
+ * Enum representing the various badges that can be earned by users.
+ * These badges reflect different achievements and milestones in the game.
+ */
 export enum Badge {
     NoviceBuilder = "novice_builder",
     FastBuilder = "fast_builder",
@@ -19,12 +23,20 @@ export enum Badge {
     PuzzleImmortal = "puzzle_immortal"
 }
 
+/**
+ * Enum representing the various difficulty levels in the game.
+ * These are used to categorize puzzles and tailor the game experience.
+ */
 export enum Difficulty {
     EASY = "easy",
     MEDIUM = "medium",
     HARD = "hard",
 }
 
+/**
+ * Enum representing directions in the game grid.
+ * Used for hint directions.
+ */
 export enum Direction {
     TOP = "top",
     LEFT = "left",
@@ -32,6 +44,10 @@ export enum Direction {
     BOTTOM = "bottom"
 }
 
+/**
+ * Enum representing different time frames for statistical analysis.
+ * Used for filtering and sorting leaderboards or achievements.
+ */
 export enum TimeFrame {
     All,
     ThisMonth,

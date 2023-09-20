@@ -3,6 +3,22 @@ import { NextRequest, NextResponse } from "next/server";
 import handleAxiosError from "@/(app)/_utilities/handleAxiosError";
 import prisma from "@/(app)/_libs/prismadb";
 
+/**
+ * Handles POST requests to share a challenge.
+ *
+ * @remarks
+ * This function is designed to work as a Next.js serverless API route.
+ * It expects a `userID` and a `gameID` in the JSON payload of the request body.
+ * A new shared challenge is created in the Prisma database based on these parameters.
+
+ * @returns A `NextResponse` object containing either:
+ * - A success message and the `challengeID` in JSON format with a 200 status code, or
+ * - An error message in JSON format with an appropriate status code.
+ *
+ * @throws
+ * This function may throw errors related to database access or unexpected server issues.
+ * These errors are caught and handled by `handleAxiosError`.
+ */
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json();

@@ -13,6 +13,7 @@ import {
 /**
  * Handles GET request to fetch current game for a user.
  * @param request - The incoming Next.js request object.
+ * @param id - The id of the game
  * @returns A NextResponse object with the status and game data or error message.
  */
 export async function GET(request: NextRequest, { params: { id } }: { params: { id: string } }) {

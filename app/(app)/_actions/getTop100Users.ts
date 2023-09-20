@@ -6,8 +6,17 @@ interface IUserBadge extends UserBadge {
     badge: Badge
 }
 
-
-export default async function getTop100Users() {
+/**
+ * Fetches the top 100 users sorted by their score, average time, and badge priority.
+ *
+ * This function is responsible for fetching the top 100 users from the database, sorting them
+ * based on their score, average time, and badge priority, and then returning the sorted list.
+ *
+ * @returns {Promise<{data: IUser[], status: boolean}|{status: boolean, data: string}>}
+ * - A promise that resolves to an object containing the sorted list of top 100 users if successful,
+ * or an error message otherwise.
+ */
+export default async function getTop100Users(): Promise<{ data: IUser[]; status: boolean; } | { status: boolean; data: string; }> {
     try {
         const top100Users: User[] = await prisma.user.findMany({
             where: {
@@ -53,7 +62,13 @@ export default async function getTop100Users() {
     }
 }
 
-async function fetchAllUserBadges(userIds: string[]) {
+/**
+ * Fetches all badges for a given list of user IDs.
+ *
+ * @param {string[]} userIds - An array of user IDs.
+ * @returns {Promise<IUserBadge[]>} - A promise that resolves to an array of `IUserBadge` objects.
+ */
+async function fetchAllUserBadges(userIds: string[]): Promise<IUserBadge[]> {
     const allUserBadges: IUserBadge[] = await prisma.userBadge.findMany({
         where: {
             userId: {
@@ -67,7 +82,14 @@ async function fetchAllUserBadges(userIds: string[]) {
     return allUserBadges;
 }
 
-function getUsersBadgeScores(allUserBadges: IUserBadge[], users: IUser[]) {
+/**
+ * Computes the badge scores for all users.
+ *
+ * @param {IUserBadge[]} allUserBadges - An array of `IUserBadge` objects.
+ * @param {IUser[]} users - An array of `IUser` objects.
+ * @returns {{ [key: string]: number }} - An object mapping user IDs to their corresponding badge scores.
+ */
+function getUsersBadgeScores(allUserBadges: IUserBadge[], users: IUser[]): { [key: string]: number; } {
     const badgeScores: { [key: string]: number } = {};
 
     allUserBadges.forEach(userBadge => {
@@ -79,6 +101,12 @@ function getUsersBadgeScores(allUserBadges: IUserBadge[], users: IUser[]) {
     return badgeScores;
 }
 
+/**
+ * Sets the highest badge for each user.
+ *
+ * @param {IUserBadge[]} allUserBadges - An array of `IUserBadge` objects.
+ * @param {IUser[]} users - An array of `IUser` objects.
+ */
 function setUsersHighestBadge(allUserBadges: IUserBadge[], users: IUser[]) {
     const badgeScores: { [key: string]: number } = {};
     const highestBadges: { [key: string]: Badge } = {};
@@ -98,6 +126,12 @@ function setUsersHighestBadge(allUserBadges: IUserBadge[], users: IUser[]) {
     });
 }
 
+/**
+ * Sorts the array of users based on their score, average time, and badge priority.
+ *
+ * @param {IUser[]} users - An array of `IUser` objects.
+ * @param {{ [key: string]: number }} badgeScores - An object mapping user IDs to their corresponding badge scores.
+ */
 function sortUsers(users: IUser[], badgeScores: { [key: string]: number }) {
     users.sort((a, b) => {
         if (a.score !== b.score) {

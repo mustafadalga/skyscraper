@@ -6,6 +6,9 @@ import { generateGameBoard } from "@/(app)/_utilities/generateGameBoard";
 import prisma from "@/(app)/_libs/prismadb";
 import handleAxiosError from "@/(app)/_utilities/handleAxiosError";
 
+/**
+ * Interface defining the shape of the game data.
+ */
 export interface IGameData {
     userId: string,
     validGrid: string,
@@ -18,6 +21,13 @@ export interface IGameData {
     usedHiddenHintRights: number
 }
 
+/**
+ * Generates game data based on provided dimension and difficulty.
+ *
+ * @param dimension - The dimension of the game board.
+ * @param difficulty - The difficulty level of the game.
+ * @returns A promise resolving to an IGameData object or null in case of an error.
+ */
 export async function generateGameData(dimension: number, difficulty: Difficulty): Promise<IGameData | null> {
     try {
         const { score, avgTime, id } = await getCurrentUser() as User;
@@ -51,6 +61,16 @@ export async function generateGameData(dimension: number, difficulty: Difficulty
     }
 }
 
+/**
+ * Starts a new game by creating a game entry in the database and associating it with the user.
+ *
+ * @param data - The IGameData object containing all necessary information to start a new game.
+ * @returns An object containing the newly created game and updated user, or an error message and status.
+ *
+ * @throws
+ * This function may throw errors related to database access or unexpected issues.
+ * These errors are caught and handled by `handleAxiosError`.
+ */
 export async function startNewGame(data: IGameData) {
     // Define the game creation operation
     try {
