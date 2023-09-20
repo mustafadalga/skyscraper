@@ -2,7 +2,7 @@
 
 <h6 align="center">
 <a href="https://skyscraper.vercel.app">
-    <img width="454" alt="SkyScraper Mind Game" src="https://github.com/mustafadalga/skyscraper/assets/25087769/8df9d0b0-a068-4715-bd06-8eb598a91dc4">
+    <img width="454"  alt="SkyScraper Mind Game" src="https://github.com/mustafadalga/skyscraper/assets/25087769/e0cf5cb3-3788-491b-9906-54b1d225b686">
 </a>
 </h6>
 
