@@ -33,7 +33,7 @@ export default function Page() {
                 Players can earn badges through various achievements. Each badge is tied to a specific goal, and there
                 are 18
                 different goals in total. For a complete list of badges and their associated goals, visit
-                <Link href="/badges" className="text-purple-500">our badge page</Link>
+                &nbsp;<Link href="/badges" className="text-purple-500">our badge page.</Link>
             </p>
 
             <Image src="/images/docs/features/badges.png"
@@ -89,31 +89,31 @@ export default function Page() {
             <ul className="list-disc text-sm lg:text-base text-gray-900">
                 <li>
                     <span className="font-medium">Player Profile Information:</span>
-                    <span>Includes the highest badge earned, difficulty levels tackled, longest winning streak, total games played, overall score, average game completion time, average hints used, and date joined.</span>
+                    <span className="ml-1">Includes the highest badge earned, difficulty levels tackled, longest winning streak, total games played, overall score, average game completion time, average hints used, and date joined.</span>
                 </li>
                 <li>
                     <span className="font-medium">Achievement Badge Timeline:</span>
-                    <span>Visualize when each badge was earned through a chronological timeline.</span>
+                    <span className="ml-1">Visualize when each badge was earned through a chronological timeline.</span>
                 </li>
                 <li>
                     <span className="font-medium">Win-Loss Ratio:</span>
-                    <span>Displayed as a pie chart.</span>
+                    <span className="ml-1">Displayed as a pie chart.</span>
                 </li>
                 <li>
-                    <span className="font-medium">Winning and Losing Streaks</span>
-                    <span>Illustrated with a doughnut chart.</span>
+                    <span className="font-medium">Winning and Losing Streaks:</span>
+                    <span className="ml-1">Illustrated with a doughnut chart.</span>
                 </li>
                 <li>
-                    <span className="font-medium">List of Earned Badges</span>
-                    <span>All your badges in one place.</span>
+                    <span className="font-medium">List of Earned Badges:</span>
+                    <span className="ml-1">All your badges in one place.</span>
                 </li>
                 <li>
-                    <span className="font-medium">Score Over Time</span>
-                    <span>Tracked through a line chart.</span>
+                    <span className="font-medium">Score Over Time:</span>
+                    <span className="ml-1">Tracked through a line chart.</span>
                 </li>
                 <li>
-                    <span className="font-medium">Upcoming Badges</span>
-                    <span>Monitor your progress toward new badges with a progress bar.</span>
+                    <span className="font-medium">Upcoming Badges:</span>
+                    <span className="ml-1">Monitor your progress toward new badges with a progress bar.</span>
                 </li>
             </ul>
 
