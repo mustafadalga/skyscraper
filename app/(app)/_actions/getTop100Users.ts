@@ -21,6 +21,7 @@ export default async function getTop100Users() {
             ],
             take: 100,
         });
+
         const users: IUser[] = top100Users.map(user => ({
             ...user,
             highestBadge: {

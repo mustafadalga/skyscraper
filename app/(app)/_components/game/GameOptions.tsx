@@ -62,7 +62,7 @@ const GameOptions = ({ defaultOptions }: Props) => {
     }, [])
     return (
         <section
-            className="grid place-self-start gap-3 sm:w-full sm:max-w-xl mx-8 sm:mx-auto mt-12 p-8 rounded-md transition-all ease-linear shadow-[0px_0px_5px_0px_#d8b4fe] hover:shadow-[0px_0px_10px_0px_#d8b4fe] bg-white">
+            className="grid place-self-start gap-3 w-full max-w-[15rem] sm:max-w-xs	md:max-w-sm	xl:max-w-xl mx-auto mt-12 p-8 rounded-md transition-all ease-linear shadow-[0px_0px_5px_0px_#d8b4fe] hover:shadow-[0px_0px_10px_0px_#d8b4fe] bg-white">
             <h1 className="text-center text-purple-900 font-bold text-2xl md:text-3xl xl:text-4xl">Game Options</h1>
 
             <div className="grid gap-1">

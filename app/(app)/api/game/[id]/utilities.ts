@@ -134,6 +134,7 @@ export async function handleCreateBadge(game: Game) {
         throw new Error(data as string);
     }
     const userBadgesData = await getBadgesByUserID(user.id);
+
     const userBadges = userBadgesData.map(badge => badge.badge)
     const userWonGames = await getUserWonGames();
     const userEarnedBadge = calculateUserEarnedBadge({

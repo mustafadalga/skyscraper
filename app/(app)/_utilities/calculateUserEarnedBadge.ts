@@ -58,6 +58,8 @@ function checkConditionsForBadge(badge: string, game: Game, user: User, userGame
     const TIME_THRESHOLD_5_MINUTES = 5 * 60;
 
 // Score Thresholds
+    const NOTICE_BUILDER_SCORE_THRESHOLD = 1;
+    const SKYSCRAPER_ENTHUSIAST_SCORE_THRESHOLD = 10;
     const SEASONED_BUILDER_SCORE_THRESHOLD = 50;
     const PUZZLE_MAESTRO_SCORE_THRESHOLD = 100;
     const PUZZLE_VIRTUOSO_SCORE_THRESHOLD = 200;
@@ -79,14 +81,14 @@ function checkConditionsForBadge(badge: string, game: Game, user: User, userGame
 
     switch (badge) {
         case Badge.NoviceBuilder:
-            return user.score === 0;
+            return user.score === NOTICE_BUILDER_SCORE_THRESHOLD;
         case  Badge.FastBuilder:
             const timeTaken = (game.updatedAt.getTime() - game.createdAt.getTime()) / 1000;
             return (game.difficulty !== Difficulty.EASY) && (game.dimension > DIMENSION_THRESHOLD_5) && (timeTaken < TIME_THRESHOLD_5_MINUTES);
         case Badge.Perfectionist:
             return game.dimension >= DIMENSION_THRESHOLD_5 && !game.hasMistake;
         case Badge.SkyscraperEnthusiast:
-            return user.score == 10;
+            return user.score == SKYSCRAPER_ENTHUSIAST_SCORE_THRESHOLD;
         case Badge.NoHintsNeeded:
             const noHintGames = userGames.filter(game => !game.isHintRequired && game.dimension >= DIMENSION_THRESHOLD_6);
             return noHintGames.length >= COUNT_THRESHOLD_5;

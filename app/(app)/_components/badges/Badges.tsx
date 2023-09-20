@@ -7,7 +7,7 @@ interface Props {
 
 const Badges = ({ badges }: Props) => {
     return (
-        <div className="grid gap-3">
+        <div className="overflow-x-auto grid gap-3">
             <table className="w-full bg-white text-left text-xs lg:text-sm xl:text-base">
                 <thead>
                 <tr>

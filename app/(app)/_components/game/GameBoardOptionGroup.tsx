@@ -34,7 +34,7 @@ export default function GameBoardOptionGroup() {
     }
     return (
         <div
-            className="absolute lg:h-full top-full min-w-[18.75rem] lg:min-w-0 lg:top-0 lg:right-[110%] px-3 lg:px-0 w-full lg:w-48 grid content-center grid-cols-3 lg:grid-cols-1 gap-3 text-[10px] md:text-xs xl:text-sm text-white">
+            className="absolute lg:h-full top-full left-1/2 -translate-x-1/2 min-w-[18.75rem] lg:left-auto lg:translate-x-0 lg:min-w-0 lg:top-0 lg:right-[110%] px-3 lg:px-0 w-full lg:w-48 grid content-center grid-cols-3 lg:grid-cols-1 gap-3 text-[10px] md:text-xs xl:text-sm text-white">
             <button type="button"
                     onClick={handleGiveAHint}
                     className={`${(hasHintRight && !isGameCompleted) ? "bg-purple-500 hover:bg-purple-600" : "bg-purple-400 text-purple-100 cursor-auto"} flex items-center justify-center gap-3 min-w-[5rem] lg:min-w-0 px-5 py-1 rounded-md shadow transition-all truncate`}>

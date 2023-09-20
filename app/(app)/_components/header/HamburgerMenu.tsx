@@ -24,6 +24,9 @@ const HamburgerMenu = ({ closeAllMenus, currentUser }: Props) => {
             <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/leader-board" hoverBgColor={false}>
                 Leader Board
             </NavLink>
+            <NavLink currentUser={currentUser} toggleMenu={closeAllMenus} href="/badges" hoverBgColor={false}>
+                Badges
+            </NavLink>
 
             {!currentUser && (
                 <button type="button"

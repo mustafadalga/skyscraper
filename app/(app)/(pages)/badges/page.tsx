@@ -21,7 +21,7 @@ export default async function Page() {
         badges.sort((a, b) => b.priority - a.priority);
     }
     return (
-        <article className="container mx-auto p-10">
+        <article className="container grid mx-auto p-10">
             <Header/>
             {badgesData.status ? <Badges badges={badges}/> : <BadgesError/>}
         </article>
