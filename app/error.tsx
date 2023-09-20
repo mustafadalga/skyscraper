@@ -16,7 +16,7 @@ export default function GlobalError({ error, reset, }: Props) {
         <main
             className="grid place-items-center p-5 min-h-screen w-full bg-gradient-to-r from-purple-200 to-purple-500 ">
 
-            <section className="grid gap-3 rounded shadow-lg p-5 lg:p-10 xl:px-20 bg-purple-200">
+            <section className="grid max-w-3xl mx-auto gap-3 rounded shadow-lg p-5 lg:p-10 xl:px-20 bg-purple-200">
                 <h2 className="text-center text-purple-700 font-bold text-4xl lg:text-5xl">Oops! Something went
                     wrong!</h2>
 

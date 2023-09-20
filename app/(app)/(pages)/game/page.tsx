@@ -14,13 +14,12 @@ const GameScreen = dynamicImport(() => import("@/(app)/_components/game/GameScre
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-    const currentUser: User = await getCurrentUser() as User;
-    const userBadgeData = await getBadgesByUserID(currentUser.id);
+    const user: User = await getCurrentUser() as User;
+    const userBadgeData = await getBadgesByUserID(user.id);
     const earnedBadges = userBadgeData.map(badge => badge.badge);
     const badgesData = await getBadges();
-    const defaultOptions: BadgeLevelDetail = getDefaultGameSettings((badgesData.status ? badgesData.data : []) as Badge[], earnedBadges, currentUser);
-    const currentGame: Game | null = currentUser.currentGameId ? await getGame(currentUser) : null;
-
+    const defaultOptions: BadgeLevelDetail = getDefaultGameSettings((badgesData.status ? badgesData.data : []) as Badge[], earnedBadges, user);
+    const currentGame: Game | null = user.currentGameId ? await getGame(user) : null;
     return (
         <article className="container mx-auto grid p-5 pb-20 h-full">
             {currentGame ? (

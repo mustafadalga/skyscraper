@@ -16,7 +16,6 @@ const Badges = dynamicImport(() => import("@/(app)/_components/profile/Badges"))
 const CardUpcomingBadges = dynamicImport(() => import("@/(app)/_components/profile/CardUpcomingBadges"));
 
 
-
 export const metadata: Metadata = {
     title: 'Skyscraper: Elevate Your Game with In-Depth User Stats & Achievements',
     description: 'Step into the world of Skyscraper, where every puzzle solved takes you higher. Explore your personalized gaming statistics, monitor your badges, and discover what it takes to reach the top. Your skyscraper of achievements awaits!',
@@ -33,11 +32,14 @@ export default async function Page() {
     return (
         <article className="grid p-5 gap-5 px-5 content-start">
             <Header/>
-            <section className="grid xl:content-start xl:grid-cols-12 gap-5">
-                <div className="grid xl:content-start gap-5 xl:col-span-4">
-                    {hasBadge && <CardAchievementTimeLine badges={badges}/>}
-                </div>
-                <div className="grid gap-5 xl:col-span-8 xl:content-start">
+            <section className={`${hasBadge ? "xl:grid-cols-12" : ""} grid xl:content-start  gap-5`}>
+                {hasBadge && (
+                    <div className="grid xl:content-start gap-5 xl:col-span-4">
+                        <CardAchievementTimeLine badges={badges}/>
+                    </div>
+                )}
+
+                <div className={`${hasBadge ? "xl:col-span-8" : ""} grid gap-5 xl:content-start`}>
                     {hasGame && (
                         <>
                             <CardWinLossRatio games={games}/>

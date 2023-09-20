@@ -17,11 +17,10 @@ import {
  */
 export async function GET(request: NextRequest, { params: { id } }: { params: { id: string } }) {
     try {
-        const currentUser = await getCurrentUser() as User;
-
 
         const userID = request.nextUrl.searchParams.get("userID");
-        if (!currentUser || userID) {
+
+        if (!userID) {
             return NextResponse.json({ message: "Please login to start a new game." }, { status: 403 });
         }
 

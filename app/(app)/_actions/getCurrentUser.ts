@@ -13,7 +13,6 @@ export default async function getCurrentUser(): Promise<User | null> {
     try {
         // Fetch the current session
         const session = await getSession();
-
         // Check if the session or user email exists
         if (!session?.user?.email) {
             return null;

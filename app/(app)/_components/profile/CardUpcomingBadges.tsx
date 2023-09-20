@@ -18,6 +18,8 @@ export default async function CardUpcomingBadges({ user }: Props) {
     const THRESHOLD_PERCENT = 50;
     const upcomingBadges: IUpcomingBadge[] = calculateUpcomingBadges(user, userEarnedBadges, allBadges, userGames).filter(badge => badge.percent > THRESHOLD_PERCENT);
 
+    if (!upcomingBadges.length) return null
+
     return (
         <div className="w-full grid gap-5 shadow-xl p-8 bg-white rounded-lg">
             <h2 className="mb-5 text-purple-700 font-semibold text-base xl:text-xl">Upcoming Badges</h2>
