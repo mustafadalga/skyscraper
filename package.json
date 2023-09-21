@@ -14,7 +14,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "killall -9 node && NEXT_CPU_PROF=1 next dev",
+    "dev": "next dev",
     "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint",
